@@ -15,6 +15,12 @@
 
     <script type="text/javascript" src="/o/assets/js/packages/jquery.js"></script>
 
+    <style>
+        body{
+            background: #16282d;
+        }
+    </style>
+
 </head>
 <body>
 

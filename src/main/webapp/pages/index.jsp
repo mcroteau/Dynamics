@@ -10,27 +10,11 @@
             <p class="notify">${message}</p>
         </c:if>
 
-        <p id="welcome-text">We make sure your site is up
-            and running 24/7 so you can focus
-            on what's important...
+        <p id="welcome-text">
+
         </p>
 
-        <form action="/o/signmeup" id="signup" method="post" modelAttribute="signMeUp">
-            <p id="home-signup">
-                Okay, please monitor my<br/>project @
-                <input type="text" name="uri" id="uri" placeholder="offtoworkwego.io"><span id="success" style="display:none">&check;</span> using
-                <br/>email
-                <input type="text" name="username" placeholder="snowhite@mail.com">
-                and <br/>password
-                <input type="text" name="password" placeholder="password">!
-                <input type="submit" href="/o/signup" class="button yellow signup-homepage" value="Start Monitoring!">
-            </p>
-        </form>
-
-
-        <p class="open-text">Okay! runs 24/7 lightly touching your project
-            to ensure 200 responses and will alert you via
-            SMS Text Message you ever there isn't.</p>
+        <p class="open-text"></p>
 
         <p class="open-text">Okay! Website Monitoring made easy &amp; Rock Solid!</p>
 
@@ -55,6 +39,7 @@
                 color:#4a6d6d;
             }
             #homepage-wrapper p{
+                color:#fff;
                 line-height: 1.4em;
                 margin:10px 0px;
             }
@@ -86,64 +71,4 @@
         </style>
     </div>
 
-    <script>
-
-
-        $(document).ready(function(){
-            var $uri = $("#uri"),
-                $status = $("#status"),
-                $processing = $("#processing"),
-                $success = $("#success"),
-                $submit = $("#submit"),
-                processing = false
-
-            $uri.keyup(function(){
-                validateUri()
-            })
-
-            function validateUri(){
-                processing = true
-                $processing.show()
-                $.ajax({
-                    method: "post",
-                    url : "/o/project/validate?uri=" + $uri.val(),
-                    success : success,
-                    error : error
-                })
-            }
-
-            function success(resp, xhr){
-                var data = JSON.parse(resp);
-                $status.html(data.status)
-                if(data.status == 200){
-                    console.log($submit)
-                    $success.show()
-                    $submit.attr("disabled", false).removeClass("disabled")
-                }
-                if(data.status != 200){
-                    $success.hide()
-                    $submit.attr("disabled", true).addClass("disabled")
-                }
-
-                $processing.hide()
-                processing = false
-            }
-
-            function error(error, xhr){
-                //console.log(error, xhr)
-                $status.html(error.status)
-                $processing.hide()
-                processing = false
-                $submit.attr("disabled", true)
-            }
-
-            $("body").on("submit", "#signup", function() {
-                $(this).submit(function() {
-                    return false;
-                });
-                return true;
-            });
-        });
-
-    </script>
 </body>
