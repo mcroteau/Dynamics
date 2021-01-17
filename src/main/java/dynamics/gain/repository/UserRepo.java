@@ -29,19 +29,19 @@ public class UserRepo {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public long getId() {
-		String sql = "select max(id) from accounts";
+		String sql = "select max(id) from users";
 		long id = jdbcTemplate.queryForObject(sql, new Object[]{}, Long.class);
 		return id;
 	}
 
 	public long getCount() {
-		String sql = "select count(*) from accounts";
+		String sql = "select count(*) from users";
 		long count = jdbcTemplate.queryForObject(sql, new Object[] { }, Long.class);
 	 	return count; 
 	}
 
 	public User get(long id) {
-		String sql = "select * from accounts where id = ?";
+		String sql = "select * from users where id = ?";
 		
 		User user = jdbcTemplate.queryForObject(sql, new Object[] { id },
 				new BeanPropertyRowMapper<>(User.class));
@@ -54,7 +54,7 @@ public class UserRepo {
 	public User getByUsername(String username) {
 		User user = null;
 		try{
-			String sql = "select * from accounts where username = ?";
+			String sql = "select * from users where username = ?";
 			user = jdbcTemplate.queryForObject(sql, new Object[] { username },
 				new BeanPropertyRowMapper<User>(User.class));
 
@@ -65,20 +65,14 @@ public class UserRepo {
 	}
 	
 	public List<User> findAll() {
-		String sql = "select * from accounts";
+		String sql = "select * from users";
 		List<User> people = jdbcTemplate.query(sql,
 				new BeanPropertyRowMapper<User>(User.class));
 		return people;
 	}
-	
-	public List<User> findAllOffset(int max, int offset) {
-		String sql = "select * from accounts limit " + max + " offset " + offset;
-		List<User> people = jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class));
-		return people;
-	}
 
 	public User save(User user) {
-		String sql = "insert into accounts (username, password, disabled) values (?, ?, ?)";
+		String sql = "insert into users (username, password, disabled) values (?, ?, ?)";
 		jdbcTemplate.update(sql, new Object[] {
 				user.getUsername(), user.getPassword(), false
 		});
@@ -93,7 +87,7 @@ public class UserRepo {
 	}
 
 	public User saveAdministrator(User user) {
-		String sql = "insert into accounts (username, password, disabled) values (?, ?, ?)";
+		String sql = "insert into users (username, password, disabled) values (?, ?, ?)";
 		jdbcTemplate.update(sql, new Object[] {
 				user.getUsername(), user.getPassword(), false
 		});
@@ -108,7 +102,7 @@ public class UserRepo {
 	}
 
 	public boolean updateUuid(User user) {
-		String sql = "update accounts set uuid = ? where id = ?";
+		String sql = "update users set uuid = ? where id = ?";
 		jdbcTemplate.update(sql, new Object[] {
 				user.getUuid(), user.getId()
 		});
@@ -116,7 +110,7 @@ public class UserRepo {
 	}
 	
 	public boolean updatePassword(User user) {
-		String sql = "update accounts set password = ? where id = ?";
+		String sql = "update users set password = ? where id = ?";
 		jdbcTemplate.update(sql, new Object[] { 
 			user.getPassword(), user.getId()
 		});
@@ -126,7 +120,7 @@ public class UserRepo {
 	public User getByUsernameAndUuid(String username, String uuid){
 		User user = null;
 		try{
-			String sql = "select * from accounts where username = '" + username + "' and uuid = '" + uuid + "'";
+			String sql = "select * from users where username = '" + username + "' and uuid = '" + uuid + "'";
 			user = jdbcTemplate.queryForObject(sql, new Object[] {},
 					new BeanPropertyRowMapper<User>(User.class));
 
@@ -136,7 +130,7 @@ public class UserRepo {
 	}
 	
 	public boolean delete(long id) {
-		String sql = "delete from accounts where id = ?";
+		String sql = "delete from users where id = ?";
 		jdbcTemplate.update(sql, new Object[] {id });
 		return true;
 	}
@@ -165,7 +159,7 @@ public class UserRepo {
 	}
 
 	public UserRole getUserRole(long accountId, long roleId){
-		String sql = "select * from account_roles where user_id = ? and role_id = ?";
+		String sql = "select * from user_roles where user_id = ? and role_id = ?";
 		try {
 			UserRole  accountRole = jdbcTemplate.queryForObject(sql, new Object[]{accountId, roleId},
 					new BeanPropertyRowMapper<UserRole>(UserRole.class));
@@ -185,7 +179,7 @@ public class UserRepo {
 	}
 
 	public UserPermission getUserPermission(long accountId, String permission){
-		String sql = "select * from account_permissions where user_id = ? and permission = ?";
+		String sql = "select * from user_permissions where user_id = ? and permission = ?";
 		try {
 			UserPermission  accountPermission = jdbcTemplate.queryForObject(sql, new Object[]{accountId, permission},
 					new BeanPropertyRowMapper<UserPermission>(UserPermission.class));
@@ -196,7 +190,7 @@ public class UserRepo {
 	}
 
 	public boolean saveUserRole(long accountId, long roleId){
-		String sql = "insert into account_roles (role_id, user_id) values (?, ?)";
+		String sql = "insert into user_roles (role_id, user_id) values (?, ?)";
 		jdbcTemplate.update(sql, new Object[] { 
 			roleId, accountId
 		});
@@ -204,7 +198,7 @@ public class UserRepo {
 	}
 	
 	public boolean savePermission(long accountId, String permission){
-		String sql = "insert into account_permissions (user_id, permission) values (?, ?)";
+		String sql = "insert into user_permissions (user_id, permission) values (?, ?)";
 		jdbcTemplate.update(sql, new Object[] { 
 			accountId, permission
 		});
@@ -212,19 +206,19 @@ public class UserRepo {
 	}
 	
 	public boolean deleteUserRoles(long accountId){
-		String sql = "delete from account_roles where user_id = ?";
+		String sql = "delete from user_roles where user_id = ?";
 		jdbcTemplate.update(sql, new Object[] { accountId });
 		return true;
 	}
 	
 	public boolean deleteUserPermissions(long accountId){
-		String sql = "delete from account_permissions where user_id = ?";
+		String sql = "delete from user_permissions where user_id = ?";
 		jdbcTemplate.update(sql, new Object[] { accountId });
 		return true;
 	}
 
 	public Set<String> getUserRoles(long id) {
-		String sql = "select r.name from account_roles ur, roles r where ur.role_id = r.id and ur.user_id = " + id;
+		String sql = "select r.name from user_roles ur, roles r where ur.role_id = r.id and ur.user_id = " + id;
 		List<String> rolesList = jdbcTemplate.queryForList(sql, String.class);
 		Set<String> roles = new HashSet<String>(rolesList);
 		return roles;
@@ -232,14 +226,14 @@ public class UserRepo {
 	
 	public Set<String> getUserRoles(String username) {
 		User user = getByUsername(username);
-		String sql = "select r.name from account_roles ur, roles r where ur.role_id = r.id and ur.user_id = " + user.getId();
+		String sql = "select r.name from user_roles ur, roles r where ur.role_id = r.id and ur.user_id = " + user.getId();
 		List<String> rolesList = jdbcTemplate.queryForList(sql, String.class);
 		Set<String> roles = new HashSet<String>(rolesList);
 		return roles;
 	}
 
 	public Set<String> getUserPermissions(long id) {
-		String sql = "select permission from account_permissions where user_id = " + id;
+		String sql = "select permission from user_permissions where user_id = " + id;
 		List<String> rolesList = jdbcTemplate.queryForList(sql, String.class);
 		Set<String> roles = new HashSet<String>(rolesList);
 		return roles;
@@ -247,21 +241,21 @@ public class UserRepo {
 
 	public Set<String> getUserPermissions(String username) {
 		User user = getByUsername(username);
-		String sql = "select permission from account_permissions where user_id = " + user.getId();
+		String sql = "select permission from user_permissions where user_id = " + user.getId();
 		List<String> permissionsList = jdbcTemplate.queryForList(sql, String.class);
 		Set<String> permissions = new HashSet<String>(permissionsList);
 		return permissions;
 	}
 
 	public long countQuery(String query){
-		String sql = "select count(*) from accounts where upper(name) like upper('%" + query + "%')";
+		String sql = "select count(*) from users where upper(name) like upper('%" + query + "%')";
 		long count = jdbcTemplate.queryForObject(sql, new Object[] {}, Long.class);
 		return count;
 	}
 
 	public List<User> search(String uncleanedQuery, int offset) {
 		String query = uncleanedQuery.replaceAll("([-+.^:,])","");
-		String sql = "select distinct * from accounts where upper(name) like upper(:query) and disabled = false order by name";
+		String sql = "select distinct * from users where upper(name) like upper(:query) and disabled = false order by name";
 
 		MapSqlParameterSource params = new MapSqlParameterSource()
 				.addValue("query", "%" + query + "%")
@@ -272,7 +266,7 @@ public class UserRepo {
 	}
 
 	public boolean disable(User user) {
-		String sql = "update accounts set disabled = ?, date_disabled = ? where id = ?";
+		String sql = "update users set disabled = ?, date_disabled = ? where id = ?";
 		jdbcTemplate.update(sql, new Object[] {
 				true, user.getDateDisabled(), user.getId()
 		});
@@ -280,7 +274,7 @@ public class UserRepo {
 	}
 
 	public boolean renew(User user) {
-		String sql = "update accounts set disabled = false where id = ?";
+		String sql = "update users set disabled = false where id = ?";
 		jdbcTemplate.update(sql, new Object[] { user.getId() });
 		return true;
 	}

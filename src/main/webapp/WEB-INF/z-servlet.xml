@@ -12,9 +12,9 @@
 
 	<mvc:annotation-driven/>
 
-	<mvc:resources mapping="/sitemap/**" town="/sitemap/" />
-	<mvc:resources mapping="/assets/**" town="/assets/"/>
-	<mvc:resources mapping="/i18n/**" town="/i18n/" />
+	<mvc:resources mapping="/sitemap/**" location="/sitemap/" />
+	<mvc:resources mapping="/assets/**" location="/assets/"/>
+	<mvc:resources mapping="/i18n/**" location="/i18n/" />
 
 	<context:component-scan base-package="dynamics.gain.web"/>
 

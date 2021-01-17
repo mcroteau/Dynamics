@@ -1,4 +1,4 @@
-create table accounts (
+create table users (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	username character varying(55) NOT NULL,
 	password character varying(155) NOT NULL,
@@ -13,14 +13,14 @@ create table roles (
 	name character varying(55) NOT NULL UNIQUE
 );
 
-create table account_permissions(
-	user_id bigint REFERENCES accounts(id),
+create table user_permissions(
+	user_id bigint REFERENCES users(id),
 	permission character varying(55)
 );
 
-create table account_roles(
+create table user_roles(
 	role_id bigint NOT NULL REFERENCES roles(id),
-	user_id bigint NOT NULL REFERENCES accounts(id)
+	user_id bigint NOT NULL REFERENCES users(id)
 );
 
 create table states(
@@ -40,17 +40,17 @@ create table locations (
 	description text,
 	needs text,
 	display_count bigint default 1,
-	user_id bigint NOT NULL REFERENCES accounts(id),
+	user_id bigint NOT NULL REFERENCES users(id),
 	location_id bigint NOT NULL REFERENCES towns(id)
 );
 
 create table daily_counts (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
-	account_id bigint NOT NULL REFERENCES account(id),
-	shelter_id bigint NOT NULL REFERENCES shelters(id),
+	user_id bigint NOT NULL REFERENCES users(id),
+	location_id bigint NOT NULL REFERENCES locations(id),
 	count bigint NOT NULL,
 	date_entered bigint NOT NULL,
-	constraint unique_shelter_count unique(shelter_id, date_entered)
+	constraint unique_location_count unique(location_id, date_entered)
 );
 
 create table app_products(

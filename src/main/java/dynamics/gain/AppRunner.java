@@ -29,9 +29,6 @@ public class AppRunner {
 	RoleRepo roleRepo;
 
 	@Autowired
-	ProjectRepo projectRepo;
-
-	@Autowired
 	StateRepo stateRepo;
 
 	@Autowired

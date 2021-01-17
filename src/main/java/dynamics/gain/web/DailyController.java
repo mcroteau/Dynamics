@@ -38,17 +38,8 @@ public class DailyController {
             return "redirect:/signin";
         }
 
-        long date = Utils.getYesterday(0);
-
         Location location = locationRepo.get(Long.parseLong(id));
-        DailyCount dailyCount = dailyRepo.getCount(location.getId(), date);
-        if(Objects.isNull(dailyCount)){
-            location.setCount(null);
-        }
-
         model.addAttribute("location", location);
-        model.addAttribute("count", dailyCount);
-
         return "daily/entry";
     }
 
