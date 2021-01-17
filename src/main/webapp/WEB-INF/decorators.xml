@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/layouts">
+    <decorator name="admin" page="admin.jsp">
+        <pattern>*/admin</pattern>
+    </decorator>
+    <decorator name="auth" page="auth.jsp">
+        <pattern>*/user*</pattern>
+        <pattern>*/project*</pattern>
+        <pattern>*/moola*</pattern>
+        <pattern>*/issues*</pattern>
+    </decorator>
+    <decorator name="base" page="base.jsp">
+        <pattern>*/home</pattern>
+        <pattern>*/pricing</pattern>
+        <pattern>*/privacy</pattern>
+        <pattern>*/signin</pattern>
+    </decorator>
+</decorators>
