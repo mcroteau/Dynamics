@@ -38,7 +38,7 @@ public class LocationController {
     public String getProjects(ModelMap modelMap){
         return locationService.getLocations(modelMap);
     }
-    
+
     @GetMapping(value="/location/edit/{id}")
     public String getEdit(ModelMap modelMap,
                               @PathVariable Long id){

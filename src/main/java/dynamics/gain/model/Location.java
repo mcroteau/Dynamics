@@ -83,14 +83,6 @@ public class Location {
         this.stripeSecret = stripeSecret;
     }
 
-    public DailyCount getCount() {
-        return count;
-    }
-
-    public void setCount(DailyCount count) {
-        this.count = count;
-    }
-
     public List<User> getAccounts() {
         return accounts;
     }

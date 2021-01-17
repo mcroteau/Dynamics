@@ -6,7 +6,8 @@ public class Town {
     long id;
     String name;
     long stateId;
-    List<Project> projects;
+
+    List<Location> locations;
 
     public long getId() {
         return id;
@@ -32,11 +33,11 @@ public class Town {
         this.stateId = stateId;
     }
 
-    public List<Project> getProjects() {
-        return projects;
+    public List<Location> getLocations() {
+        return locations;
     }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 }
