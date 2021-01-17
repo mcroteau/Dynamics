@@ -107,12 +107,30 @@ public class Utils {
 		return date;
 	}
 
+	public static long getToday(){
+		Calendar cal = Calendar.getInstance();
+		Utils.clearTime(cal);
+
+		DateFormat df = new SimpleDateFormat(Constants.DATE_SEARCH_FORMAT);
+		String date = df.format(cal.getTime());
+		log.info("get today > " + date);
+		return Long.parseLong(date);
+	}
 
 	public static long getYesterday(int day) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -day);
 		long date = getSimpleDateFormatted(cal);
 		return date;
+	}
+
+	public static Calendar clearTime(Calendar cal){
+		cal.clear(Calendar.HOUR_OF_DAY);
+		cal.clear(Calendar.AM_PM);
+		cal.clear(Calendar.MINUTE);
+		cal.clear(Calendar.SECOND);
+		cal.clear(Calendar.MILLISECOND);
+		return cal;
 	}
 
 	private static long getSimpleDateFormatted(Calendar cal) {

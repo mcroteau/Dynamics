@@ -32,6 +32,12 @@ public class AppRunner {
 	ProjectRepo projectRepo;
 
 	@Autowired
+	StateRepo stateRepo;
+
+	@Autowired
+	TownRepo townRepo;
+
+	@Autowired
 	PhoneService phoneService;
 
 	@Autowired
@@ -40,13 +46,32 @@ public class AppRunner {
 	@PostConstruct
 	public void init() {
 		Parakeet.perch(accessor);
-		createApplicationRoles();
-		createApplicationAdministrator();
-		createApplicationGuest();
+		createRoles();
+		createAdministrator();
+		createGuest();
+		createBaseLocations();
 	}
 
+	public void createBaseLocations(){
+		if(stateRepo.getCount() == 0){
+			String BASE_STATE = "Nevada";
+			String[] locations = { "Las Vegas", "Fallon", "Reno" };
 
-	private void createApplicationRoles(){
+			State state = new State();
+			state.setName(BASE_STATE);
+			State savedState = stateRepo.save(state);
+
+			for(String name : locations){
+				Town town = new Town();
+				town.setName(name);
+				town.setStateId(savedState.getId());
+				townRepo.save(town);
+			}
+		}
+		log.info(townRepo.getCount() + " Towns");
+	}
+
+	private void createRoles(){
 		Role adminRole = roleRepo.find(Constants.ROLE_ADMIN);
 		Role accountRole = roleRepo.find(Constants.ROLE_ACCOUNT);
 
@@ -66,7 +91,7 @@ public class AppRunner {
 	}
 
 	
-	private void createApplicationAdministrator(){
+	private void createAdministrator(){
 		
 		try{
 			User existing = userRepo.getByUsername(Constants.ADMIN_USERNAME);
@@ -85,7 +110,7 @@ public class AppRunner {
 	}
 
 
-	private void createApplicationGuest(){
+	private void createGuest(){
 		User existing = userRepo.getByUsername(Constants.GUEST_USERNAME);
 		String password = xyz.strongperched.Parakeet.dirty(Constants.GUEST_PASSWORD);
 

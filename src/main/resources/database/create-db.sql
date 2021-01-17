@@ -28,7 +28,7 @@ create table states(
 	name character varying(255) NOT NULL
 );
 
-create table locations(
+create table towns(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	name character varying(255) NOT NULL,
 	state_id bigint NOT NULL REFERENCES states(id)
@@ -37,8 +37,19 @@ create table locations(
 create table projects (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	name character varying(255) NOT NULL,
+	description text,
+	needs text,
 	user_id bigint NOT NULL REFERENCES accounts(id),
-	location_id bigint NOT NULL REFERENCES locations(id)
+	location_id bigint NOT NULL REFERENCES towns(id)
+);
+
+create table daily_counts (
+	id bigint PRIMARY KEY AUTO_INCREMENT,
+	account_id bigint NOT NULL REFERENCES account(id),
+	shelter_id bigint NOT NULL REFERENCES shelters(id),
+	count bigint NOT NULL,
+	date_entered bigint NOT NULL,
+	constraint unique_shelter_count unique(shelter_id, date_entered)
 );
 
 create table app_products(
