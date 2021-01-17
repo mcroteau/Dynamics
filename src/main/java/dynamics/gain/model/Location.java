@@ -6,16 +6,15 @@ import java.util.List;
 public class Location {
 
     long id;
+    long userId;
     long townId;
-
     String name;
-    String location;
-    String geo;
+    String needs;
+    int displayCount;
 
     String stripePublishable;
     String stripeSecret;
 
-    DailyCount count;
     List<User> accounts = new ArrayList<>();
     List<DailyCount> counts = new ArrayList<>();
 
@@ -26,6 +25,14 @@ public class Location {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public long getTownId() {
@@ -44,20 +51,20 @@ public class Location {
         this.name = name;
     }
 
-    public String getLocation() {
-        return location;
+    public String getNeeds() {
+        return needs;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setNeeds(String needs) {
+        this.needs = needs;
     }
 
-    public String getGeo() {
-        return geo;
+    public int getDisplayCount() {
+        return displayCount;
     }
 
-    public void setGeo(String geo) {
-        this.geo = geo;
+    public void setDisplayCount(int displayCount) {
+        this.displayCount = displayCount;
     }
 
     public String getStripePublishable() {

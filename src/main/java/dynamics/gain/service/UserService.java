@@ -28,9 +28,6 @@ public class UserService {
     private UserRepo userRepo;
 
     @Autowired
-    private ProjectRepo projectRepo;
-
-    @Autowired
     private RoleRepo roleRepo;
 
     @Autowired
@@ -46,7 +43,7 @@ public class UserService {
     private ReCaptchaService reCaptchaService;
 
     @Autowired
-    ProjectService projectService;
+    LocationService locationService;
 
     @Autowired
     private Environment env;

@@ -34,11 +34,12 @@ create table towns(
 	state_id bigint NOT NULL REFERENCES states(id)
 );
 
-create table projects (
+create table locations (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	name character varying(255) NOT NULL,
 	description text,
 	needs text,
+	display_count bigint default 1,
 	user_id bigint NOT NULL REFERENCES accounts(id),
 	location_id bigint NOT NULL REFERENCES towns(id)
 );
