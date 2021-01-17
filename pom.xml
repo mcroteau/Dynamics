@@ -329,7 +329,7 @@
 
         	    <configuration>
 					<webApp>
-        	            <contextPath>/o</contextPath>
+        	            <contextPath>/z</contextPath>
         	        </webApp>
         	    </configuration>
         	</plugin>

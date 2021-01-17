@@ -2,7 +2,7 @@ package dynamics.gain.model;
 
 import java.util.List;
 
-public class State {
+public class Location {
     int id;
     String name;
     List<Project> projects;

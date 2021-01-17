@@ -1,7 +1,6 @@
 package dynamics.gain.service;
 
 import com.google.gson.Gson;
-import dynamics.gain.common.Http;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -233,77 +232,6 @@ public class UserService {
         req.getSession().setAttribute("username", user.getUsername());
 
         return "redirect:/";
-    }
-
-    public String homeSignup(SignMeUp signMeUp, HttpServletRequest req, RedirectAttributes redirect) {
-
-        signMeUp.setUri(Http.convert(signMeUp.getUri()));
-
-        if(signMeUp == null){
-            redirect.addFlashAttribute("message", "a error on our end, please give it another go.");
-            return "redirect:/home";
-        }
-
-        if(!Utils.isValidMailbox(signMeUp.getUsername())){
-            redirect.addFlashAttribute("message", "Email must be a valid. Please try again!");
-            return "redirect:/home";
-        }
-
-        User existingUser = userRepo.getByUsername(signMeUp.getUsername());
-        if(existingUser != null){
-            redirect.addFlashAttribute("message", "It looks like you already have an account with us. Try signing in.");
-            return "redirect:/signin";
-        }
-
-        User user = new User();
-        user.setUsername(signMeUp.getUsername());
-
-        String plainPassword = signMeUp.getPassword();
-        user.setPassword(Parakeet.dirty(plainPassword));
-
-        boolean isRandom = false;
-        if(signMeUp.getPassword().equals("")){
-            isRandom = true;
-            plainPassword = "password-" + Utils.getRandomString(3);
-            String randPassword = Parakeet.dirty(plainPassword);
-            user.setPassword(randPassword);
-        }
-        User savedUser = userRepo.save(user);
-
-        Project project = new Project();
-        project.setUri(signMeUp.getUri());
-        project.setName("Project One");
-        project.setUserId(savedUser.getId());
-
-        Project savedProject = projectRepo.save(project);
-        String permission = projectService.getPermission(Long.toString(savedProject.getId()));
-        userRepo.savePermission(savedUser.getId(), permission);
-
-        if(authService.signin(user.getUsername(), plainPassword)){
-            String site = "http://localhost:8080/o/signin";
-            String subject = "You're all set!";
-
-            StringBuffer message = new StringBuffer();
-            message.append("<h1>Okay! Project Monitored!</h1>" +
-                    "<p>You're all set, your project @ " + signMeUp.getUri() +
-                    " is all configured. You can now sign in and enter a good phone number " +
-                    "where we can reach you if your site goes down.</p>");
-            if(isRandom) {
-                message.append("<p>Your password : <strong>" + plainPassword + "</strong></p>");
-            }
-            message.append("<p><a href=\"" + site + "\">Signin!</a></p>");
-
-            emailService.send(user.getUsername(), "support@okay.page", subject, message.toString());
-
-            req.getSession().setAttribute("username", user.getUsername());
-
-            redirect.addFlashAttribute("message", "You're all set! Project configured!");
-            return "redirect:/project/overview";
-        }else{
-            redirect.addFlashAttribute("message", "Please signin to continue");
-            return "redirect:/";
-        }
-
     }
 
     public String sendReset(String username, RedirectAttributes redirect, HttpServletRequest req) {

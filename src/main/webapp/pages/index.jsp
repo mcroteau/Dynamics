@@ -1,16 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Okay! : Website Monitoring</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="icon" type="image/png" href="/o/assets/media/icon.png?v=<%=System.currentTimeMillis()%>">
-    <link rel="stylesheet" href="/o/assets/css/base.css?v=<%=System.currentTimeMillis()%>">
-    <link rel="stylesheet" href="/o/assets/css/app.css?v=<%=System.currentTimeMillis()%>">
-
-    <script type="text/javascript" src="/o/assets/js/packages/jquery.js"></script>
-
+    <title>Dynamics +Gain : An attempt to fix Homelessness </title>
 </head>
 <body>
     <div id="homepage-wrapper">

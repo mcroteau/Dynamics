@@ -13,11 +13,4 @@ per city
 per shelter
 
 
-
-
-About me...
-
-My name is Mike Croteau. 
-I am 42 years old I live in Fairbanks, Alaska. I wrote 
-dynamcs  
-
+The idea:

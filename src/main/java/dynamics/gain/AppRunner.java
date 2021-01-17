@@ -1,13 +1,7 @@
 package dynamics.gain;
 
-import dynamics.gain.jobs.HealthJob;
-import dynamics.gain.jobs.HealthJobDos;
-import dynamics.gain.jobs.HealthJobTres;
 import dynamics.gain.service.PhoneService;
 import org.apache.log4j.Logger;
-
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.env.Environment;
@@ -15,7 +9,6 @@ import dynamics.gain.access.GainAccessor;
 import dynamics.gain.repository.*;
 import dynamics.gain.model.*;
 import dynamics.gain.common.Constants;
-import dynamics.gain.common.Utils;
 import org.springframework.stereotype.Component;
 import xyz.strongperched.Parakeet;
 

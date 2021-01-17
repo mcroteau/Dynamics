@@ -4,7 +4,8 @@ create table accounts (
 	password character varying(155) NOT NULL,
 	disabled boolean default false,
 	date_disabled bigint default 0,
-	uuid character varying(155)
+	uuid character varying(155),
+	date_created bigint default 0
 );
 
 create table roles (
@@ -22,47 +23,30 @@ create table account_roles(
 	user_id bigint NOT NULL REFERENCES accounts(id)
 );
 
+create table states(
+	id bigint PRIMARY KEY AUTO_INCREMENT,
+	name character varying(255) NOT NULL
+);
+
+create table locations(
+	id bigint PRIMARY KEY AUTO_INCREMENT,
+	name character varying(255) NOT NULL,
+	state_id bigint NOT NULL REFERENCES states(id)
+);
+
 create table projects (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	name character varying(255) NOT NULL,
-	uri text NOT NULL,
-	avg_resp double default 0.0,
-	user_id bigint NOT NULL REFERENCES accounts(id)
+	user_id bigint NOT NULL REFERENCES accounts(id),
+	location_id bigint NOT NULL REFERENCES locations(id)
 );
 
-create table project_status (
-	project_id bigint NOT NULL REFERENCES projects(id),
-    status_code bigint NOT NULL,
-    avg_response double default 0.0,
-    response_sum double default 0.0,
-    latest_response double default 0.0,
-    notified boolean default false,
-    notified_count bigint default 0,
-    total_http_validations bigint default 0,
-    operational_http_validations bigint default 0,
-    validation_date bigint default 0,
-    initial_saving boolean default true
-);
-
-create table project_emails (
+create table app_products(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
-	email character varying(255) NOT NULL,
-	project_id bigint NOT NULL REFERENCES projects(id)
+	stripe_id text
 );
 
-create table project_phones (
-	id bigint PRIMARY KEY AUTO_INCREMENT,
-	phone character varying(255) NOT NULL,
-	project_id bigint NOT NULL REFERENCES projects(id)
-);
-
-create table okay_product(
-	id bigint PRIMARY KEY AUTO_INCREMENT,
-	stripe_id text,
-	stripe_product_type character varying (255) default 'service'
-);
-
-create table okay_plans(
+create table app_plans(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	stripe_id text,
     amount bigint default 0,
@@ -71,5 +55,5 @@ create table okay_plans(
     frequency character varying(141),
     currency character varying (100),
     project_limit bigint,
-	okay_product_id bigint NOT NULL REFERENCES okay_product(id)
+	app_product_id bigint NOT NULL REFERENCES app_products(id)
 );

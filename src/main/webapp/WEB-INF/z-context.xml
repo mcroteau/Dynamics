@@ -17,7 +17,6 @@
 		</property>
 	</bean>
 
-	<bean class="dynamics.gain.jobs.HealthJob"/>
 	<bean class="dynamics.gain.AppRunner"/>
 	<bean id="amadeusAccessor" class="dynamics.gain.access.GainAccessor"/>
 

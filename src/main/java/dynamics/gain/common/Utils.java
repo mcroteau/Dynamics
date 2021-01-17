@@ -1,6 +1,5 @@
 package dynamics.gain.common;
 
-import dynamics.gain.model.ProjectPhone;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
@@ -24,18 +23,6 @@ public class Utils {
 	
 	@Autowired
 	private static ApplicationContext applicationContext;
-
-	public static String getPhones(List<ProjectPhone> phones){
-		String numbers = "";
-		int counter = 1;
-		for(ProjectPhone phone : phones){
-			numbers += "+1" + phone.getPhone();
-			if(counter < phones.size())numbers += "<";
-			counter++;
-		}
-		log.info("numbers:" + numbers);
-		return numbers;
-	}
 
 	public static int getRandomNumber(int max){
 		Random r = new Random();
