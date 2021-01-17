@@ -9,10 +9,11 @@
         <pattern>*/moola*</pattern>
         <pattern>*/issues*</pattern>
     </decorator>
-    <decorator name="base" page="base.jsp">
+    <decorator name="guest" page="guest.jsp">
         <pattern>*/home</pattern>
-        <pattern>*/pricing</pattern>
+        <pattern>*/donate</pattern>
         <pattern>*/privacy</pattern>
         <pattern>*/signin</pattern>
+        <pattern>*/signup</pattern>
     </decorator>
 </decorators>

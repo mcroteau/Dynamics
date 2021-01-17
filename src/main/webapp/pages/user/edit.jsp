@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="xyz.strongperched.Parakeet" %>
-<%@ page import="okay.common.Constants" %>
+<%@ page import="dynamics.gain.common.Constants" %>
 
 <div id="edit-user-form">
 

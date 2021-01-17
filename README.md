@@ -1,35 +1,23 @@
-﻿# Okay!
-Mkio
-Bqi
+﻿# Dynamics +Gain
 
-plans
-good 2 websites @ $24 a month
-great 7 websites @ $72 a month
-grand 12 websites @ $102 a month
-do you want the engine? write us. 
-
-bing post pay!
-google ads 
-domain agents
-inmotion hosting
-fast comet hosting
+user walks up to screen
+user sees a dashboard of his/her city with total homeless
+user click give
+user selects a shelter
+user sees a list of donation options, a blurb and what they need in addition to money
+user clicks home button
+user sees total homeless registered in application
+can click per country
+per state
+per city
+per shelter
 
 
-<bean depends-on="dataSource" class="org.springframework.beans.factory.config.MethodInvokingBean">
-    <property name="targetClass" value="org.hsqldb.util.DatabaseManagerSwing" />
-    <property name="targetMethod" value="main" />
-    <property name="arguments">
-        <list>
-            <value>--url</value>
-            <value>jdbc:h2:mem:ok</value>
-            <value>--user</value>
-            <value>sa</value>
-            <value>--password</value>
-            <value></value>
-        </list>
-    </property>
-</bean>
 
-GASTC775
-Q84RSG8Q
-ELM5F1J1
+
+About me...
+
+My name is Mike Croteau. 
+I am 42 years old I live in Fairbanks, Alaska. I wrote 
+dynamcs  
+

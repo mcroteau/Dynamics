@@ -16,7 +16,7 @@
 	<mvc:resources mapping="/assets/**" location="/assets/"/>
 	<mvc:resources mapping="/i18n/**" location="/i18n/" />
 
-	<context:component-scan base-package="okay.web"/>
+	<context:component-scan base-package="dynamics.gain.web"/>
 
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="viewResolvers">
