@@ -161,6 +161,7 @@ h3{
     font-size:26px;
 	font-family:roboto-bold !important;
 	line-height:1.17;
+    margin:10px auto 10px auto;
 }
 
 h1,h2,h3{
@@ -341,8 +342,13 @@ input[type="submit"].button.purple{
 	-webkit-border-radius: 3px;
 }
 
+.header-information{
+    font-size:27px !important;
+    font-family:roboto-light !important;
+}
+
 .tiny{
-    font-size:11px;
+    font-size:11px !important;
     font-family:Roboto !important;
 }
 

@@ -37,7 +37,7 @@ public class BasicService {
         }
 
         List<Town> towns = townRepo.getList();
-        
+
         modelMap.put("towns", towns);
         modelMap.put("count", count);
         return "index";
