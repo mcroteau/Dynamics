@@ -22,6 +22,13 @@ public class TownService {
     public String index(String uri, ModelMap modelMap) {
         Town town = townRepo.get(uri);
         List<Location> locations = locationRepo.getList(town.getId());
+
+        int count = 0;
+        for(Location location: locations){
+            count = count + location.getCount();
+        }
+        town.setCount(count);
+
         modelMap.put("town", town);
         modelMap.put("locations", locations);
 

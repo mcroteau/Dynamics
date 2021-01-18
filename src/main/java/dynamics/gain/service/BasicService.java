@@ -1,7 +1,9 @@
 package dynamics.gain.service;
 
 import dynamics.gain.model.Location;
+import dynamics.gain.model.Town;
 import dynamics.gain.repository.LocationRepo;
+import dynamics.gain.repository.TownRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -11,6 +13,9 @@ import java.util.List;
 
 @Service
 public class BasicService {
+
+    @Autowired
+    TownRepo townRepo;
 
     @Autowired
     LocationRepo locationRepo;
@@ -31,6 +36,9 @@ public class BasicService {
             count = count + location.getCount();
         }
 
+        List<Town> towns = townRepo.getList();
+        
+        modelMap.put("towns", towns);
         modelMap.put("count", count);
         return "index";
     }

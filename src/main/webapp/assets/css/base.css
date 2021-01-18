@@ -146,7 +146,6 @@ so we can ignore the csslint warning.
 
 
 h1{
-    color:#000;
 	font-size:49px;
 	margin:11px 0px 0px;
 	line-height:1.3em;
@@ -159,10 +158,13 @@ h2{
 }
 
 h3{
-    color:#324044;
-	font-size:26px;
+    font-size:26px;
 	font-family:roboto-bold !important;
 	line-height:1.17;
+}
+
+h1,h2,h3{
+    color:#000;
 }
 
 textarea:focus,
@@ -240,6 +242,10 @@ input[type="submit"].button{
 	outline:none !important;
 	-webkit-appearance: none;
 	-moz-appearance:none;
+
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
+    -moz-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
+    box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
 }
 
 .button:active{
@@ -255,9 +261,6 @@ input[type="submit"].button{
 
 .button:hover{
     color:#fff;
-	-webkit-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
-    -moz-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
-    box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
 }
 
 

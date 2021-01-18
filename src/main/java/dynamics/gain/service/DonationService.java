@@ -5,13 +5,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class MoolaService {
+public class DonationService {
 
     private static final String USD = "usd";
     private static final String FREQUENCY = "month";
 
 //    @Autowired
-//    MoolaRepo moolaRepo;
+//    DonationRepo donationRepo;
 
     @Autowired
     AuthService authService;

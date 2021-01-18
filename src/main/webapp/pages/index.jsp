@@ -15,40 +15,19 @@
         </p>
 
         <p class="open-text">Dynamics +Gain is a non profit designed with
-            the sole purpose of removing the barriers that make it difficult
-            to help.</p>
+            the sole purpose of removing the barriers to assist those in need.</p>
 
-        <p class="open-text"></p>
+        <div style="margin:0px auto 30px;">
+            <a href="/z/donation/select" class="button beauty">Give &hearts;</a>
+        </div>
 
-        <style>
-            #welcome-text{
-                line-height: 1.1em !important;
-                font-size:92px;
-                width:60%;
-                margin:0px;
-            }
-            #welcome-text span{
-                font-size:62px;
-                display: block;
-                margin:0px;
-            }
-            .signup-homepage{
-                margin:13px 0px 20px;
-                -webkit-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
-                -moz-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
-                box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
-            }
-            .open-text{
-                width:70%;
-            }
+        <h3>Towns/Cities</h3>
+        <ul>
+            <c:forEach var="town" items="${towns}">
+                <li><a href="/z/town/${town.town_uri}">${town.name}</a></li>
+            </c:forEach>
+        </ul>
 
-            @media screen and (max-width: 690px) {
-                #welcome-text,
-                .open-text{
-                    width:calc(100% - 40px);
-                }
-            }
-        </style>
     </div>
 
 </body>

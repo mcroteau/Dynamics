@@ -6,6 +6,7 @@ public class Town {
     long id;
     String name;
     String townUri;
+    int count;
     long stateId;
 
     List<Location> locations;
@@ -32,6 +33,14 @@ public class Town {
 
     public void setTownUri(String townUri) {
         this.townUri = townUri;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public long getStateId() {

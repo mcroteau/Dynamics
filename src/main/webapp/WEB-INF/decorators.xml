@@ -15,5 +15,7 @@
         <pattern>*/privacy</pattern>
         <pattern>*/signin</pattern>
         <pattern>*/signup</pattern>
+        <pattern>*/town/*</pattern>
+        <pattern>*/location/*</pattern>
     </decorator>
 </decorators>

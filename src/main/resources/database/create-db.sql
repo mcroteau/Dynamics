@@ -43,7 +43,8 @@ create table locations (
 	count bigint default 1,
 	location_uri character varying (255),
 	user_id bigint NOT NULL REFERENCES users(id),
-	town_id bigint NOT NULL REFERENCES towns(id)
+	town_id bigint NOT NULL REFERENCES towns(id),
+	constraint unique_location_uri unique(location_uri)
 );
 
 create table daily_counts (

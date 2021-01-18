@@ -42,7 +42,6 @@ public class LocationRepo {
         return locations;
     }
 
-
     public Location save(Location location){
         String sql = "insert into locations (name, location_uri, description, needs, count, user_id, town_id) values (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {

@@ -68,6 +68,8 @@ public class AppRunner {
 			state.setName(BASE_STATE);
 			State savedState = stateRepo.save(state);
 
+			int index = 0;
+
 			for(String[] data : townData){
 				Town town = new Town();
 				town.setName(data[0]);
@@ -83,7 +85,7 @@ public class AppRunner {
 				for(String[] shelter: locations){
 					Location location = new Location();
 					location.setName(shelter[0]);
-					location.setLocationUri(shelter[1]);
+					location.setLocationUri(shelter[1]+ "" + index);
 					location.setDescription("Helping at-risk and homeless families in Clark County achieve sustainable housing and independence through a compassionate, community-based response.");
 					location.setNeeds("Shoes, Socks, Jackets, Laptops, Prepaid Phones");
 					location.setUserId(user.getId());
@@ -91,6 +93,7 @@ public class AppRunner {
 					location.setCount(Utils.getRandomNumber(231));
 					locationRepo.save(location);
 				}
+				index++;
 			}
 		}
 		log.info(townRepo.getCount() + " Towns");

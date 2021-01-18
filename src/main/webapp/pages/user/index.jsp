@@ -10,7 +10,7 @@
 	<h1>Admin Accounts</h1>
 	
 	<c:if test="${not empty message}">
-		<div class="notify notify-info">
+		<div class="notify">
 			${message}
 		</div>
 	</c:if>
