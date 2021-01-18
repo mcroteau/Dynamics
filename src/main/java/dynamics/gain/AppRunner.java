@@ -1,5 +1,6 @@
 package dynamics.gain;
 
+import dynamics.gain.common.Utils;
 import dynamics.gain.service.PhoneService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class AppRunner {
 	TownRepo townRepo;
 
 	@Autowired
+	LocationRepo locationRepo;
+
+	@Autowired
 	PhoneService phoneService;
 
 	@Autowired
@@ -50,22 +54,47 @@ public class AppRunner {
 	}
 
 	public void createBaseLocations(){
+
 		if(stateRepo.getCount() == 0){
+			User user = userRepo.getByUsername(Constants.ADMIN_USERNAME);
 			String BASE_STATE = "Nevada";
-			String[] locations = { "Las Vegas", "Fallon", "Reno" };
+			String[][] townData = {
+					{ "Fallon", "fallon"},
+					{ "Reno", "reno"},
+					{ "Las Vegas", "lasvegas"},
+			};
 
 			State state = new State();
 			state.setName(BASE_STATE);
 			State savedState = stateRepo.save(state);
 
-			for(String name : locations){
+			for(String[] data : townData){
 				Town town = new Town();
-				town.setName(name);
+				town.setName(data[0]);
+				town.setTownUri(data[1]);
 				town.setStateId(savedState.getId());
-				townRepo.save(town);
+				Town savedTown = townRepo.save(town);
+
+				String[][] locations = {
+						{"Rescue Mission", "rescuemission"},
+						{"Camp Mino", "mino"},
+				};
+
+				for(String[] shelter: locations){
+					Location location = new Location();
+					location.setName(shelter[0]);
+					location.setLocationUri(shelter[1]);
+					location.setDescription("Helping at-risk and homeless families in Clark County achieve sustainable housing and independence through a compassionate, community-based response.");
+					location.setNeeds("Shoes, Socks, Jackets, Laptops, Prepaid Phones");
+					location.setUserId(user.getId());
+					location.setTownId(savedTown.getId());
+					location.setCount(Utils.getRandomNumber(231));
+					locationRepo.save(location);
+				}
 			}
 		}
 		log.info(townRepo.getCount() + " Towns");
+		log.info(locationRepo.getCount() + " Locations");
 	}
 
 	private void createRoles(){
@@ -103,13 +132,13 @@ public class AppRunner {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		log.info("Users : " + userRepo.getCount());
+
 	}
 
 
 	private void createGuest(){
 		User existing = userRepo.getByUsername(Constants.GUEST_USERNAME);
-		String password = xyz.strongperched.Parakeet.dirty(Constants.GUEST_PASSWORD);
+		String password = Parakeet.dirty(Constants.GUEST_PASSWORD);
 
 		if(existing == null){
 			User user = new User();

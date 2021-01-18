@@ -5,6 +5,7 @@ import java.util.List;
 public class Town {
     long id;
     String name;
+    String townUri;
     long stateId;
 
     List<Location> locations;
@@ -23,6 +24,14 @@ public class Town {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTownUri() {
+        return townUri;
+    }
+
+    public void setTownUri(String townUri) {
+        this.townUri = townUri;
     }
 
     public long getStateId() {

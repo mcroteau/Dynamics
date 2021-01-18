@@ -31,6 +31,7 @@ create table states(
 create table towns(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	name character varying(255) NOT NULL,
+    town_uri character varying(255),
 	state_id bigint NOT NULL REFERENCES states(id)
 );
 
@@ -39,9 +40,10 @@ create table locations (
 	name character varying(255) NOT NULL,
 	description text,
 	needs text,
-	display_count bigint default 1,
+	count bigint default 1,
+	location_uri character varying (255),
 	user_id bigint NOT NULL REFERENCES users(id),
-	location_id bigint NOT NULL REFERENCES towns(id)
+	town_id bigint NOT NULL REFERENCES towns(id)
 );
 
 create table daily_counts (

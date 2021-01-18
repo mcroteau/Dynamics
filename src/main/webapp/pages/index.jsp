@@ -11,46 +11,26 @@
         </c:if>
 
         <p id="welcome-text">
-
+            ${count} <span>Homeless!</span>
         </p>
+
+        <p class="open-text">Dynamics +Gain is a non profit designed with
+            the sole purpose of removing the barriers that make it difficult
+            to help.</p>
 
         <p class="open-text"></p>
 
-        <p class="open-text">Okay! Website Monitoring made easy &amp; Rock Solid!</p>
-
-        <p>We keep it simple.</p>
-
         <style>
-            #home-signup{
-                font-size: 32px;
-                line-height: 1.7em !important;
-                margin:30px 0px 20px !important;
-            }
-            #home-signup input[type="text"],
-            #home-signup input[type="text"]:focus{
-                border:none !important;
-                background: #eff4f4;
-                outline: none;
-                font-size:23px;
-                border-bottom:solid 1px #ddd !important;
-            }
-            #home-signup input[type="text"]::placeholder{
-                font-size:23px;
-                color:#4a6d6d;
-            }
-            #homepage-wrapper p{
-                color:#fff;
-                line-height: 1.4em;
-                margin:10px 0px;
-            }
             #welcome-text{
                 line-height: 1.1em !important;
-                font-size:42px;
+                font-size:92px;
                 width:60%;
+                margin:0px;
             }
             #welcome-text span{
-                font-size:19px;
+                font-size:62px;
                 display: block;
+                margin:0px;
             }
             .signup-homepage{
                 margin:13px 0px 20px;

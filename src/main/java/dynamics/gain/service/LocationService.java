@@ -40,30 +40,18 @@ public class LocationService {
         return Constants.PROJECT_MAINTENANCE + id;
     }
 
+    public String index(String uri, ModelMap modelMap) {
+        Location location = locationRepo.get(uri);
+        modelMap.put("location", location);
+        return "location/index";
+    }
+
     public String create(ModelMap modelMap) {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
         return "location/create";
     }
-
-    public String index(Long id, ModelMap modelMap) {
-        if(!authService.isAuthenticated()){
-            return "redirect:/";
-        }
-
-        String permission = getPermission(Long.toString(id));
-        if(!authService.isAdministrator() &&
-                !authService.hasPermission(permission)){
-            return "redirect:/";
-        }
-
-        Location location = locationRepo.get(id);
-        modelMap.addAttribute("location", location);
-
-        return "location/index";
-    }
-
 
     public String getLocations(ModelMap modelMap) {
         if(!authService.isAuthenticated()){

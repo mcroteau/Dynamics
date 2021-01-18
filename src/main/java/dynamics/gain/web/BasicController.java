@@ -25,8 +25,8 @@ public class BasicController {
 	}
 
 	@RequestMapping(value="/home", method=RequestMethod.GET)
-	public String home(){
-		return "index";
+	public String home(ModelMap modelMap){
+		return basicService.home(modelMap);
 	}
 
 	@RequestMapping(value="/pricing", method=RequestMethod.GET)

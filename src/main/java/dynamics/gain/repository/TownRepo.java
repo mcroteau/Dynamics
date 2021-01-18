@@ -44,9 +44,9 @@ public class TownRepo {
 
 
     public Town save(Town town){
-        String sql = "insert into towns (name, state_id) values (?, ?)";
+        String sql = "insert into towns (name, town_uri, state_id) values (?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                town.getName(), town.getStateId()
+                town.getName(), town.getTownUri(), town.getStateId()
         });
 
         Long id = getId();
@@ -60,4 +60,10 @@ public class TownRepo {
         return true;
     }
 
+    public Town get(String uri) {
+        String sql = "select * from towns where town_uri = ?";
+        Town town = jdbcTemplate.queryForObject(sql, new Object[] { uri },
+                new BeanPropertyRowMapper<>(Town.class));
+        return town;
+    }
 }

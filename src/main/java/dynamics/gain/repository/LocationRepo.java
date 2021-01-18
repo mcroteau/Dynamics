@@ -44,11 +44,10 @@ public class LocationRepo {
 
 
     public Location save(Location location){
-        String sql = "insert into locations (name, location_id) values (?, ?)";
+        String sql = "insert into locations (name, location_uri, description, needs, count, user_id, town_id) values (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                location.getName(), location.getTownId()
+                location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getCount(),  location.getUserId(), location.getTownId()
         });
-
         Long id = getId();
         Location savedLocation = get(id);
         return savedLocation;
@@ -60,4 +59,16 @@ public class LocationRepo {
         return true;
     }
 
+    public List<Location> getList(long id) {
+        String sql = "select * from locations where town_id = ?";
+        List<Location> locations = jdbcTemplate.query(sql, new Object[]{ id }, new BeanPropertyRowMapper<>(Location.class));
+        return locations;
+    }
+
+    public Location get(String uri) {
+        String sql = "select * from locations where location_uri = ?";
+        Location location = jdbcTemplate.queryForObject(sql, new Object[] { uri },
+                new BeanPropertyRowMapper<>(Location.class));
+        return location;
+    }
 }

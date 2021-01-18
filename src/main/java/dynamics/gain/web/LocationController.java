@@ -17,24 +17,24 @@ public class LocationController {
     @Autowired
     LocationService locationService;
 
-    @GetMapping(value="/project/create")
+    @GetMapping(value="/location/create")
     public String index(ModelMap modelMap){
         return locationService.create(modelMap);
     }
 
-    @GetMapping(value="/project/{id}")
+    @GetMapping(value="/location/{uri}")
     public String index(ModelMap modelMap,
-                        @PathVariable Long id){
-        return locationService.index(id, modelMap);
+                        @PathVariable String uri){
+        return locationService.index(uri, modelMap);
     }
 
-    @PostMapping(value="/project/save")
+    @PostMapping(value="/location/save")
     protected String save(@ModelAttribute("location") Location location,
                           RedirectAttributes redirect){
         return locationService.save(location, redirect);
     }
 
-    @GetMapping(value="/admin/project/list")
+    @GetMapping(value="/admin/location/list")
     public String getProjects(ModelMap modelMap){
         return locationService.getLocations(modelMap);
     }

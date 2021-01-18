@@ -1,12 +1,19 @@
 package dynamics.gain.service;
 
+import dynamics.gain.model.Location;
+import dynamics.gain.repository.LocationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Service
 public class BasicService {
+
+    @Autowired
+    LocationRepo locationRepo;
 
     @Autowired
     AuthService authService;
@@ -17,11 +24,21 @@ public class BasicService {
     @Autowired
     private EmailService emailService;
 
+    public String home(ModelMap modelMap){
+        int count = 0;
+        List<Location> locations = locationRepo.getList();
+        for(Location location: locations){
+            count = count + location.getCount();
+        }
+
+        modelMap.put("count", count);
+        return "index";
+    }
+
     public String index() {
         if(authService.isAuthenticated()){
             return "redirect:/project/overview";
         }
-
         return "redirect:/home";
     }
 

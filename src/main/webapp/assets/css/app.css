@@ -2,11 +2,18 @@ body{
     background: #eff4f4;
     background: #e7f1f1;
 }
-#outer-wrapper{
+#header-wrapper{}
+#guest-wrapper p,
+#guest-wrapper span{
+    color:#fff;
+    line-height: 1.4em;
+    margin:10px 0px;
+}
+#guest-content{
     width:690px;
     margin:30px auto 20px auto;
 }
-#header-wrapper{}
+
 .logo{
     float:left;
     color:#000;
@@ -14,28 +21,6 @@ body{
     font-size: 29px;
     text-decoration: none;
     font-family: roboto-slab-semibold !important;
-}
-.logo-basic{
-    font-size:43px;
-}
-.logo:hover{
-    color:#000;
-}
-.apostrophe{
-    font-size: 34px;
-    line-height: 1.0em;
-    font-family: roboto-black !important;
-}
-.logo-basic .apostrophe{
-    font-size:43px;
-    line-height: 1.0em;
-}
-#tagline, #footer-wrapper{
-    font-family:roboto-light !important;
-    font-size:19px;
-    display:block;
-    text-decoration: none;
-    display: block;
 }
 #welcome{
     display:block;

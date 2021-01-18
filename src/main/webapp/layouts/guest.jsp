@@ -24,18 +24,18 @@
 </head>
 <body>
 
-<div id="outer-wrapper">
+<div id="guest-wrapper">
 
-    <div id="content-wrapper">
+    <div id="guest-content">
         <decorator:body />
     </div>
 
     <div id="footer-wrapper">
-        &copy; 2021 Dynamics +Gain!
+        <span>&copy; 2021 Dynamics +Gain!</span>
     </div>
 
     <style>
-        #header-wrapper{
+        #guest-wrapper{
             margin-bottom:30px;
         }
         #footer-wrapper{

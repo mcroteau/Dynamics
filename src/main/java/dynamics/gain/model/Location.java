@@ -10,14 +10,16 @@ public class Location {
     long townId;
     String name;
     String needs;
-    int displayCount;
+    int count;
+
+    String locationUri;
+    String description;
 
     String stripePublishable;
     String stripeSecret;
 
     List<User> accounts = new ArrayList<>();
     List<DailyCount> counts = new ArrayList<>();
-
 
     public long getId() {
         return id;
@@ -59,12 +61,28 @@ public class Location {
         this.needs = needs;
     }
 
-    public int getDisplayCount() {
-        return displayCount;
+    public int getCount() {
+        return count;
     }
 
-    public void setDisplayCount(int displayCount) {
-        this.displayCount = displayCount;
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getLocationUri() {
+        return locationUri;
+    }
+
+    public void setLocationUri(String locationUri) {
+        this.locationUri = locationUri;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getStripePublishable() {
