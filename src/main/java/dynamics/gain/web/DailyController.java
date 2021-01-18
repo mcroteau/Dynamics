@@ -30,7 +30,6 @@ public class DailyController {
     @Autowired
     private LocationRepo locationRepo;
 
-
     @RequestMapping(value="/daily/entry/{id}", method=RequestMethod.GET)
     protected String entry(ModelMap model, @PathVariable String id){
 
@@ -42,8 +41,6 @@ public class DailyController {
         model.addAttribute("location", location);
         return "daily/entry";
     }
-
-
 
     @RequestMapping(value="/daily/edit/{id}", method=RequestMethod.GET)
     protected String edit(ModelMap model, @PathVariable String id){

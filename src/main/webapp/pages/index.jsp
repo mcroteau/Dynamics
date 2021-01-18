@@ -11,7 +11,7 @@
         </c:if>
 
         <p id="welcome-text">
-            ${count} <span>Homeless <span class="header-information">Registered in ${towns.size()} Cities!</span></span>
+            ${count} <span>Homeless <span class="header-information">counted in ${towns.size()} Cities!</span></span>
         </p>
 
         <p class="open-text regular">Dynamics +Gain is a non profit designed with
@@ -19,7 +19,7 @@
             donating time, money and resources!</p>
 
         <div style="margin:0px auto 30px;">
-            <a href="/z/donation/select" class="button beauty">Give &hearts;</a>
+            <a href="/z/donate" class="button super beauty">Give &hearts;</a>
         </div>
 
         <h3>Towns/Cities</h3>

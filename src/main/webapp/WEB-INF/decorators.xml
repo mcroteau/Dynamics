@@ -11,7 +11,7 @@
     </decorator>
     <decorator name="guest" page="guest.jsp">
         <pattern>*/home</pattern>
-        <pattern>*/donate</pattern>
+        <pattern>*/donate*</pattern>
         <pattern>*/privacy</pattern>
         <pattern>*/signin</pattern>
         <pattern>*/signup</pattern>

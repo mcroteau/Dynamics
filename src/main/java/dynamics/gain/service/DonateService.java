@@ -1,11 +1,13 @@
 package dynamics.gain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class DonationService {
+@Service
+public class DonateService {
 
     private static final String USD = "usd";
     private static final String FREQUENCY = "month";
@@ -76,4 +78,5 @@ public class DonationService {
 
         return "";
     }
+
 }

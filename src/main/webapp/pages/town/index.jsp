@@ -18,7 +18,7 @@
         donating time, money and resources!</p>
 
     <div style="margin-bottom:70px;">
-        <a href="/z/donation/select" class="button beauty">Donate &hearts;</a>
+        <a href="/z/donate" class="button super beauty">Donate &hearts;</a>
     </div>
 
 

@@ -12,9 +12,11 @@ I Mike Croteau copyright the following:
 
 D3XZKUT6
 
-Dynamics +Gain is a non profit designed with
+Dynamics +Gain is a non-profit designed with
 the sole purpose of removing the barriers that prevent others from
 donating time, money and resources!
+
+$10,$40,$90
 
 
 user walks up to screen

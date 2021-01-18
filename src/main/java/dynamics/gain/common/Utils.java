@@ -120,6 +120,8 @@ public class Utils {
 	public static long getYesterday(int day) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -day);
+		Utils.clearTime(cal);
+
 		long date = getSimpleDateFormatted(cal);
 		return date;
 	}
