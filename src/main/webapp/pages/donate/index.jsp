@@ -35,7 +35,7 @@
 
     <div>
         <a href="javascript:" class="button light" data-amount="500" data-display="5.00">$5</a>&nbsp;
-        <a href="javascript:" class="button yellow" data-amount="1000" data-display="10.00">$10</a>&nbsp;
+        <a href="javascript:" class="button modern" data-amount="1000" data-display="10.00">$10</a>&nbsp;
         <a href="javascript:" class="button beauty" data-amount="3000" data-display="30.00">$30</a>
         <a href="javascript:" class="button purple" data-amount="5000" data-display="50.00">$50</a>&nbsp;
         <a href="javascript:" class="button modern" data-amount="10000" data-display="100.00">$100</a>&nbsp;
@@ -59,7 +59,7 @@
             <p>We do not store credit card information! <br/>We count on Stripe to process all donations!</p>
 
             <div style="text-align: center;">
-                <a href="javascript:" id="donate-button" class="button super amount" style="text-transform:none;">Make Donation</a>
+                <a href="javascript:" id="donate-button" class="button super purple amount" style="text-transform:none;">Donate</a>
             </div>
 
         </form>
@@ -68,7 +68,7 @@
     </div>
 
     <div style="text-align: left;margin-top:71px;">
-        <a href="/z/donate" class="href-dotted">&larr; Back</a>
+        <a href="/z/home" class="href-dotted">&larr; Back</a>
     </div>
 
     <script src="https://js.stripe.com/v3/"></script>
@@ -83,12 +83,14 @@
                 var $target = $(evnt.target)
                 if(!$target.hasClass('super')) {
 
-                    $buttons.removeClass('retro').removeClass('active')
-                    $target.toggleClass('retro').addClass('active')
+                    // $buttons.removeClass('retro').removeClass('active')
+                    // $target.toggleClass('retro')
+                    $buttons.removeClass('active')
+                    $target.toggleClass('active')
                     var amount = $target.attr('data-display')
 
                     console.log('donate', amount)
-                    $amount.html('Make Donation $' + amount)
+                    $amount.html('Donate $' + amount)
                     console.log($amount.html());
                     $amountInput.val($target.attr('data-amount'))
                 }

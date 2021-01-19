@@ -15,8 +15,8 @@
         </p>
 
         <p class="open-text regular">Dynamics +Gain is a non profit designed with
-            the sole purpose of removing the barriers that prevent others from
-            donating time, money and resources!</p>
+            the sole purpose of removing barriers that prevent people from
+            giving time, money and resources to those in need!</p>
 
         <div style="margin:0px auto 30px;">
             <a href="/z/donate" class="button super beauty">Give &hearts;</a>

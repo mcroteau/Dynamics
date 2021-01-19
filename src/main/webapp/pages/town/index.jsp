@@ -10,15 +10,15 @@
     </c:if>
 
     <p id="welcome-text">
-        ${town.count} <span>Homeless <br/>in <br/>${town.name}!</span>
+        ${town.count} <span>Homeless <span class="header-information">in ${town.name}!</span></span>
     </p>
 
     <p class="open-text regular">Dynamics +Gain is a non profit designed with
-        the sole purpose of removing the barriers that prevent others from
-        donating time, money and resources!</p>
+        the sole purpose of removing barriers that prevent people from
+        giving time, money and resources to those in need!</p>
 
     <div style="margin-bottom:70px;">
-        <a href="/z/donate" class="button super beauty">Donate &hearts;</a>
+        <a href="/z/donate" class="button super beauty">Give &hearts;</a>
     </div>
 
 
