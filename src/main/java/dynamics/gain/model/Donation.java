@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 public class Donation {
 
+    Long id;
     BigDecimal amount;
     String email;
 
@@ -16,9 +17,18 @@ public class Donation {
     boolean recurring;
 
     String donorId;
+    String chargeId;
     String subscriptionId;
 
     String status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -84,6 +94,14 @@ public class Donation {
         this.donorId = donorId;
     }
 
+    public String getChargeId() {
+        return chargeId;
+    }
+
+    public void setChargeId(String chargeId) {
+        this.chargeId = chargeId;
+    }
+
     public String getSubscriptionId() {
         return subscriptionId;
     }
@@ -121,6 +139,7 @@ public class Donation {
             this.setStatus("Cvc is empty! please try again.");
             return false;
         }
+        this.setStatus("hasn't processed yet...");
         return true;
     }
 }

@@ -2,11 +2,10 @@ package dynamics.gain.service;
 
 import com.google.gson.Gson;
 import com.stripe.Stripe;
-import com.stripe.model.Price;
-import com.stripe.model.PriceCollection;
-import com.stripe.model.Token;
+import com.stripe.model.*;
 import dynamics.gain.common.Constants;
 import dynamics.gain.common.Dynamics;
+import dynamics.gain.common.Utils;
 import dynamics.gain.model.Donation;
 import dynamics.gain.model.DynamicsPlan;
 import dynamics.gain.model.DynamicsProduct;
@@ -21,6 +20,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import xyz.strongperched.Parakeet;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -80,8 +80,11 @@ public class DonateService {
             return donation;
         }
 
+        User user = userRepo.getByUsername(donation.getEmail());
+        String password = Utils.getRandomString(7);
         try{
-           Stripe.apiKey = getApiKey();
+
+            Stripe.apiKey = getApiKey();
 
             Map<String, Object> card = new HashMap<>();
             card.put("number", donation.getCreditCard());
@@ -98,15 +101,16 @@ public class DonateService {
 
             String recurringStatement = donation.isRecurring() ? MONTHLY : "";
 
+            DynamicsProduct storedProduct = null;
 
             if(donation.isRecurring()) {
 
-                DynamicsPlan dynamicsPlan = new DynamicsPlan();
-                dynamicsPlan.setAmount(amountInCents);
-                dynamicsPlan.setNickname(donation.getAmount() + " " + recurringStatement);
-
                 List<Price> prices = getPrices("", new ArrayList<>());
                 if (!amountInPrices(amountInCents, prices)) {
+
+                    DynamicsPlan dynamicsPlan = new DynamicsPlan();
+                    dynamicsPlan.setAmount(amountInCents);
+                    dynamicsPlan.setNickname(donation.getAmount() + " " + recurringStatement);
 
                     Map<String, Object> productParams = new HashMap<>();
                     productParams.put("name", dynamicsPlan.getNickname());
@@ -130,24 +134,86 @@ public class DonateService {
                     dynamicsPlan.setProductId(savedDynamicsProduct.getId());
                     planRepo.savePlan(dynamicsPlan);
 
-
+                    storedProduct = planRepo.getProductStripeId(stripeProduct.getId());
                 }else{
                     Price price = getPrice(amountInCents, prices);
                     if(price != null){
-
+                        storedProduct = planRepo.getProductStripeId(price.getProduct());
+                        log.info("found price... and product? " + storedProduct.getId());
                     }
                 }
 
 
+                if(storedProduct != null){
+
+                    Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
+                    subscription.cancel();
+
+                    DynamicsPlan dynamicsPlan = planRepo.getPlanProductId(storedProduct.getId());
+
+                    Map<String, Object> customerParams = new HashMap<>();
+                    customerParams.put("email", donation.getEmail());
+                    customerParams.put("source", token);
+                    Customer customer = com.stripe.model.Customer.create(customerParams);
+
+                    Map<String, Object> itemParams = new HashMap<>();
+                    itemParams.put("plan", dynamicsPlan.getStripeId());
+
+                    Map<String, Object> itemsParams = new HashMap<>();
+                    itemsParams.put("0", itemParams);
+
+                    Map<String, Object> subscriptionParams = new HashMap<String, Object>();
+                    subscriptionParams.put("customer", customer.getId());
+                    subscriptionParams.put("items", itemsParams);
+
+                    Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
+
+                    setUserData(user, password, donation);
+
+                    user.setPlanId(dynamicsPlan.getId());
+                    user.setStripeUserId(customer.getId());
+                    user.setStripeSubscriptionId(s.getId());
+
+                    userRepo.update(user);
+
+                }
 
             }else{
+                Map<String, Object> chargeParams = new HashMap<String, Object>();
+                chargeParams.put("amount", amountInCents);
+                chargeParams.put("currency", "usd");
+                chargeParams.put("source", token);
 
+                Map<String, String> metadata = new HashMap<>();
+                metadata.put("email", donation.getEmail());
+                chargeParams.put("metadata", metadata);
+
+                Charge charge = Charge.create(chargeParams);
+                donation.setChargeId(charge.getId());
+
+                setUserData(user, password, donation);
+                user.setStripeChargeId(charge.getId());
+                userRepo.update(user);
             }
+
+            donation.setStatus("Success");
+
         }catch(Exception ex){
+            donation.setStatus("Please contact support@dynamicsgain.org, the payment didn't process");
             ex.printStackTrace();
         }
 
         return donation;
+    }
+
+    private User setUserData(User user, String password, Donation donation) {
+        if(user == null){
+            user = new User();
+            user.setUsername(donation.getEmail());
+            user.setPassword(Parakeet.dirty(password));
+            userRepo.save(user);
+        }
+        return user;
     }
 
     private Price getPrice(Long amountInCents, List<Price> prices){

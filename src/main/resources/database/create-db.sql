@@ -2,10 +2,12 @@ create table users (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	username character varying(55) NOT NULL,
 	password character varying(155) NOT NULL,
-	disabled boolean default false,
-	date_disabled bigint default 0,
 	uuid character varying(155),
-	date_created bigint default 0
+	date_created bigint default 0,
+	plan_id bigint,
+	stripe_user_id text,
+	stripe_charge_id text,
+	stripe_subscription_id text
 );
 
 create table roles (

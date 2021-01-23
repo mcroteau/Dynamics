@@ -72,9 +72,9 @@ public class UserRepo {
 	}
 
 	public User save(User user) {
-		String sql = "insert into users (username, password, disabled) values (?, ?, ?)";
+		String sql = "insert into users (username, password, date_created) values (?, ?, ?)";
 		jdbcTemplate.update(sql, new Object[] {
-				user.getUsername(), user.getPassword(), false
+				user.getUsername(), user.getPassword(), user.getDateCreated()
 		});
 
 		long id = getId();
@@ -265,20 +265,6 @@ public class UserRepo {
 		return accountsSearched;
 	}
 
-	public boolean disable(User user) {
-		String sql = "update users set disabled = ?, date_disabled = ? where id = ?";
-		jdbcTemplate.update(sql, new Object[] {
-				true, user.getDateDisabled(), user.getId()
-		});
-		return true;
-	}
-
-	public boolean renew(User user) {
-		String sql = "update users set disabled = false where id = ?";
-		jdbcTemplate.update(sql, new Object[] { user.getId() });
-		return true;
-	}
-
 	public boolean removePlan(long id) {
 		String sql = "update accounts set plan_id = null, stripe_subscription_id = null where id = ?";
 		jdbcTemplate.update(sql, new Object[] { id });
@@ -297,4 +283,9 @@ public class UserRepo {
 		return people;
 	}
 
+    public boolean update(User user) {
+		String sql = "update accounts set username = ?, password = ?, charge_id = ?, stripe_user_id = ?, plan_id = ?, stripe_subscription_id = ? where id = ?";
+		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getStripeChargeId(), user.getStripeUserId(), user.getPlanId(), user.getStripeSubscriptionId(), user.getId() });
+		return true;
+    }
 }

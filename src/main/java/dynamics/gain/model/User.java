@@ -7,15 +7,12 @@ public class User {
 	String uuid;
 	String username;
 	String password;
-	String passwordConfirm;
-	boolean disabled;
-	long dateDisabled;
+	long dateCreated;
 
 	Long planId;
 	String stripeUserId;
+	String stripeChargeId;
 	String stripeSubscriptionId;
-
-	String stripeToken;
 
 	public long getId() {
 		return id;
@@ -49,28 +46,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getPasswordConfirm() {
-		return passwordConfirm;
+	public long getDateCreated() {
+		return dateCreated;
 	}
 
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
-	}
-
-	public boolean isDisabled() {
-		return disabled;
-	}
-
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
-	}
-
-	public long getDateDisabled() {
-		return dateDisabled;
-	}
-
-	public void setDateDisabled(long dateDisabled) {
-		this.dateDisabled = dateDisabled;
+	public void setDateCreated(long dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
 	public String getStripeUserId() {
@@ -79,6 +60,14 @@ public class User {
 
 	public void setStripeUserId(String stripeUserId) {
 		this.stripeUserId = stripeUserId;
+	}
+
+	public String getStripeChargeId() {
+		return stripeChargeId;
+	}
+
+	public void setStripeChargeId(String stripeChargeId) {
+		this.stripeChargeId = stripeChargeId;
 	}
 
 	public String getStripeSubscriptionId() {
@@ -97,12 +86,5 @@ public class User {
 		this.planId = planId;
 	}
 
-	public String getStripeToken() {
-		return stripeToken;
-	}
-
-	public void setStripeToken(String stripeToken) {
-		this.stripeToken = stripeToken;
-	}
 }
 
