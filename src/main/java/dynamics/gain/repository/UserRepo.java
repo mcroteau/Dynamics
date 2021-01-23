@@ -266,26 +266,26 @@ public class UserRepo {
 	}
 
 	public boolean removePlan(long id) {
-		String sql = "update accounts set plan_id = null, stripe_subscription_id = null where id = ?";
+		String sql = "update users set plan_id = null, stripe_subscription_id = null where id = ?";
 		jdbcTemplate.update(sql, new Object[] { id });
 		return true;
 	}
 
 	public boolean updatePlan(User user) {
-		String sql = "update accounts set stripe_user_id = ?, plan_id = ?, stripe_subscription_id = ? where id = ?";
+		String sql = "update users set stripe_user_id = ?, plan_id = ?, stripe_subscription_id = ? where id = ?";
 		jdbcTemplate.update(sql, new Object[] { user.getStripeUserId(), user.getPlanId(), user.getStripeSubscriptionId() });
 		return true;
 	}
 
 	public List<User> getPlanList(long id) {
-		String sql = "select * from accounts where plan_id = ?";
+		String sql = "select * from users where plan_id = ?";
 		List<User> people = jdbcTemplate.query(sql, new Object[]{id}, new BeanPropertyRowMapper<>(User.class));
 		return people;
 	}
 
     public boolean update(User user) {
-		String sql = "update accounts set username = ?, password = ?, charge_id = ?, stripe_user_id = ?, plan_id = ?, stripe_subscription_id = ? where id = ?";
-		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getStripeChargeId(), user.getStripeUserId(), user.getPlanId(), user.getStripeSubscriptionId(), user.getId() });
+		String sql = "update users set username = ?, password = ?,  plan_id = ?, stripe_user_id = ?, stripe_charge_id = ?, stripe_subscription_id = ? where id = ?";
+		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getPlanId(), user.getStripeUserId(), user.getStripeChargeId(), user.getStripeSubscriptionId(), user.getId() });
 		return true;
     }
 }

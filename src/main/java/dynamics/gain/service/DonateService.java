@@ -3,6 +3,7 @@ package dynamics.gain.service;
 import com.google.gson.Gson;
 import com.stripe.Stripe;
 import com.stripe.model.*;
+import com.stripe.param.ChargeCreateParams;
 import dynamics.gain.common.Constants;
 import dynamics.gain.common.Dynamics;
 import dynamics.gain.common.Utils;
@@ -99,11 +100,19 @@ public class DonateService {
         donation.setStatus("hasn't processed yet...");
 
 
-        User user = userRepo.getByUsername(donationInput.getEmail());
-        String password = Utils.getRandomString(7);
+
         try{
 
             Stripe.apiKey = getApiKey();
+            User user = userRepo.getByUsername(donationInput.getEmail());
+            String password = Utils.getRandomString(7);
+
+            if(user == null){
+                user = new User();
+                user.setUsername(donationInput.getEmail());
+                user.setPassword(Parakeet.dirty(password));
+                userRepo.save(user);
+            }
 
             Map<String, Object> card = new HashMap<>();
             card.put("number", donationInput.getCreditCard());
@@ -114,6 +123,23 @@ public class DonateService {
             params.put("card", card);
 
             Token token = Token.create(params);
+
+            Customer customer = null;
+            if(user.getStripeUserId() != null &&
+                    !user.getStripeUserId().equals("")){
+                customer = Customer.retrieve(user.getStripeUserId());
+            }
+
+            if(customer == null) {
+                Map<String, Object> customerParams = new HashMap<>();
+                customerParams.put("email", donationInput.getEmail());
+                customerParams.put("source", token.getId());
+                customer = com.stripe.model.Customer.create(customerParams);
+
+                user.setStripeUserId(customer.getId());
+                userRepo.update(user);
+            }
+
 
             Long amountInCents = donationInput.getAmount().multiply(new BigDecimal(100)).longValue();
             log.info("amount ~ " + amountInCents);
@@ -152,32 +178,31 @@ public class DonateService {
                     dynamicsPlan.setProductId(savedProduct.getId());
                     planRepo.savePlan(dynamicsPlan);
 
-                    createSubscription(token, donationInput, savedProduct, user, password);
+                    createSubscription(token, donationInput, savedProduct, customer, user, password);
 
                 }else{
                     Price price = getPrice(amountInCents, prices);
                     if(price != null){
                         DynamicsProduct savedProduct = planRepo.getProductStripeId(price.getProduct());
                         log.info("found price... and product? " + savedProduct.getId());
-                        createSubscription(token, donationInput, savedProduct, user, password);
+                        createSubscription(token, donationInput, savedProduct, customer, user, password);
                     }
                 }
             }else{
-                Map<String, Object> customerParams = new HashMap<>();
-                customerParams.put("email", donationInput.getEmail());
-                customerParams.put("source", token.getId());
-                Customer customer = com.stripe.model.Customer.create(customerParams);
+
+                log.info("token : " + token.getId());
+                log.info("token : " + token.toString());
 
                 Map<String, Object> chargeParams = new HashMap<String, Object>();
                 chargeParams.put("amount", amountInCents);
                 chargeParams.put("customer", customer.getId());
-                chargeParams.put("source", token.getId());
+                chargeParams.put("card", token.getCard().getId());
                 chargeParams.put("currency", "usd");
+
 
                 Charge charge = Charge.create(chargeParams);
                 donation.setChargeId(charge.getId());
 
-                setUserData(user, password, donationInput);
                 user.setStripeChargeId(charge.getId());
                 userRepo.update(user);
             }
@@ -192,7 +217,7 @@ public class DonateService {
         return donation;
     }
 
-    private boolean createSubscription(Token token, DonationInput donationInput, DynamicsProduct savedProduct, User user, String password) throws Exception{
+    private boolean createSubscription(Token token, DonationInput donationInput, DynamicsProduct savedProduct, Customer customer, User user, String password) throws Exception{
         try {
             Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
             subscription.cancel();
@@ -200,11 +225,6 @@ public class DonateService {
             log.info("cannot cancel previous donation");
         }
         DynamicsPlan dynamicsPlan = planRepo.getPlanProductId(savedProduct.getId());
-
-        Map<String, Object> customerParams = new HashMap<>();
-        customerParams.put("email", donationInput.getEmail());
-        customerParams.put("source", token.getId());
-        Customer customer = com.stripe.model.Customer.create(customerParams);
 
         Map<String, Object> itemParams = new HashMap<>();
         itemParams.put("plan", dynamicsPlan.getStripeId());
@@ -218,8 +238,6 @@ public class DonateService {
 
         Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
 
-        setUserData(user, password, donationInput);
-
         user.setPlanId(dynamicsPlan.getId());
         user.setStripeUserId(customer.getId());
         user.setStripeSubscriptionId(s.getId());
@@ -229,16 +247,6 @@ public class DonateService {
         return true;
     }
 
-
-    private User setUserData(User user, String password, DonationInput donationInput) {
-        if(user == null){
-            user = new User();
-            user.setUsername(donationInput.getEmail());
-            user.setPassword(Parakeet.dirty(password));
-            userRepo.save(user);
-        }
-        return user;
-    }
 
     private Price getPrice(Long amountInCents, List<Price> prices){
         for(Price price: prices){

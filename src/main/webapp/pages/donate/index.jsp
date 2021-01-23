@@ -103,6 +103,11 @@
                 $makeDonationContainer.fadeIn(300);
             })
 
+            var stripe = {},
+                elements = {},
+                card = {};
+
+
             var $creditCard = $('#credit-card'),
                 $expMonth = $('#exp-month'),
                 $expYear = $('#exp-year'),
@@ -120,7 +125,7 @@
                         "expYear" : $expYear.val(),
                         "cvc" : $cvc.val(),
                         "email" : $email.val(),
-                        "recurring" : true
+                        "recurring" : false
                     };
                     console.log(data);
 
