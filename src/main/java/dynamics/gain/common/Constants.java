@@ -38,5 +38,6 @@ public class Constants {
 	public static final String DATE_GRAPH_FORMAT  = "dd MMM";
 	public static final String DATE_ACTUAL_FORMAT  = "hh:mm z";
 
-	public static final String SPRING_PROFILE = "Mock";
+	public static final String MOCK_ENVIRONMENT = "Mock";
+	public static final String DEV_ENVIRONMENT = "Dev";
 }

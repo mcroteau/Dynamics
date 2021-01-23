@@ -2,12 +2,13 @@ body{
     background: #eff4f4;
     background: #e7f1f1;
     background: #fff;
+    /*background: #00ffff;*/
 }
 #header-wrapper{}
 p,
 div,
 span{
-    color:#000;
+    color:#192525;
     line-height: 1.4em;
     margin:10px 0px;
 }

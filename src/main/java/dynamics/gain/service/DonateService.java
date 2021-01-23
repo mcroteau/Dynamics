@@ -1,19 +1,55 @@
 package dynamics.gain.service;
 
+import com.google.gson.Gson;
+import com.stripe.Stripe;
+import com.stripe.model.Price;
+import com.stripe.model.PriceCollection;
+import com.stripe.model.Token;
+import dynamics.gain.common.Constants;
+import dynamics.gain.common.Dynamics;
+import dynamics.gain.model.Donation;
+import dynamics.gain.model.DynamicsPlan;
+import dynamics.gain.model.DynamicsProduct;
+import dynamics.gain.model.User;
+import dynamics.gain.repository.PlanRepo;
+import dynamics.gain.repository.UserRepo;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class DonateService {
 
-    private static final String USD = "usd";
-    private static final String FREQUENCY = "month";
+    private static final Logger log = Logger.getLogger(DonateService.class);
 
-//    @Autowired
-//    DonationRepo donationRepo;
+    private static final String MONTHLY = "monthly";
+
+    @Value("${stripe.api.key}")
+    private String apiKey;
+
+    @Value("${stripe.dev.api.key}")
+    private String devApiKey;
+
+    Gson gson = new Gson();
+
+    @Autowired
+    UserRepo userRepo;
+
+    @Autowired
+    PlanRepo planRepo;
 
     @Autowired
     AuthService authService;
@@ -21,62 +57,398 @@ public class DonateService {
     @Autowired
     EmailService emailService;
 
-    public String createSubscriptionPlans(HttpServletRequest req, RedirectAttributes redirect){
-        if(!authService.isAuthenticated()){
-            redirect.addFlashAttribute("Mike, you need to sign in!");
-            return "redirect:/";
+    @Autowired
+    Environment env;
+
+    public String getUserPermission(String id){
+        return Constants.ACCOUNT_MAINTENANCE + id;
+    }
+
+    private Donation hydrateDonation(HttpServletRequest req){
+        try {
+            String payload = IOUtils.toString(req.getInputStream(), StandardCharsets.UTF_8);
+            return gson.fromJson(payload, Donation.class);
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
-        if(!authService.isAdministrator()){
-            if(!req.getSession().getAttribute("notified").equals("")){
-                redirect.addFlashAttribute("Wow, again! Im telling on you... 'Super User!!!! So and so just tried to do something bad!'");
-                emailService.send(authService.getUser().getUsername(), "croteau.mike@gmail.com", "Someone did something!", authService.getUser().getUsername());
+        return new Donation();
+    }
+
+    public Donation make(HttpServletRequest req){
+        Donation donation = hydrateDonation(req);
+        if(!donation.isValid()){
+            return donation;
+        }
+
+        try{
+           Stripe.apiKey = getApiKey();
+
+            Map<String, Object> card = new HashMap<>();
+            card.put("number", donation.getCreditCard());
+            card.put("exp_month", donation.getExpMonth());
+            card.put("exp_year", donation.getExpYear());
+            card.put("cvc", donation.getCvc());
+            Map<String, Object> params = new HashMap<>();
+            params.put("card", card);
+
+            Token token = Token.create(params);
+
+            Long amountInCents = donation.getAmount().multiply(new BigDecimal(100)).longValue();
+            log.info("amount ~ " + amountInCents);
+
+            String recurringStatement = donation.isRecurring() ? MONTHLY : "";
+
+
+            if(donation.isRecurring()) {
+
+                DynamicsPlan dynamicsPlan = new DynamicsPlan();
+                dynamicsPlan.setAmount(amountInCents);
+                dynamicsPlan.setNickname(donation.getAmount() + " " + recurringStatement);
+
+                List<Price> prices = getPrices("", new ArrayList<>());
+                if (!amountInPrices(amountInCents, prices)) {
+
+                    Map<String, Object> productParams = new HashMap<>();
+                    productParams.put("name", dynamicsPlan.getNickname());
+                    com.stripe.model.Product stripeProduct = com.stripe.model.Product.create(productParams);
+
+                    DynamicsProduct dynamicsProduct = new DynamicsProduct();
+                    dynamicsProduct.setNickname(dynamicsPlan.getNickname());
+                    dynamicsProduct.setStripeId(stripeProduct.getId());
+                    DynamicsProduct savedDynamicsProduct = planRepo.saveProduct(dynamicsProduct);
+
+
+                    Map<String, Object> planParams = new HashMap<>();
+                    planParams.put("product", stripeProduct.getId());
+                    planParams.put("nickname", dynamicsPlan.getNickname());
+                    planParams.put("interval", dynamicsPlan.getFrequency());
+                    planParams.put("currency", dynamicsPlan.getCurrency());
+                    planParams.put("amount", dynamicsPlan.getAmount());
+                    com.stripe.model.Plan stripePlan = com.stripe.model.Plan.create(planParams);
+
+                    dynamicsPlan.setStripeId(stripePlan.getId());
+                    dynamicsPlan.setProductId(savedDynamicsProduct.getId());
+                    planRepo.savePlan(dynamicsPlan);
+
+
+                }else{
+                    Price price = getPrice(amountInCents, prices);
+                    if(price != null){
+
+                    }
+                }
+
+
+
             }else{
-                redirect.addFlashAttribute("Please don't try this again! Ha!");
+
             }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        return donation;
+    }
+
+    private Price getPrice(Long amountInCents, List<Price> prices){
+        for(Price price: prices){
+            if(price.getUnitAmount().equals(amountInCents)){
+                return price;
+            }
+        }
+        return null;
+    }
+
+    private boolean amountInPrices(Long amountInCents, List<Price> prices){
+        for(Price price: prices){
+            if(price.getUnitAmount().equals(amountInCents)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<Price> getPrices(String after, List<Price> prices) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("starting_after", after);
+        PriceCollection priceCollection = Price.list(params);
+        List<Price> pricesPre = priceCollection.getData();
+        prices.addAll(pricesPre);
+        if(priceCollection.getHasMore()){
+            Price price = prices.get(prices.size() - 1);
+            getPrices(price.getId(), prices);
+        }
+        return prices;
+    }
+
+
+    public String select(ModelMap modelMap, RedirectAttributes redirect){
+        if(!authService.isAuthenticated()){
+            redirect.addFlashAttribute("message", "Please signin to continue");
             return "redirect:/";
         }
+        List<DynamicsPlan> dynamicsPlans = planRepo.getList();
+        modelMap.put("dynamicsPlans", dynamicsPlans);
+        return "plan/select";
+    }
+
+    public String upgrade(ModelMap modelMap, RedirectAttributes redirect){
+        if(!authService.isAuthenticated()){
+            redirect.addFlashAttribute("message", "Please signin to continue");
+            return "redirect:/";
+        }
+
+        User user = authService.getUser();
+        List<DynamicsPlan> dynamicsPlans = planRepo.getList();
+
+        modelMap.put("user", user);
+        modelMap.put("dynamicsPlans", dynamicsPlans);
+
+        return "plan/upgrade";
+    }
+
+    public String confirm(Long id, ModelMap modelMap){
+        if(!authService.isAuthenticated()){
+            return "redirect:/unauthorized";
+        }
+
+        User user = authService.getUser();
+        String permission = getUserPermission(Long.toString(user.getId()));
+        if(!authService.isAdministrator() &&
+                !authService.hasPermission(permission)){
+            return "redirect:/unauthorized";
+        }
+
+        DynamicsPlan dynamicsPlan = planRepo.getPlan(id);
+        modelMap.put("dynamicsPlan", dynamicsPlan);
+
+        return "dynamicsPlan/confirm";
+    }
+
+
+    public String start(Long id, User user, RedirectAttributes redirect){
+        if(!authService.isAuthenticated()){
+            return "redirect:/unauthorized";
+        }
+
+        String permission = getUserPermission(Long.toString(user.getId()));
+        if(!authService.isAdministrator() &&
+                !authService.hasPermission(permission)){
+            return "redirect:/unauthorized";
+        }
+
+        Stripe.apiKey = getApiKey();
+        DynamicsPlan dynamicsPlan = planRepo.getPlan(id);
 
         try {
+            Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
+            subscription.cancel();
 
-//            if (!moolaRepo.plansExist()) {
-//                String[][] plans = {
-////                        {"Free", "", "3"},
-//                        {"Starter", "40", "9"},
-//                        {"It's Business", "79", "19"}
-//                };
-//
-//                for (String[] plan : plans) {
-//                    Map<String, Object> productParams = new HashMap<String, Object>()
-//                    productParams.put("name", plan[0]);
-//                    productParams.put("type", "service");
-//                    Product stripeProduct = com.stripe.model.Product.create(stripeProductMap);
-//
-//                    Map<String, Object> planParams = new HashMap<String, Object>()
-//                    planParams.put("product", stripeProduct.getId());
-//                    planParams.put("nickname", plan[0]);
-//                    planParams.put("interval", FREQUENCY);
-//                    planParams.put("currency", USD);
-//                    planParams.put("amount", Integer.parseInt(plan[1]));
-//                    Plan stripePlan = com.stripe.model.Plan.create(planParams);
-//
-//                    AppProduct okayProduct = new AppProduct();
-//                    okayProduct.setNickname(plan[0]);
-//                    okayProduct.setStripeId(stripeProduct.getId());
-//                    moolaRepo.saveProduct(okayProduct);
-//
-//                    AppPlan okayPlan = new AppPlan();
-//                    okayPlan.setNickname(plan[0]);
-//                    okayPlan.setAmount(Integer.parseInt(plan[1]));
-//                    okayPlan.setDescription(plan[2]);
-//                    okayPlan.setCurrency(USD);
-//
-//                }
-//            }
+            Map<String, Object> customerParams = new HashMap<String, Object>();
+            customerParams.put("email", user.getUsername());
+            customerParams.put("source", user.getStripeToken());
+            Customer customer = com.stripe.model.Customer.create(customerParams);
+
+            Map<String, Object> itemParams = new HashMap<>();
+            itemParams.put("plan", dynamicsPlan.getStripeId());
+
+            Map<String, Object> itemsParams = new HashMap<>();
+            itemsParams.put("0", itemParams);
+
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("customer", customer.getId());
+            params.put("items", itemsParams);
+
+            Subscription s = com.stripe.model.Subscription.create(params);
+
+            user.setStripeUserId(customer.getId());
+            user.setPlanId(id);
+            user.setStripeSubscriptionId(s.getId());
+            userRepo.updatePlan(user);
+
+            redirect.addFlashAttribute("message", "Congratulations, you are now ready! " + dynamicsPlan.getNickname() + " for " + dynamicsPlan.getProjectLimit() + " websites!");
+
+        }catch(Exception ex){
+            redirect.addFlashAttribute("message", "Something went wrong, nothing should have been charged. Please try again, or contact us mail@okay.page");
+            String message = user.getUsername() + " " + dynamicsPlan.getNickname();
+            emailService.send("croteau.mike@gmail.com", "subscription issue", message);
+            ex.printStackTrace();
+        }
+        return "redirect:/dynamicsPlan/select";
+    }
+
+
+    public String cancel(User user){
+        if(!authService.isAuthenticated()){
+            return "redirect:/";
+        }
+
+        String permission = getUserPermission(Long.toString(user.getId()));
+        if(!authService.isAdministrator() &&
+                !authService.hasPermission(permission)){
+            return "redirect:/unauthorized";
+        }
+
+
+        try{
+            Stripe.apiKey = getApiKey();
+            Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
+            subscription.cancel();
         }catch(Exception e){
             e.printStackTrace();
         }
 
-        return "";
+        user.setStripeSubscriptionId(null);
+        user.setPlanId(null);
+        userRepo.updatePlan(user);
+
+        return "redirect:/user/edit/" + user.getId();
+    }
+
+
+    public String list(ModelMap modelMap) {
+        if(!authService.isAuthenticated()){
+            return "redirect:/unauthorized";
+        }
+        if(!authService.isAdministrator()){
+            return "redirect:/unauthorized";
+        }
+        List<DynamicsPlan> dynamicsPlans = planRepo.getList();
+        modelMap.put("dynamicsPlans", dynamicsPlans);
+        return "plan/index";
+    }
+
+    public String create(){
+        if(!authService.isAuthenticated()){
+            return "redirect:/unauthorized";
+        }
+        if(!authService.isAdministrator()){
+            return "redirect:/unauthorized";
+        }
+        return "plan/create";
+    }
+
+
+    public String save(DynamicsPlan dynamicsPlan, RedirectAttributes redirectAttributes){
+        if(!authService.isAuthenticated()){
+            return "redirect:/unauthorized";
+        }
+        if(!authService.isAdministrator()){
+            return "redirect:/unauthorized";
+        }
+        if(dynamicsPlan.getAmount() > 4200){
+            redirectAttributes.addFlashAttribute("message", "You just entered an amount larger than $42.00");
+            return "redirect:/dynamicsPlan/list";
+        }
+        if(dynamicsPlan.getNickname().equals("")){
+            redirectAttributes.addFlashAttribute("message", "blank nickname");
+            return "redirect:/dynamicsPlan/list";
+        }
+
+        try {
+
+            Stripe.apiKey = getApiKey();
+
+            Map<String, Object> productParams = new HashMap<>();
+            productParams.put("name", dynamicsPlan.getNickname());
+            com.stripe.model.Product stripeProduct = com.stripe.model.Product.create(productParams);
+
+            DynamicsProduct dynamicsProduct = new DynamicsProduct();
+            dynamicsProduct.setNickname(dynamicsPlan.getNickname());
+            dynamicsProduct.setStripeId(stripeProduct.getId());
+            DynamicsProduct savedDynamicsProduct = planRepo.saveProduct(dynamicsProduct);
+
+
+            Map<String, Object> planParams = new HashMap<>();
+            planParams.put("product", stripeProduct.getId());
+            planParams.put("nickname", dynamicsPlan.getNickname());
+            planParams.put("interval", dynamicsPlan.getFrequency());
+            planParams.put("currency", dynamicsPlan.getCurrency());
+            planParams.put("amount", dynamicsPlan.getAmount());
+            com.stripe.model.Plan stripePlan = com.stripe.model.Plan.create(planParams);
+
+            dynamicsPlan.setStripeId(stripePlan.getId());
+            dynamicsPlan.setProductId(savedDynamicsProduct.getId());
+            planRepo.savePlan(dynamicsPlan);
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return "redirect:/dynamicsPlan/list";
+    }
+
+    public String delete(Long id, RedirectAttributes redirect){
+        if(!authService.isAuthenticated()){
+            return "redirect:/unauthorized";
+        }
+        if(!authService.isAdministrator()){
+            return "redirect:/unauthorized";
+        }
+
+        DynamicsPlan dynamicsPlan = planRepo.getPlan(id);
+        DynamicsProduct dynamicsProduct = planRepo.getProduct(dynamicsPlan.getProductId());
+
+        try{
+            com.stripe.model.Plan plan = com.stripe.model.Plan.retrieve(dynamicsPlan.getStripeId());
+            plan.delete();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            com.stripe.model.Product product = com.stripe.model.Product.retrieve(dynamicsProduct.getStripeId());
+            product.delete();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        List<User> users = userRepo.getPlanList(dynamicsPlan.getId());
+        for(User user : users){
+            userRepo.removePlan(user.getId());
+        }
+
+        planRepo.deletePlan(dynamicsPlan.getId());
+        planRepo.deleteProduct(dynamicsProduct.getId());
+
+        return "redirect:/plan/list";
+    }
+
+    public String cleanup(){
+        if(!authService.isAuthenticated()){
+            return "redirect:/";
+        }
+        if(!authService.isAdministrator()){
+            return "redirect:/";
+        }
+        try {
+            Stripe.apiKey = getApiKey();
+
+            Map<String, Object> params = new HashMap<>();
+            PlanCollection planCollection = com.stripe.model.Plan.list(params);
+            List<com.stripe.model.Plan> plans = planCollection.getData();
+            for(com.stripe.model.Plan plan: plans){
+                plan.delete();
+            }
+
+            ProductCollection productCollection = com.stripe.model.Product.list(params);
+            List<com.stripe.model.Product> products = productCollection.getData();
+            for(com.stripe.model.Product product: products){
+                product.delete();
+            }
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    private String getApiKey(){
+        if(Dynamics.isDevEnv(env)){
+            return devApiKey;
+        }
+        return apiKey;
     }
 
 }

@@ -343,6 +343,16 @@ input[type="submit"].button.retro{
     border:solid 1px #3fb8ff;
 }
 
+.alive,
+.button.alive,
+input[type="button"].button.alive,
+input[type="reset"].button.alive,
+input[type="submit"].button.alive{
+   color:#fff;
+   background:#64ac3f;
+   border:solid 1px #64ac3f;
+}
+
 .button.small,
 input[type="button"].button.small,
 input[type="reset"].button.small,
@@ -360,6 +370,7 @@ input[type="submit"].button.super{
     /*border-radius: 16px;*/
     display:inline-block;
     margin:10px auto;
+    font-family:roboto-black !important;
 }
 
 .button.tiny{
@@ -512,13 +523,20 @@ input[type="password"]:active{
     color:#000;
     font-family:roboto-light !important;
     font-size:21px;
-    line-height:1.0em !important;
-    padding:12px 12px !important;
+    line-height: 1.4em !important;
+    padding: 9px 12px !important;
     background:#f0f4f5;
     border:solid 1px #e4e8e9;
-    -webkit-border-radius: 3px !important;
-    -moz-border-radius: 3px !important;
-    border-radius: 3px !important;
+    -webkit-border-radius: 8px !important;
+    -moz-border-radius: 8px !important;
+    border-radius: 8px !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus{
+    background: #fff;
+    border:solid 3px #FDFE01;
+    outline: none;
 }
 
 input::placeholder{

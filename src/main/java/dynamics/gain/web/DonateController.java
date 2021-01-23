@@ -13,7 +13,7 @@ public class DonateController {
 
     @GetMapping(value="/donate")
     public String index(){
-        return "index.d";
+        return "donate/index";
     }
 
     @GetMapping(value="/donate/once")

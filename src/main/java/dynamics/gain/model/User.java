@@ -11,6 +11,12 @@ public class User {
 	boolean disabled;
 	long dateDisabled;
 
+	Long planId;
+	String stripeUserId;
+	String stripeSubscriptionId;
+
+	String stripeToken;
+
 	public long getId() {
 		return id;
 	}
@@ -65,6 +71,38 @@ public class User {
 
 	public void setDateDisabled(long dateDisabled) {
 		this.dateDisabled = dateDisabled;
+	}
+
+	public String getStripeUserId() {
+		return stripeUserId;
+	}
+
+	public void setStripeUserId(String stripeUserId) {
+		this.stripeUserId = stripeUserId;
+	}
+
+	public String getStripeSubscriptionId() {
+		return stripeSubscriptionId;
+	}
+
+	public void setStripeSubscriptionId(String stripeSubscriptionId) {
+		this.stripeSubscriptionId = stripeSubscriptionId;
+	}
+
+	public Long getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(Long planId) {
+		this.planId = planId;
+	}
+
+	public String getStripeToken() {
+		return stripeToken;
+	}
+
+	public void setStripeToken(String stripeToken) {
+		this.stripeToken = stripeToken;
 	}
 }
 
