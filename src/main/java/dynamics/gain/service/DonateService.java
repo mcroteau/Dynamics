@@ -179,14 +179,16 @@ public class DonateService {
                 }
 
             }else{
+                Map<String, Object> customerParams = new HashMap<>();
+                customerParams.put("email", donation.getEmail());
+                customerParams.put("source", token);
+                Customer customer = com.stripe.model.Customer.create(customerParams);
+
                 Map<String, Object> chargeParams = new HashMap<String, Object>();
                 chargeParams.put("amount", amountInCents);
-                chargeParams.put("currency", "usd");
+                chargeParams.put("customer", customer.getId());
                 chargeParams.put("source", token);
-
-                Map<String, String> metadata = new HashMap<>();
-                metadata.put("email", donation.getEmail());
-                chargeParams.put("metadata", metadata);
+                chargeParams.put("currency", "usd");
 
                 Charge charge = Charge.create(chargeParams);
                 donation.setChargeId(charge.getId());

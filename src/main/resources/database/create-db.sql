@@ -1,3 +1,17 @@
+create table products(
+	id bigint PRIMARY KEY AUTO_INCREMENT,
+    nickname character varying (255),
+	stripe_id text
+);
+
+create table plans(
+	id bigint PRIMARY KEY AUTO_INCREMENT,
+	stripe_id text,
+    amount bigint default 0,
+    nickname character varying (255),
+	product_id bigint NOT NULL REFERENCES products(id)
+);
+
 create table users (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	username character varying(55) NOT NULL,
@@ -56,21 +70,4 @@ create table daily_counts (
 	count bigint NOT NULL,
 	date_entered bigint NOT NULL,
 	constraint unique_location_count unique(location_id, date_entered)
-);
-
-create table app_products(
-	id bigint PRIMARY KEY AUTO_INCREMENT,
-	stripe_id text
-);
-
-create table app_plans(
-	id bigint PRIMARY KEY AUTO_INCREMENT,
-	stripe_id text,
-    amount bigint default 0,
-    nickname character varying (255),
-    description text,
-    frequency character varying(141),
-    currency character varying (100),
-    project_limit bigint,
-	app_product_id bigint NOT NULL REFERENCES app_products(id)
 );
