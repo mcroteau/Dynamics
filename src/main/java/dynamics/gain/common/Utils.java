@@ -29,12 +29,6 @@ public class Utils {
 		return r.nextInt(max);
 	}
 
-	public static boolean isTestEnvironment(Environment env){
-		String[] profilesPre = env.getActiveProfiles();
-		List<String> profiles = Arrays.asList(profilesPre);
-		return profiles.contains(Constants.SPRING_PROFILE);
-	}
-
 
 	public static boolean containsSpecialCharacters(String str) {
 		Pattern p = Pattern.compile("[^A-Za-z0-9]", Pattern.CASE_INSENSITIVE);

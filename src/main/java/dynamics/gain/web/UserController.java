@@ -103,17 +103,4 @@ public class UserController {
     	return userService.resetPassword(user, modelMap, redirect);
 	}
 
-	@RequestMapping(value="/user/disable/{id}", method=RequestMethod.POST)
-	public String suspendUser(ModelMap modelMap,
-					   			 RedirectAttributes redirect,
-					   			 @PathVariable Long id){
-		return userService.disableUser(id, modelMap, redirect);
-    }
-
-	@RequestMapping(value="/user/renew/{id}", method=RequestMethod.POST)
-	public String renew(ModelMap modelMap,
-						RedirectAttributes redirect,
-						@PathVariable Long id){
-    	return userService.renewUser(id, modelMap, redirect);
-	}
 }

@@ -46,21 +46,26 @@
     <div id="make-donation-container" style="display:none;">
 
         <label>Credit Card</label>
+        <input type="text" id="credit-card" value="4242424242424242"/>
 
-        <div id="credit-card"></div>
+        <label>month</label>
+        <input type="text" id="exp-month" value="12"/>
+
+        <label>year</label>
+        <input type="text" id="exp-year" value="2021"/>
+
+        <label>cvc</label>
+        <input type="text" id="cvc" value="123"/>
+
+        <label>Email</label>
+        <input type="text" id="email" value="croteau.mike@gmail.com" placeholder="support@dynamicsgain.org"/>
+
         <div id="processing" class="tiny" style="display:block;text-align:left;margin-top:10px;"></div>
 
-        <form action="/z/donate" modelAttribute="oneDonation" method="post" id="donation-form">
-            <input type="hidden" name="stripeToken" id="stripe-token" value=""/>
+        <div style="text-align: center;">
+            <a href="javascript:" id="donate-button" class="button super yellow amount" style="text-transform:none;">Donate</a>
+        </div>
 
-            <label>Email</label>
-            <input type="text" name="email" placeholder="support@dynamicsgain.org"/>
-
-            <div style="text-align: center;">
-                <a href="javascript:" id="donate-button" class="button super yellow amount" style="text-transform:none;">Donate</a>
-            </div>
-
-        </form>
 
 
     </div>
@@ -69,7 +74,7 @@
         <a href="/z/home" class="href-dotted">&larr; Back</a>
     </div>
 
-    <script src="https://js.stripe.com/v3/"></script>
+<%--    <script src="https://js.stripe.com/v3/"></script>--%>
     <script>
         $(document).ready(function() {
             var $amount = $('.amount'),
@@ -77,6 +82,7 @@
                 $buttons = $('.button'),
                 $donateButton = $('#donate-button'),
                 $makeDonationContainer = $('#make-donation-container')
+
 
             $buttons.click(function (evnt) {
                 var $target = $(evnt.target)
@@ -91,60 +97,52 @@
                     console.log('donate', amount)
                     $amount.html('Donate $' + amount)
                     console.log($amount.html());
-                    $amountInput.val($target.attr('data-amount'))
+                    $amountInput.val($target.attr('data-display'))
                 }
 
                 $makeDonationContainer.fadeIn(300);
             })
 
+            var $creditCard = $('#credit-card'),
+                $expMonth = $('#exp-month'),
+                $expYear = $('#exp-year'),
+                $cvc = $('#cvc'),
+                $email = $('#email'),
+                $processing = $("#processing");
+
+
             $donateButton.click(function(){
                 if(!$amountInput.val() == ''){
+                    var raw = {
+                        "amount" : $amountInput.val(),
+                        "creditCard": $creditCard.val(),
+                        "expMonth" : $expMonth.val(),
+                        "expYear" : $expYear.val(),
+                        "cvc" : $cvc.val(),
+                        "email" : $email.val(),
+                        "recurring" : true
+                    };
+                    console.log(data);
 
+                    var data = JSON.stringify(raw)
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/z/donate/make',
+                        data: data,
+                        contentType: "application/json",
+                        success: function(){
+                            console.log('success')
+                        },
+                        error: function(e){
+                            console.log('...', e)
+                        }
+                    })
                 }else{
                     alert('Please select an amount!')
                 }
             })
 
-            var stripe = {},
-                elements = {},
-                card = {};
-
-            var $creditCard = $("#credit-card"),
-                $processing = $("#processing"),
-                $stripeToken = $("#stripe-token");
-
-            stripe = Stripe("pk_test_KYVCbdaOAuezlE7sF7cn2hnK")
-            elements = stripe.elements()
-
-            card = elements.create('card', {
-                base: {
-                    fontSize: '29px',
-                    lineHeight: '48px'
-                }
-            })
-            card.mount('#credit-card')
-            card.addEventListener('change', function (event) {
-                if (event.error) {
-                    $processing.html(event.error.message)
-                    $processing.show()
-                } else {
-                    $processing.hide()
-                    $processing.html("Processing...")
-                }
-            });
-
-            $donateButton.click(function (event) {
-                event.preventDefault()
-                $processing.show()
-                stripe.createToken(card).then(function (result) {
-                    if (result.token.hasOwnProperty('id')) {
-                        $stripeToken.value = result.token.id
-                        $donationForm.submit()
-                    } else {
-                        $processing.html("Please notify us, nothing was charged... ")
-                    }
-                });
-            })
         })
     </script>
 

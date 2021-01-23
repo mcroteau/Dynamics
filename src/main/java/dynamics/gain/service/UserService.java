@@ -1,6 +1,7 @@
 package dynamics.gain.service;
 
 import com.google.gson.Gson;
+import dynamics.gain.common.Dynamics;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -133,21 +134,6 @@ public class UserService {
         return "redirect:/admin/users";
     }
 
-    public String disableUser(Long id, ModelMap modelMap, RedirectAttributes redirect) {
-        if(!authService.isAdministrator()){
-            redirect.addFlashAttribute("error", "You don't have permission");
-            return "redirect:/admin/users";
-        }
-
-        User user = userRepo.get(id);
-        user.setDisabled(true);
-        user.setDateDisabled(Utils.getDate());
-
-        redirect.addFlashAttribute("message", "Successfully disabled user");
-
-        return "redirect:/admin/users";
-    }
-
 
     public String signup(String uri, ModelMap modelMap) {
         authService.signout();
@@ -163,7 +149,7 @@ public class UserService {
         }
 
         if(!reCaptchaService.validates(reCaptchaResponse) &&
-                !Utils.isTestEnvironment(env)){
+                !Dynamics.isTestEnv(env)){
             redirect.addFlashAttribute("message", "Did you forget to check the box thing?");
             return "redirect:/signup";
         }
@@ -208,7 +194,7 @@ public class UserService {
             String body = "<h1>Okay!</h1>"+
                     "<p>Thank you for registering! We are on it, Okay!</p>";
 
-            if(!Utils.isTestEnvironment(env)) {
+            if(!Dynamics.isTestEnv(env)) {
                 emailService.send(savedUser.getUsername(), "Successfully Registered", body);
                 phoneService.support("Okay " + user.getUsername());
             }
@@ -295,37 +281,6 @@ public class UserService {
 
         redirect.addFlashAttribute("message", "Password successfully updated");
         return "user/success";
-    }
-
-
-    public String suspendUser(String id, ModelMap modelMap, RedirectAttributes redirect) {
-
-        if(!authService.isAdministrator()){
-            redirect.addFlashAttribute("message", "You don't have permission to do this!");
-            return "redirect:/user/profile/" + id;
-        }
-
-        User user = userRepo.get(Long.parseLong(id));
-        user.setDateDisabled(Utils.getDate());
-        user.setDisabled(true);
-        userRepo.disable(user);
-
-        modelMap.addAttribute("message", "User suspended.");
-        return "redirect:/user/edit/" + id;
-    }
-
-
-    public String renewUser(Long id, ModelMap modelMap, RedirectAttributes redirect) {
-        if(!authService.isAdministrator()){
-            redirect.addFlashAttribute("message", "You don't have permission to do this!");
-            return "redirect:/";
-        }
-
-        User user = userRepo.get(id);
-        userRepo.renew(user);
-
-        modelMap.addAttribute("message", "User renewed.");
-        return "redirect:/user/edit/" + id;
     }
 
 }

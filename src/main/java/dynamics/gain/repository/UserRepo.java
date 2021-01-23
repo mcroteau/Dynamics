@@ -87,9 +87,9 @@ public class UserRepo {
 	}
 
 	public User saveAdministrator(User user) {
-		String sql = "insert into users (username, password, disabled) values (?, ?, ?)";
+		String sql = "insert into users (username, password) values (?, ?)";
 		jdbcTemplate.update(sql, new Object[] {
-				user.getUsername(), user.getPassword(), false
+				user.getUsername(), user.getPassword()
 		});
 
 		long id = getId();
