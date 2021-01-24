@@ -34,7 +34,7 @@
         <h3>Where your donations go</h3>
         <p>100% of your donations go towards Dynamics +Gain and the people
             they serve. A few major ways in which we give include
-            Walmart Gift Cards, laptops and bus passes.</p>
+            Walmart Gift Cards, Prepaid Cellphones, Laptops and bus passes.</p>
 
         <h3>Services we provide</h3>
 

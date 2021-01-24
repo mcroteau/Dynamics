@@ -11,6 +11,7 @@ public class Donation {
     String chargeId;
     String subscriptionId;
 
+    Boolean processed;
     String status;
 
     public Long getId() {
@@ -51,6 +52,14 @@ public class Donation {
 
     public void setSubscriptionId(String subscriptionId) {
         this.subscriptionId = subscriptionId;
+    }
+
+    public Boolean getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(Boolean processed) {
+        this.processed = processed;
     }
 
     public String getStatus() {

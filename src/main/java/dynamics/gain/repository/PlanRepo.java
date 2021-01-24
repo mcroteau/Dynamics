@@ -60,8 +60,8 @@ public class PlanRepo {
                 dynamicsProduct.getNickname(), dynamicsProduct.getStripeId()
         });
         Long id = getProductId();
-        DynamicsProduct savedDynamicsProduct = getProduct(id);
-        return savedDynamicsProduct;
+        DynamicsProduct savedProduct = getProduct(id);
+        return savedProduct;
     }
 
     public boolean savePlan(DynamicsPlan dynamicsPlan){

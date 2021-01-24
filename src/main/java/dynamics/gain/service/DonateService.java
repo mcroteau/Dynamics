@@ -77,6 +77,7 @@ public class DonateService {
 //            donation = hydrateDonation(req);
 
         Donation donation = new Donation();
+        donation.setProcessed(false);
         if(!Utils.isValidMailbox(donationInput.getEmail())){
             donation.setStatus("Email is invalid, please try again!");
             return donation;
@@ -189,16 +190,14 @@ public class DonateService {
                     }
                 }
             }else{
-
                 log.info("token : " + token.getId());
                 log.info("token : " + token.toString());
 
                 Map<String, Object> chargeParams = new HashMap<String, Object>();
                 chargeParams.put("amount", amountInCents);
                 chargeParams.put("customer", customer.getId());
-                chargeParams.put("card", token.getCard().getId());
+                chargeParams.put("source", token.getCard().getId());
                 chargeParams.put("currency", "usd");
-
 
                 Charge charge = Charge.create(chargeParams);
                 donation.setChargeId(charge.getId());
@@ -207,7 +206,8 @@ public class DonateService {
                 userRepo.update(user);
             }
 
-            donation.setStatus("Success");
+            donation.setProcessed(true);
+            donation.setStatus("Successfully processed donation");
 
         }catch(Exception ex){
             donation.setStatus("Please contact support@dynamicsgain.org, the payment didn't process");

@@ -366,7 +366,7 @@ input[type="button"].button.super,
 input[type="reset"].button.super,
 input[type="submit"].button.super{
     font-size: 32px;
-    padding: 22px 23px;
+    padding: 22px 20px;
     /*border-radius: 16px;*/
     display:inline-block;
     margin:10px auto;
@@ -391,7 +391,9 @@ input[type="submit"].button.bare{
 }
 
 .button.active{
-    border:solid 4px #fdfe01;
+    color:#fff;
+    background: #3fb8ff;
+    border:solid 3px #3fb8ff;
 }
 
 
@@ -535,7 +537,7 @@ input[type="password"]:active{
 input[type="text"]:focus,
 input[type="password"]:focus{
     background: #fff;
-    border:solid 3px #FDFE01;
+    border:solid 3px #3fb8ff;
     outline: none;
 }
 

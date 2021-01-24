@@ -38,11 +38,11 @@ public class DonateController {
         return donateService.cleanup();
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(value="/donate/make", method=RequestMethod.POST, consumes="application/json")
     public @ResponseBody String make(@RequestBody DonationInput donationInput, Exception ex){
-        log.info("Returning HTTP 400 Bad Request", ex);
+//        log.info("Returning HTTP 400 Bad Request", ex);
         return gson.toJson(donateService.make(donationInput));
     }
 }
