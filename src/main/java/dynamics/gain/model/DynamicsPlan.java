@@ -1,5 +1,7 @@
 package dynamics.gain.model;
 
+import java.math.BigDecimal;
+
 public class DynamicsPlan {
 
     private static final String CURRENCY = "usd";
@@ -9,7 +11,7 @@ public class DynamicsPlan {
     String stripeId;
     Long productId;
 
-    Long amount;
+    BigDecimal amount;
     String nickname;
 
     int projectLimit;
@@ -38,11 +40,11 @@ public class DynamicsPlan {
         this.productId = productId;
     }
 
-    public Long getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

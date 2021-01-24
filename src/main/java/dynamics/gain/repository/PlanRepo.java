@@ -85,16 +85,22 @@ public class PlanRepo {
     }
 
     public DynamicsPlan getPlanProductId(Long id) {
-        String sql = "select * from plans where product_id = ?";
-        DynamicsPlan dynamicsPlan = jdbcTemplate.queryForObject(sql, new Object[] { id },
-                new BeanPropertyRowMapper<>(DynamicsPlan.class));
-        return dynamicsPlan;
+        try{
+            String sql = "select * from plans where product_id = ?";
+            DynamicsPlan dynamicsPlan = jdbcTemplate.queryForObject(sql, new Object[] { id },
+                    new BeanPropertyRowMapper<>(DynamicsPlan.class));
+            return dynamicsPlan;
+        }catch(Exception ex){ }
+        return null;
     }
 
     public DynamicsProduct getProductStripeId(String stripeId) {
-        String sql = "select * from products where stripe_id = ?";
-        DynamicsProduct dynamicsProduct = jdbcTemplate.queryForObject(sql, new Object[] { stripeId },
-                new BeanPropertyRowMapper<>(DynamicsProduct.class));
-        return dynamicsProduct;
+        try {
+            String sql = "select * from products where stripe_id = ?";
+            DynamicsProduct dynamicsProduct = jdbcTemplate.queryForObject(sql, new Object[]{stripeId},
+                    new BeanPropertyRowMapper<>(DynamicsProduct.class));
+            return dynamicsProduct;
+        }catch(Exception ex){ }
+        return null;
     }
 }

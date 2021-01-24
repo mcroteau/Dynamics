@@ -3,7 +3,6 @@ package dynamics.gain.service;
 import com.google.gson.Gson;
 import com.stripe.Stripe;
 import com.stripe.model.*;
-import com.stripe.param.ChargeCreateParams;
 import dynamics.gain.common.Constants;
 import dynamics.gain.common.Dynamics;
 import dynamics.gain.common.Utils;
@@ -145,7 +144,7 @@ public class DonateService {
             Long amountInCents = donationInput.getAmount().multiply(new BigDecimal(100)).longValue();
             log.info("amount ~ " + amountInCents);
 
-            String recurringStatement = donationInput.isRecurring() ? MONTHLY : "";
+            String recurringMessage = donationInput.isRecurring() ? MONTHLY : "";
             log.info("recurring " + donationInput.isRecurring());
 
             if(donationInput.isRecurring()) {
@@ -154,8 +153,8 @@ public class DonateService {
                 if (!amountInPrices(amountInCents, prices)) {
 
                     DynamicsPlan dynamicsPlan = new DynamicsPlan();
-                    dynamicsPlan.setAmount(amountInCents);
-                    dynamicsPlan.setNickname(donationInput.getAmount() + " " + recurringStatement);
+                    dynamicsPlan.setAmount(donationInput.getAmount());
+                    dynamicsPlan.setNickname(donationInput.getAmount() + " " + recurringMessage);
 
                     Map<String, Object> productParams = new HashMap<>();
                     productParams.put("name", dynamicsPlan.getNickname());
@@ -167,19 +166,13 @@ public class DonateService {
                     DynamicsProduct savedProduct = planRepo.saveProduct(dynamicsProduct);
 
 
-                    Map<String, Object> planParams = new HashMap<>();
-                    planParams.put("product", stripeProduct.getId());
-                    planParams.put("nickname", dynamicsPlan.getNickname());
-                    planParams.put("interval", dynamicsPlan.getFrequency());
-                    planParams.put("currency", dynamicsPlan.getCurrency());
-                    planParams.put("amount", dynamicsPlan.getAmount());
-                    Plan stripePlan = Plan.create(planParams);
+                    Plan stripePlan = getStripePlan(amountInCents, dynamicsPlan, stripeProduct);
 
                     dynamicsPlan.setStripeId(stripePlan.getId());
                     dynamicsPlan.setProductId(savedProduct.getId());
                     planRepo.savePlan(dynamicsPlan);
 
-                    createSubscription(token, donationInput, savedProduct, customer, user, password);
+                    createSubscription(amountInCents, token, donationInput, savedProduct, stripeProduct, customer, user, password);
 
                 }else{
                     Price price = getPrice(amountInCents, prices);
@@ -187,10 +180,11 @@ public class DonateService {
                     if(savedProduct == null){
                         DynamicsProduct dynamicsProduct = new DynamicsProduct();
                         dynamicsProduct.setStripeId(price.getProduct());
-                        dynamicsProduct.setNickname(price + " " + MONTHLY);
+                        dynamicsProduct.setNickname(price.getUnitAmount() + " " + MONTHLY);
                         savedProduct = planRepo.saveProduct(dynamicsProduct);
                     }
-                    createSubscription(token, donationInput, savedProduct, customer, user, password);
+                    Product stripeProduct = Product.retrieve(price.getProduct());
+                    createSubscription(amountInCents, token, donationInput, savedProduct, stripeProduct, customer, user, password);
                 }
             }else{
                 log.info("token : " + token.getId());
@@ -220,7 +214,18 @@ public class DonateService {
         return donation;
     }
 
-    private boolean createSubscription(Token token, DonationInput donationInput, DynamicsProduct savedProduct, Customer customer, User user, String password) throws Exception{
+    private Plan getStripePlan(Long amountInCents, DynamicsPlan dynamicsPlan, Product stripeProduct) throws Exception {
+        Map<String, Object> planParams = new HashMap<>();
+        planParams.put("product", stripeProduct.getId());
+        planParams.put("nickname", dynamicsPlan.getNickname());
+        planParams.put("interval", dynamicsPlan.getFrequency());
+        planParams.put("currency", dynamicsPlan.getCurrency());
+        planParams.put("amount", amountInCents);
+        Plan stripePlan = Plan.create(planParams);
+        return stripePlan;
+    }
+
+    private boolean createSubscription(Long amountInCents, Token token, DonationInput donationInput, DynamicsProduct savedProduct, Product stripeProduct, Customer customer, User user, String password) throws Exception{
         try {
             Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
             subscription.cancel();
@@ -228,6 +233,18 @@ public class DonateService {
             log.info("cannot cancel previous donation");
         }
         DynamicsPlan dynamicsPlan = planRepo.getPlanProductId(savedProduct.getId());
+        if(dynamicsPlan == null){
+            String recurringMessage = donationInput.isRecurring() ? MONTHLY : "";
+            dynamicsPlan = new DynamicsPlan();
+            dynamicsPlan.setAmount(donationInput.getAmount());
+            dynamicsPlan.setNickname(donationInput.getAmount() + " " + recurringMessage);
+
+            Plan stripePlan = getStripePlan(amountInCents, dynamicsPlan, stripeProduct);
+            dynamicsPlan.setStripeId(stripePlan.getId());
+            dynamicsPlan.setProductId(savedProduct.getId());
+
+            planRepo.savePlan(dynamicsPlan);
+        }
 
         Map<String, Object> itemParams = new HashMap<>();
         itemParams.put("plan", dynamicsPlan.getStripeId());
@@ -439,13 +456,13 @@ public class DonateService {
         if(!authService.isAdministrator()){
             return "redirect:/unauthorized";
         }
-        if(dynamicsPlan.getAmount() > 4200){
-            redirectAttributes.addFlashAttribute("message", "You just entered an amount larger than $42.00");
-            return "redirect:/dynamicsPlan/list";
+        if(dynamicsPlan.getAmount().multiply(new BigDecimal(100)).longValue() >= 1000){
+            redirectAttributes.addFlashAttribute("message", "You just entered an amount larger than $1000.00");
+            return "redirect:/donate/list";
         }
         if(dynamicsPlan.getNickname().equals("")){
             redirectAttributes.addFlashAttribute("message", "blank nickname");
-            return "redirect:/dynamicsPlan/list";
+            return "redirect:/donate/list";
         }
 
         try {
