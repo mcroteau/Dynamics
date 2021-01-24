@@ -61,19 +61,8 @@ public class DonateService {
         return Constants.ACCOUNT_MAINTENANCE + id;
     }
 
-    private Donation hydrateDonation(HttpServletRequest req){
-        try {
-            String payload = IOUtils.toString(req.getInputStream(), StandardCharsets.UTF_8);
-            return gson.fromJson(payload, Donation.class);
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return new Donation();
-    }
 
     public Donation make(DonationInput donationInput){
-//        if(donation == null)
-//            donation = hydrateDonation(req);
 
         Donation donation = new Donation();
         donation.setProcessed(false);
@@ -98,8 +87,6 @@ public class DonateService {
             return donation;
         }
         donation.setStatus("hasn't processed yet...");
-
-
 
         try{
 
@@ -133,8 +120,13 @@ public class DonateService {
             if(customer == null) {
                 Map<String, Object> customerParams = new HashMap<>();
                 customerParams.put("email", donationInput.getEmail());
+
+//                log.info("token " + token.getId());
+
                 customerParams.put("source", token.getId());
                 customer = com.stripe.model.Customer.create(customerParams);
+
+                log.info(customer.getDefaultSource());
 
                 user.setStripeUserId(customer.getId());
                 userRepo.update(user);
@@ -187,13 +179,14 @@ public class DonateService {
                     createSubscription(amountInCents, token, donationInput, savedProduct, stripeProduct, customer, user, password);
                 }
             }else{
-                log.info("token : " + token.getId());
-                log.info("token : " + token.toString());
+
+//                log.info("token : " + token.toString());
+//                log.info("customer : " + customer.toString());
 
                 Map<String, Object> chargeParams = new HashMap<>();
                 chargeParams.put("amount", amountInCents);
                 chargeParams.put("customer", customer.getId());
-                chargeParams.put("source", token.getCard().getId());
+                chargeParams.put("card", token.getCard().getId());
                 chargeParams.put("currency", "usd");
 
                 Charge charge = Charge.create(chargeParams);
