@@ -2,10 +2,11 @@ package dynamics.gain.model;
 
 public class DynamicsProduct {
 
+    private static String TYPE = "service";
+
     Long id;
     String stripeId;
     String nickname;
-    String stripeType = "service";
 
     public Long getId() {
         return id;
@@ -32,10 +33,7 @@ public class DynamicsProduct {
     }
 
     public String getStripeType() {
-        return stripeType;
+        return DynamicsProduct.TYPE;
     }
 
-    public void setStripeType(String stripeType) {
-        this.stripeType = stripeType;
-    }
 }

@@ -183,17 +183,20 @@ public class DonateService {
 
                 }else{
                     Price price = getPrice(amountInCents, prices);
-                    if(price != null){
-                        DynamicsProduct savedProduct = planRepo.getProductStripeId(price.getProduct());
-                        log.info("found price... and product? " + savedProduct.getId());
-                        createSubscription(token, donationInput, savedProduct, customer, user, password);
+                    DynamicsProduct savedProduct = planRepo.getProductStripeId(price.getProduct());
+                    if(savedProduct == null){
+                        DynamicsProduct dynamicsProduct = new DynamicsProduct();
+                        dynamicsProduct.setStripeId(price.getProduct());
+                        dynamicsProduct.setNickname(price + " " + MONTHLY);
+                        savedProduct = planRepo.saveProduct(dynamicsProduct);
                     }
+                    createSubscription(token, donationInput, savedProduct, customer, user, password);
                 }
             }else{
                 log.info("token : " + token.getId());
                 log.info("token : " + token.toString());
 
-                Map<String, Object> chargeParams = new HashMap<String, Object>();
+                Map<String, Object> chargeParams = new HashMap<>();
                 chargeParams.put("amount", amountInCents);
                 chargeParams.put("customer", customer.getId());
                 chargeParams.put("source", token.getCard().getId());

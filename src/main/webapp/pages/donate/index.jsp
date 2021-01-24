@@ -79,8 +79,8 @@
 
     <div id="donation-options" class="live">
         <div id="donation-durations">
-            <button class="button retro small active duration">One-Time</button>
-            <button class="button small sky duration" data-recurring="true">Recurring Monthly</button>
+            <button class="button retro small active duration">Give Once</button>
+            <button class="button small sky duration" data-recurring="true">Give Monthly</button>
         </div>
 
         <a href="javascript:" class="option button light active" id="fiver" data-amount="5.00">$5</a>&nbsp;
