@@ -101,6 +101,7 @@ public class DonateService {
                 userRepo.save(user);
             }
 
+
             Map<String, Object> card = new HashMap<>();
             card.put("number", donationInput.getCreditCard());
             card.put("exp_month", donationInput.getExpMonth());
@@ -192,6 +193,7 @@ public class DonateService {
                 Charge charge = Charge.create(chargeParams);
                 donation.setChargeId(charge.getId());
 
+                user.setStripeUserId(customer.getId());
                 user.setStripeChargeId(charge.getId());
                 userRepo.update(user);
             }
