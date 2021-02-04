@@ -1,13 +1,5 @@
 ﻿# Dynamics +Gain
 
-I Mike Croteau copyright the following:
-
-* This application, the source code and the logic behind it
-* The idea to accept donations at these kiosks
-* The idea to display the number of people homeless
-
-@ copyright Mike Croteau : 31 Oct 2020 1:34am Alaska Time
-
 **An Aqo Project for Zqo**
 
 D3XZKUT6

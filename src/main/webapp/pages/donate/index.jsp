@@ -22,7 +22,7 @@
         #custom,
         #custom:hover{
             font-size:19px !important;
-            color:#fff;
+            color:#fff !important;
             background: #3F4EAC;
             border:solid 3px #3F4EAC;
             padding: 12px 12px 11px 12px !important;
@@ -33,13 +33,19 @@
             text-transform: none;
         }
         #custom.active{
-            color:#000;
+            color:#000 !important;
             background: #fff;
             border:solid 3px #3fb8ff;
         }
         input[type="text"],
         input[type="text"]:hover,
-        input[type="text"]:focus{
+        input[type="text"]:focus,
+        input[type="number"],
+        input[type="number"]:hover,
+        input[type="number"]:focus
+        input[type="email"],
+        input[type="email"]:hover,
+        input[type="email"]:focus{
             width:100%;
             font-family: roboto-bold !important;
             padding: 13px 12px !important;
@@ -87,6 +93,7 @@
         <a href="javascript:" class="option button sky" data-amount="10">$10</a>&nbsp;
         <a href="javascript:" class="option button yellow" data-amount="20">$20</a>&nbsp;
         <a href="javascript:" class="option button beauty" data-amount="40">$40</a>&nbsp;
+        <br/><br/>
         <input type="text" class="option button purple" id="custom" value="Custom" style="width:110px;" data-amount="0"/>
     </div>
 
@@ -95,21 +102,21 @@
     <div id="make-donation-container" class="live" style="display:none;">
 
         <label>credit card information</label>
-        <input type="text" id="credit-card" placeholder="4242424242424242" maxlength="16"/>
+        <input type="number" id="credit-card" placeholder="4242424242424242" maxlength="16"/>
 
         <div class="cc-details">
             <label>month</label>
-            <input type="text" id="exp-month" placeholder="09" maxlength="2"/>
+            <input type="number" id="exp-month" placeholder="09" maxlength="2"/>
         </div>
 
         <div class="cc-details">
             <label>year</label>
-            <input type="text" id="exp-year" placeholder="2027" maxlength="4"/>
+            <input type="number" id="exp-year" placeholder="2027" maxlength="4"/>
         </div>
 
         <div class="cc-details">
             <label>cvc</label>
-            <input type="text" id="cvc" placeholder="123" maxlength="3"/>
+            <input type="number" id="cvc" placeholder="123" maxlength="3"/>
         </div>
 
         <br class="clear"/>

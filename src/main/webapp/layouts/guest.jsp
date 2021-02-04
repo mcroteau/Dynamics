@@ -32,8 +32,8 @@
             </div>
 
             <style>
-                #guest-wrapper{
-                    margin-bottom:30px;
+                #guest-content{
+                    margin-top:30px;
                 }
                 #footer-wrapper{
                     margin:103px auto 200px;
