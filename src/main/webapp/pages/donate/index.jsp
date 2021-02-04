@@ -23,14 +23,23 @@
         #custom:hover{
             font-size:19px !important;
             color:#fff !important;
-            background: #3F4EAC;
-            border:solid 3px #3F4EAC;
+            background: #7D5ABF;
+            border:solid 3px #7D5ABF;
             padding: 12px 12px 11px 12px !important;
             display: inline-block;
             font-family: roboto !important;
             box-shadow: none !important;
             text-align: center;
             text-transform: none;
+        }
+        #custom,
+        #custom:hover{
+            color: #c4d3dd !important;
+            background: #fff;
+            border:solid 3px #efefef;
+        }
+        #custom::placeholder{
+            color: #c4d3dd !important;
         }
         #custom.active{
             color:#000 !important;
@@ -54,6 +63,14 @@
         }
         input[type="text"]::placeholder{
             font-family: roboto !important;
+        }
+        .button.active{
+            color:#fff;
+            background: #fdfe01;
+            background: #3fb8ff;
+            border:solid 3px #eeef07;
+            border:solid 3px #31a2e3;
+            font-family: roboto-bold !important;
         }
         .light.active:hover{
             background:#3fb8ff;
@@ -79,7 +96,7 @@
         }
     </style>
 
-    <h1 class="live">Make a Donation +</h1>
+    <h1 class="live">Make Donation +</h1>
 
     <p class="open-text live">Please select from the following:</p>
 
@@ -91,10 +108,10 @@
 
         <a href="javascript:" class="option button light active" id="fiver" data-amount="5">$5</a>&nbsp;
         <a href="javascript:" class="option button sky" data-amount="10">$10</a>&nbsp;
-        <a href="javascript:" class="option button yellow" data-amount="20">$20</a>&nbsp;
-        <a href="javascript:" class="option button beauty" data-amount="40">$40</a>&nbsp;
+        <a href="javascript:" class="option button beauty" data-amount="20">$20</a>&nbsp;
+        <a href="javascript:" class="option button purple" data-amount="40">$40</a>&nbsp;
         <br/><br/>
-        <input type="text" class="option button purple" id="custom" value="Custom" style="width:110px;" data-amount="0"/>
+        <input type="text" class="option button purple" id="custom" placeholder="Custom" style="width:110px;" data-amount="0"/>
     </div>
 
     <input type="hidden" name="amount" id="amount-input" value=""/>
@@ -125,7 +142,7 @@
         <input type="text" id="email" placeholder="support@dynamicsgain.org"/>
 
         <div style="text-align: center;">
-            <a href="javascript:" id="donate-button" class="button super retro amount" style="box-shadow:none !important;text-transform:none;">Donate</a>
+            <a href="javascript:" id="donate-button" class="button super retro amount" style="box-shadow:none !important;text-transform:none;border:solid 3px #31a2e3;">Donate &hearts;</a>
         </div>
 
     </div>
@@ -181,14 +198,14 @@
 
             $custom.mouseleave(function(){
                 if($custom.val() == ''){
-                    $custom.val('Custom')
+                    $custom.attr('placeholder', 'Custom')
                 }
             })
 
             $custom.change(function(){
                 var value = $custom.val()
                 if(!isNaN(value)){
-                    $amount.html('Donate $' + value)
+                    $amount.html('Donate $' + value + ' &hearts;')
                     $amountInput.val(amount)
                 }else{
                     alert('Please enter a valid amount');
@@ -217,7 +234,7 @@
                     if(amount != '' &&
                             amount != 0 &&
                                 !isNaN(amount)) {
-                        $amount.html('Donate $' + amount)
+                        $amount.html('Donate $' + amount + ' &hearts;')
                         $amountInput.val(amount)
                     }
                 }

@@ -285,6 +285,14 @@ input[type="submit"].beauty{
 	border:solid 1px #f540a6;
 }
 
+.button.pepe,
+input[type="button"].pepe,
+input[type="reset"].pepe,
+input[type="submit"].pepe{
+    background:#2234A3;
+    border:solid 1px #2234A3;
+}
+
 .yellow,
 .button.yellow,
 input[type="button"].button.yellow,
@@ -370,7 +378,7 @@ input[type="submit"].button.super{
     /*border-radius: 16px;*/
     display:inline-block;
     margin:10px auto;
-    font-family:roboto-bold !important;
+    font-family:roboto-black !important;
 }
 
 .button.tiny{
@@ -389,13 +397,6 @@ input[type="submit"].button.bare{
     -moz-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
     box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
 }
-
-.button.active{
-    color:#fff;
-    background: #3fb8ff;
-    border:solid 3px #3fb8ff;
-}
-
 
 .notify{
     font-size:17px;
