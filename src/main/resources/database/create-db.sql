@@ -26,7 +26,7 @@ create table users (
 
 create table roles (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
-	name character varying(55) NOT NULL UNIQUE
+	name character varying(155) NOT NULL UNIQUE
 );
 
 create table user_permissions(

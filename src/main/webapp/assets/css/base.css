@@ -312,7 +312,7 @@ input[type="submit"].button.light,
 input[type="button"].button.light{
 	color:#000;
 	background:#fff;
-    border:solid 1px #FFFFFF;
+    border:solid 1px #eff2f3;
 }
 
 .button.purple,
@@ -370,7 +370,7 @@ input[type="submit"].button.super{
     /*border-radius: 16px;*/
     display:inline-block;
     margin:10px auto;
-    font-family:roboto-black !important;
+    font-family:roboto-bold !important;
 }
 
 .button.tiny{

@@ -33,8 +33,8 @@
 
         <h3>Where your donations go</h3>
         <p>100% of your donations go towards Dynamics +Gain and the people
-            they serve. A few major ways in which we give include
-            Walmart Gift Cards, Prepaid Cellphones, Laptops and bus passes.</p>
+            they serve. A few major ways in which we would like to give include
+            Walmart Gift Cards, Prepaid Cellphones, Laptops and Bus Passes.</p>
 
         <h3>Services we provide</h3>
 
@@ -50,5 +50,25 @@
         </ul>
 
     </div>
+
+
+    <button onclick="full()" class="button sky" style="margin-top:230px;">Fullscreen</button>
+    <script>
+        function full(){
+            var docElm = document.documentElement;
+            if (docElm.requestFullscreen) {
+                docElm.requestFullscreen();
+            }
+            else if (docElm.mozRequestFullScreen) {
+                docElm.mozRequestFullScreen();
+            }
+            else if (docElm.webkitRequestFullScreen) {
+                docElm.webkitRequestFullScreen();
+            }
+            else if (docElm.msRequestFullscreen) {
+                docElm.msRequestFullscreen();
+            }
+        }
+    </script>
 
 </body>

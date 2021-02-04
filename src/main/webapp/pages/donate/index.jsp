@@ -68,7 +68,7 @@
         #exp-year{
             width:120px;
         }
-        #cvv{
+        #cvc{
             width:90px;
         }
     </style>
@@ -83,10 +83,10 @@
             <button class="button small sky duration" data-recurring="true">Give Monthly</button>
         </div>
 
-        <a href="javascript:" class="option button light active" id="fiver" data-amount="5.00">$5</a>&nbsp;
-        <a href="javascript:" class="option button sky" data-amount="10.00">$10</a>&nbsp;
-        <a href="javascript:" class="option button yellow" data-amount="20.00">$20</a>&nbsp;
-        <a href="javascript:" class="option button beauty" data-amount="40.00">$40</a>&nbsp;
+        <a href="javascript:" class="option button light active" id="fiver" data-amount="5">$5</a>&nbsp;
+        <a href="javascript:" class="option button sky" data-amount="10">$10</a>&nbsp;
+        <a href="javascript:" class="option button yellow" data-amount="20">$20</a>&nbsp;
+        <a href="javascript:" class="option button beauty" data-amount="40">$40</a>&nbsp;
         <input type="text" class="option button purple" id="custom" value="Custom" style="width:110px;" data-amount="0"/>
     </div>
 
@@ -108,13 +108,13 @@
         </div>
 
         <div class="cc-details">
-            <label>cvv</label>
-            <input type="text" id="cvv" placeholder="123" maxlength="3"/>
+            <label>cvc</label>
+            <input type="text" id="cvc" placeholder="123" maxlength="3"/>
         </div>
 
         <br class="clear"/>
 
-        <label>internet emailbox</label>
+        <label>email</label>
         <input type="text" id="email" placeholder="support@dynamicsgain.org"/>
 
         <div style="text-align: center;">
@@ -163,7 +163,7 @@
             var $creditCard = $('#credit-card'),
                 $expMonth = $('#exp-month'),
                 $expYear = $('#exp-year'),
-                $cvv = $('#cvv'),
+                $cvc = $('#cvc'),
                 $email = $('#email'),
                 $processing = $("#processing");
 
@@ -263,7 +263,7 @@
                     "creditCard": $creditCard.val(),
                     "expMonth" : $expMonth.val(),
                     "expYear" : $expYear.val(),
-                    "cvc" : $cvv.val(),
+                    "cvc" : $cvc.val(),
                     "email" : $email.val(),
                     "recurring" : recurring
                 };
@@ -286,8 +286,8 @@
                     alert('Please enter a valid expiration year')
                     return false
                 }
-                if($cvv.val() == ''){
-                    alert('Please enter a valid cvv')
+                if($cvc.val() == ''){
+                    alert('Please enter a valid cvc')
                     return false
                 }
                 if($email.val() == ''){
