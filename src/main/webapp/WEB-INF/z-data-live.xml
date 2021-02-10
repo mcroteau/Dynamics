@@ -18,12 +18,12 @@
 		<constructor-arg ref="dataSource"/>
 	</bean>
 
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://${db.host}:3306/${db.database}" />
+	<bean id="dataSource" class="com.mysql.cj.jdbc.MysqlConnectionPoolDataSource">
+		<property name="serverName" value="{db.host}" />
+		<property name="port" value="3306"/>
+		<property name="databaseName" value="${db.database}"/>
 		<property name="user" value="${db.username}" />
 		<property name="password" value="${db.password}" />
-		<property name="initialPoolSize" value="10" />
 	</bean>
 
 </beans>

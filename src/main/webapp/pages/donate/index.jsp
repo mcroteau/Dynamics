@@ -8,12 +8,21 @@
             margin:0px 0px 10px ;
             line-height: 1.0em;
         }
+        #modal{
+            position: fixed;
+            top:0px;
+            bottom:0px;
+            left:0px;
+            right:0px;
+            background:#fff;
+            display:none;
+        }
+        .duration{
+            box-shadow: none !important;
+        }
         .option{
             display: inline-block;
             vertical-align: middle;
-            box-shadow: none !important;
-        }
-        .duration{
             box-shadow: none !important;
         }
         #make-donation-container{
@@ -27,7 +36,7 @@
             border:solid 3px #7D5ABF;
             padding: 12px 12px 11px 12px !important;
             display: inline-block;
-            font-family: roboto !important;
+            font-family: roboto-light !important;
             box-shadow: none !important;
             text-align: center;
             text-transform: none;
@@ -35,11 +44,11 @@
         #custom,
         #custom:hover{
             color: #c4d3dd !important;
-            background: #fff;
-            border:solid 3px #efefef;
+            background: #F3F3F7;
+            border:solid 3px #F3F3F7;
         }
         #custom::placeholder{
-            color: #c4d3dd !important;
+            color: #8c96a9 !important;
         }
         #custom.active{
             color:#000 !important;
@@ -61,7 +70,9 @@
             line-height: 1.0em;
             font-size:27px !important;
         }
+        input[type="number"]::placeholder,
         input[type="text"]::placeholder{
+            color: #8c96a9;
             font-family: roboto !important;
         }
         .button.active{
@@ -69,7 +80,7 @@
             background: #fdfe01;
             background: #3fb8ff;
             border:solid 3px #eeef07;
-            border:solid 3px #31a2e3;
+            border:solid 3px #8fd6ff;
             font-family: roboto-bold !important;
         }
         .light.active:hover{
@@ -96,7 +107,7 @@
         }
     </style>
 
-    <h1 class="live">Make Donation +</h1>
+    <h1 class="live">Make Donation+</h1>
 
     <p class="open-text live">Please select from the following:</p>
 
@@ -106,10 +117,10 @@
             <button class="button small sky duration" data-recurring="true">Give Monthly</button>
         </div>
 
-        <a href="javascript:" class="option button light active" id="fiver" data-amount="5">$5</a>&nbsp;
+        <a href="javascript:" class="option button sky active" id="fiver" data-amount="5">$5</a>&nbsp;
         <a href="javascript:" class="option button sky" data-amount="10">$10</a>&nbsp;
-        <a href="javascript:" class="option button beauty" data-amount="20">$20</a>&nbsp;
-        <a href="javascript:" class="option button purple" data-amount="40">$40</a>&nbsp;
+        <a href="javascript:" class="option button sky" data-amount="20">$20</a>&nbsp;
+        <a href="javascript:" class="option button sky" data-amount="40">$40</a>&nbsp;
         <br/><br/>
         <input type="text" class="option button purple" id="custom" placeholder="Custom" style="width:110px;" data-amount="0"/>
     </div>
@@ -142,24 +153,28 @@
         <input type="text" id="email" placeholder="support@dynamicsgain.org"/>
 
         <div style="text-align: center;">
-            <a href="javascript:" id="donate-button" class="button super retro amount" style="box-shadow:none !important;text-transform:none;border:solid 3px #31a2e3;">Donate &hearts;</a>
+            <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;">Donate +</a>
         </div>
 
     </div>
 
-    <div id="processing" style="display:none">
-        <h3>Processing... please wait</h3>
-        <p>Your donation is being processed. Thank you for your patience.</p>
-    </div>
 
-    <div id="success" style="display:none">
-        <h3>Success! Thank you!</h3>
-        <p>Successfully processed your donation.</p>
-    </div>
+    <div id="modal">
+        <div id="processing" style="display:none">
+            <h3>Processing... please wait</h3>
+            <p>Your donation is being processed. Thank you for your patience.</p>
+        </div>
 
-    <div id="error-container" style="display:none">
-        <h3>There was an issue...</h3>
-        <p id="error"></p>
+        <div id="success" style="display:none">
+            <h3>Success! Thank you!</h3>
+            <p>Successfully processed your donation.</p>
+        </div>
+
+        <div id="error-container" style="display:none">
+            <h3>There was an issue...</h3>
+            <p id="error"></p>
+            <a href="/z/donate">Back</a>
+        </div>
     </div>
 
     <div style="text-align: left;margin-top:71px;">
@@ -189,6 +204,7 @@
                 $expYear = $('#exp-year'),
                 $cvc = $('#cvc'),
                 $email = $('#email'),
+                $modal = $('#modal'),
                 $processing = $("#processing");
 
             $custom.focus(function(){
@@ -248,7 +264,8 @@
                         isValidForm()){
 
                     $processing.show()
-                    $live.hide()
+                    $modal.show()
+                    // $live.hide()
 
                     processingDonation = true;
 
@@ -266,6 +283,9 @@
                             $processing.fadeOut()
                             if(data.processed){
                                 $success.fadeIn(200);
+                                setTimeout(function(){
+                                    $modal.hide();
+                                }, 3000);
                             }else{
                                 $('#error').html(data.status)
                                 $('#error-container').show()
@@ -276,8 +296,6 @@
                             console.log('...', e)
                         }
                     })
-                }else{
-                    alert('Please select an option or enter in a amount!')
                 }
             })
 
