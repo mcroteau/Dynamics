@@ -1,6 +1,8 @@
 ﻿# Dynamics +Gain
 
-**An Aqo Project for Zqo**
+**An Qqo Project for Zqo**
+
+mvn jetty:run -Dspring.profiles.active=Dev
 
 D3XZKUT6
 

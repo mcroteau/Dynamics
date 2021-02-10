@@ -14,8 +14,12 @@
             bottom:0px;
             left:0px;
             right:0px;
+            margin:0px;
             background:#fff;
-            display:none;
+            display:block;
+        }
+        .message{
+            margin-top:52px;
         }
         .duration{
             box-shadow: none !important;
@@ -97,13 +101,13 @@
             text-align: center;
         }
         #exp-month{
-            width:70px;
+            width:90px;
         }
         #exp-year{
             width:120px;
         }
         #cvc{
-            width:90px;
+            width:110px;
         }
     </style>
 
@@ -160,17 +164,23 @@
 
 
     <div id="modal">
-        <div id="processing" style="display:none">
+        <div id="processing" class="message" style="display:none">
             <h3>Processing... please wait</h3>
             <p>Your donation is being processed. Thank you for your patience.</p>
         </div>
 
-        <div id="success" style="display:none">
-            <h3>Success! Thank you!</h3>
+        <div id="success" class="message" style="display:block">
+            <h1>Thank you!</h1>
+            <h2><strong id="donation-amount"></strong> Donated</h2>
             <p>Successfully processed your donation.</p>
+
+            <p>Your username : <strong id="username"></strong></p>
+            <p><a href="/z/user/reset" class="href-dotted">Set password</a></p>
+
+            <a href="/z/home" class="href-dotted">Take me home...</a>
         </div>
 
-        <div id="error-container" style="display:none">
+        <div id="error-container" class="message" style="display:none">
             <h3>There was an issue...</h3>
             <p id="error"></p>
             <a href="/z/donate">Back</a>
@@ -206,6 +216,10 @@
                 $email = $('#email'),
                 $modal = $('#modal'),
                 $processing = $("#processing");
+
+            var $username = $('#username'),
+                $password = $('#password'),
+                $donationAmount = ('#donation-amount');
 
             $custom.focus(function(){
                 $custom.val('');
@@ -280,12 +294,12 @@
                         success: function(resp){
                             console.log('success', resp)
                             var data = JSON.parse(resp)
-                            $processing.fadeOut()
+                            console.log(data);
+                            $processing.hide()
                             if(data.processed){
-                                $success.fadeIn(200);
-                                setTimeout(function(){
-                                    $modal.hide();
-                                }, 3000);
+                                $donationAmount.html(data.amount)
+                                $username.html(data.user.username)
+                                $success.fadeIn(100)
                             }else{
                                 $('#error').html(data.status)
                                 $('#error-container').show()

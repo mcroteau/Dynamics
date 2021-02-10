@@ -43,9 +43,9 @@ public class LocationRepo {
     }
 
     public Location save(Location location){
-        String sql = "insert into locations (name, location_uri, description, needs, count, user_id, town_id) values (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into locations (name, location_uri, description, needs, count, town_id) values (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getCount(),  location.getUserId(), location.getTownId()
+                location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getCount(),  location.getTownId()
         });
         Long id = getId();
         Location savedLocation = get(id);

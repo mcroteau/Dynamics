@@ -88,7 +88,6 @@ public class AppRunner {
 					location.setLocationUri(shelter[1]+ "" + index);
 					location.setDescription("Helping at-risk and homeless families in Clark County achieve sustainable housing and independence through a compassionate, community-based response.");
 					location.setNeeds("Shoes, Socks, Jackets, Laptops, Prepaid Phones");
-					location.setUserId(user.getId());
 					location.setTownId(savedTown.getId());
 					location.setCount(Utils.getRandomNumber(231));
 					locationRepo.save(location);

@@ -28,7 +28,7 @@
 		<property name="arguments">
 			<list>
 				<value>--url</value>
-				<value>jdbc:h2:mem:dynamics</value>
+				<value>jdbc:h2:mem:dataSource</value>
 				<value>--user</value>
 				<value>sa</value>
 				<value>--password</value>

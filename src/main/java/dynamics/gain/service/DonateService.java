@@ -97,12 +97,12 @@ public class DonateService {
             String password = Utils.getRandomString(7);
 
             if(user == null){
+                log.info("set password clean");
                 user = new User();
                 user.setUsername(donationInput.getEmail());
                 user.setPassword(Parakeet.dirty(password));
-                userRepo.save(user);
+                user = userRepo.save(user);
             }
-
 
             Map<String, Object> card = new HashMap<>();
             card.put("number", donationInput.getCreditCard());
@@ -117,7 +117,9 @@ public class DonateService {
             if(user.getStripeUserId() != null &&
                     !user.getStripeUserId().equals("")){
                 Customer oldCustomer = Customer.retrieve(user.getStripeUserId());
-                oldCustomer.delete();
+                try {
+                    oldCustomer.delete();
+                }catch(Exception e){ log.info("stale stripe customer id");}
             }
 
             Map<String, Object> customerParams = new HashMap<>();
@@ -164,8 +166,6 @@ public class DonateService {
 
                     Plan stripePlan = genStripePlan(amountInCents, dynamicsPlan, stripeProduct);
 
-                    log.info("stripe plan : " + stripePlan);
-
                     dynamicsPlan.setStripeId(stripePlan.getId());
                     dynamicsPlan.setProductId(savedProduct.getId());
                     DynamicsPlan savedPlan = planRepo.savePlan(dynamicsPlan);
@@ -192,6 +192,7 @@ public class DonateService {
                 userRepo.update(user);
             }
 
+            donation.setAmount(donationInput.getAmount());
             donation.setUser(user);
             donation.setProcessed(true);
             donation.setStatus("Successfully processed donation");

@@ -10,6 +10,5 @@
     <h3>Needs</h3>
     <p>${location.needs}</p>
 
-
 </body>
 </html>
