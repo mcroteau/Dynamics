@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class DonateService {
 
     private static final Logger log = Logger.getLogger(DonateService.class);
@@ -112,26 +114,21 @@ public class DonateService {
 
             Token token = Token.create(params);
 
-            Customer customer = null;
             if(user.getStripeUserId() != null &&
                     !user.getStripeUserId().equals("")){
-                customer = Customer.retrieve(user.getStripeUserId());
+                Customer oldCustomer = Customer.retrieve(user.getStripeUserId());
+                oldCustomer.delete();
             }
 
-            if(customer == null) {
-                Map<String, Object> customerParams = new HashMap<>();
-                customerParams.put("email", donationInput.getEmail());
+            Map<String, Object> customerParams = new HashMap<>();
+            customerParams.put("email", donationInput.getEmail());
+            customerParams.put("source", token.getId());
+            Customer customer = com.stripe.model.Customer.create(customerParams);
 
-//                log.info("token " + token.getId());
+            log.info(customer.getDefaultSource());
 
-                customerParams.put("source", token.getId());
-                customer = com.stripe.model.Customer.create(customerParams);
-
-                log.info(customer.getDefaultSource());
-
-                user.setStripeUserId(customer.getId());
-                userRepo.update(user);
-            }
+            user.setStripeUserId(customer.getId());
+            userRepo.update(user);
 
 
             Long amountInCents = donationInput.getAmount().multiply(new BigDecimal(100)).longValue();
@@ -142,8 +139,15 @@ public class DonateService {
 
             if(donationInput.isRecurring()) {
 
-                List<Price> prices = getPrices("", new ArrayList<>());
-                if (!amountInPrices(amountInCents, prices)) {
+                DynamicsPlan storedPlan = planRepo.getPlanAmount(donationInput.getAmount());
+
+                if (storedPlan != null) {
+                    DynamicsProduct savedProduct = planRepo.getProduct(storedPlan.getProductId());
+                    Product stripeProduct = Product.retrieve(savedProduct.getStripeId());
+                    createSubscription(amountInCents, donationInput, savedProduct, storedPlan, stripeProduct, customer, user, password);
+                }
+
+                if(storedPlan == null){
 
                     DynamicsPlan dynamicsPlan = new DynamicsPlan();
                     dynamicsPlan.setAmount(donationInput.getAmount());
@@ -158,32 +162,22 @@ public class DonateService {
                     dynamicsProduct.setStripeId(stripeProduct.getId());
                     DynamicsProduct savedProduct = planRepo.saveProduct(dynamicsProduct);
 
+                    Plan stripePlan = genStripePlan(amountInCents, dynamicsPlan, stripeProduct);
 
-                    Plan stripePlan = getStripePlan(amountInCents, dynamicsPlan, stripeProduct);
+                    log.info("stripe plan : " + stripePlan);
 
                     dynamicsPlan.setStripeId(stripePlan.getId());
                     dynamicsPlan.setProductId(savedProduct.getId());
-                    planRepo.savePlan(dynamicsPlan);
+                    DynamicsPlan savedPlan = planRepo.savePlan(dynamicsPlan);
 
-                    createSubscription(amountInCents, token, donationInput, savedProduct, stripeProduct, customer, user, password);
+                    createSubscription(amountInCents, donationInput, savedProduct, savedPlan, stripeProduct, customer, user, password);
 
-                }else{
-                    Price price = getPrice(amountInCents, prices);
-                    DynamicsProduct savedProduct = planRepo.getProductStripeId(price.getProduct());
-                    if(savedProduct == null){
-                        DynamicsProduct dynamicsProduct = new DynamicsProduct();
-                        dynamicsProduct.setStripeId(price.getProduct());
-                        dynamicsProduct.setNickname(price.getUnitAmount() + " " + MONTHLY);
-                        savedProduct = planRepo.saveProduct(dynamicsProduct);
-                    }
-                    Product stripeProduct = Product.retrieve(price.getProduct());
-                    createSubscription(amountInCents, token, donationInput, savedProduct, stripeProduct, customer, user, password);
                 }
-            }else{
+            }
 
+            if(!donationInput.isRecurring()){
 //                log.info("token : " + token.toString());
 //                log.info("customer : " + customer.toString());
-
                 Map<String, Object> chargeParams = new HashMap<>();
                 chargeParams.put("amount", amountInCents);
                 chargeParams.put("customer", customer.getId());
@@ -198,6 +192,7 @@ public class DonateService {
                 userRepo.update(user);
             }
 
+            donation.setUser(user);
             donation.setProcessed(true);
             donation.setStatus("Successfully processed donation");
 
@@ -209,7 +204,7 @@ public class DonateService {
         return donation;
     }
 
-    private Plan getStripePlan(Long amountInCents, DynamicsPlan dynamicsPlan, Product stripeProduct) throws Exception {
+    private Plan genStripePlan(Long amountInCents, DynamicsPlan dynamicsPlan, Product stripeProduct) throws Exception {
         Map<String, Object> planParams = new HashMap<>();
         planParams.put("product", stripeProduct.getId());
         planParams.put("nickname", dynamicsPlan.getNickname());
@@ -220,25 +215,12 @@ public class DonateService {
         return stripePlan;
     }
 
-    private boolean createSubscription(Long amountInCents, Token token, DonationInput donationInput, DynamicsProduct savedProduct, Product stripeProduct, Customer customer, User user, String password) throws Exception{
+    private boolean createSubscription(Long amountInCents, DonationInput donationInput, DynamicsProduct savedProduct, DynamicsPlan dynamicsPlan, Product stripeProduct, Customer customer, User user, String password) throws Exception{
         try {
             Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
             subscription.cancel();
         }catch(Exception e){
             log.info("cannot cancel previous donation");
-        }
-        DynamicsPlan dynamicsPlan = planRepo.getPlanProductId(savedProduct.getId());
-        if(dynamicsPlan == null){
-            String recurringMessage = donationInput.isRecurring() ? MONTHLY : "";
-            dynamicsPlan = new DynamicsPlan();
-            dynamicsPlan.setAmount(donationInput.getAmount());
-            dynamicsPlan.setNickname(donationInput.getAmount() + " " + recurringMessage);
-
-            Plan stripePlan = getStripePlan(amountInCents, dynamicsPlan, stripeProduct);
-            dynamicsPlan.setStripeId(stripePlan.getId());
-            dynamicsPlan.setProductId(savedProduct.getId());
-
-            planRepo.savePlan(dynamicsPlan);
         }
 
         Map<String, Object> itemParams = new HashMap<>();
@@ -254,48 +236,12 @@ public class DonateService {
         Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
 
         user.setPlanId(dynamicsPlan.getId());
-        user.setStripeUserId(customer.getId());
         user.setStripeSubscriptionId(s.getId());
 
         userRepo.update(user);
 
         return true;
     }
-
-
-    private Price getPrice(Long amountInCents, List<Price> prices){
-        for(Price price: prices){
-            if(price.getUnitAmount().equals(amountInCents)){
-                return price;
-            }
-        }
-        return null;
-    }
-
-    private boolean amountInPrices(Long amountInCents, List<Price> prices){
-        for(Price price: prices){
-            if(price.getUnitAmount().equals(amountInCents)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private List<Price> getPrices(String after, List<Price> prices) throws Exception {
-        Map<String, Object> params = new HashMap<>();
-        params.put("limit", 2);
-        if(!after.equals(""))
-            params.put("starting_after", after);
-        PriceCollection priceCollection = Price.list(params);
-        List<Price> pricesPre = priceCollection.getData();
-        prices.addAll(pricesPre);
-        if(priceCollection.getHasMore()){
-            Price price = prices.get(prices.size() - 1);
-            getPrices(price.getId(), prices);
-        }
-        return prices;
-    }
-
 
     public String select(ModelMap modelMap, RedirectAttributes redirect){
         if(!authService.isAuthenticated()){

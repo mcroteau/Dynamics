@@ -36,10 +36,6 @@ public class LocationService {
     @Autowired
     EmailService emailService;
 
-    public String getPermission(String id){
-        return Constants.PROJECT_MAINTENANCE + id;
-    }
-
     public String index(String uri, ModelMap modelMap) {
         Location location = locationRepo.get(uri);
         modelMap.put("location", location);
@@ -78,13 +74,7 @@ public class LocationService {
             return "redirect:/location/create";
         }
 
-        User authdUser = authService.getUser();
-        location.setUserId(authdUser.getId());
-
-        Location savedLocation = locationRepo.save(location);
-        String permission = getPermission(Long.toString(savedLocation.getId()));
-        userRepo.savePermission(authdUser.getId(), permission);
-
+        locationRepo.save(location);
         return "redirect:/location/overview";
     }
 
@@ -92,9 +82,7 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
-        String permission = getPermission(Long.toString(id));
-        if(!authService.isAdministrator() &&
-                !authService.hasPermission(permission)){
+        if(!authService.isAdministrator()){
             return "redirect:/";
         }
 
@@ -108,10 +96,7 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
-
-        String permission = getPermission(Long.toString(id));
-        if(!authService.isAdministrator() &&
-                !authService.hasPermission(permission)){
+        if(!authService.isAdministrator()){
             return "redirect:/unauthorized";
         }
 
@@ -125,10 +110,7 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
-
-        String permission = getPermission(Long.toString(location.getId()));
-        if(!authService.isAdministrator() &&
-                !authService.hasPermission(permission)){
+        if(!authService.isAdministrator()){
             return "redirect:/";
         }
 
@@ -145,10 +127,7 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
-
-        String permission = getPermission(Long.toString(id));
-        if(!authService.isAdministrator() &&
-                !authService.hasPermission(permission)){
+        if(!authService.isAdministrator()){
             return "redirect:/unauthorized";
         }
 
@@ -157,6 +136,5 @@ public class LocationService {
 
         return "redirect:/location/overview";
     }
-
 
 }

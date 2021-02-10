@@ -14,6 +14,8 @@ public class Donation {
     Boolean processed;
     String status;
 
+    User user;
+
     public Long getId() {
         return id;
     }
@@ -68,5 +70,13 @@ public class Donation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

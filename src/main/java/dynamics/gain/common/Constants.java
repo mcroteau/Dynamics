@@ -30,9 +30,8 @@ public class Constants {
 	public static final String ROLE_ACCOUNT = "ROLE_ACCOUNT";
 
 	public static final String ACCOUNT_MAINTENANCE = "users:";
-	public static final String PROJECT_MAINTENANCE = "projects:";
-	public static final String PHONE_MAINTENANCE   = "projects:phones:";
-	public static final String EMAIL_MAINTENANCE   = "projects:emails:";
+	public static final String LOCATION_MAINTENANCE = "projects:";
+	public static final String TOWN_MAINTENANCE   = "towns:";
 	
     public static final String DATE_SEARCH_FORMAT  = "yyyyMMddHHmmssSSS";
 	public static final String DATE_GRAPH_FORMAT  = "dd MMM";

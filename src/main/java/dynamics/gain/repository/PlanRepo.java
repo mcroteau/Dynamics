@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -28,6 +30,13 @@ public class PlanRepo {
         return id;
     }
 
+    public long getPlanId() {
+        String sql = "select max(id) from plans";
+        long id = jdbcTemplate.queryForObject(sql, new Object[]{}, Long.class);
+        return id;
+    }
+
+
     public Integer getCount() {
         String sql = "select count(*) from plans";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
@@ -48,6 +57,16 @@ public class PlanRepo {
         return dynamicsPlan;
     }
 
+    public DynamicsPlan getPlanAmount(BigDecimal amount){
+        try {
+            String sql = "select * from plans where amount = ?";
+            DynamicsPlan dynamicsPlan = jdbcTemplate.queryForObject(sql, new Object[]{amount},
+                    new BeanPropertyRowMapper<>(DynamicsPlan.class));
+            return dynamicsPlan;
+        }catch(Exception e){}
+        return null;
+    }
+
     public List<DynamicsPlan> getList(){
         String sql = "select * from plans";
         List<DynamicsPlan> dynamicsPlans = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(DynamicsPlan.class));
@@ -64,12 +83,14 @@ public class PlanRepo {
         return savedProduct;
     }
 
-    public boolean savePlan(DynamicsPlan dynamicsPlan){
+    public DynamicsPlan savePlan(DynamicsPlan dynamicsPlan){
         String sql = "insert into plans (amount, nickname, product_id, stripe_id) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
                 dynamicsPlan.getAmount(), dynamicsPlan.getNickname(), dynamicsPlan.getProductId(), dynamicsPlan.getStripeId()
         });
-        return true;
+        Long id = getPlanId();
+        DynamicsPlan savedPlan = getPlan(id);
+        return savedPlan;
     }
 
     public boolean deleteProduct(long id){
@@ -103,4 +124,5 @@ public class PlanRepo {
         }catch(Exception ex){ }
         return null;
     }
+
 }

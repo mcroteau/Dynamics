@@ -17,15 +17,15 @@ public class LocationController {
     @Autowired
     LocationService locationService;
 
-    @GetMapping(value="/location/create")
-    public String index(ModelMap modelMap){
-        return locationService.create(modelMap);
-    }
-
     @GetMapping(value="/location/{uri}")
     public String index(ModelMap modelMap,
                         @PathVariable String uri){
         return locationService.index(uri, modelMap);
+    }
+
+    @GetMapping(value="/location/create")
+    public String index(ModelMap modelMap){
+        return locationService.create(modelMap);
     }
 
     @PostMapping(value="/location/save")
