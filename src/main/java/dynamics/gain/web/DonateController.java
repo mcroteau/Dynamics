@@ -40,6 +40,7 @@ public class DonateController {
 
 //    @ExceptionHandler
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @CrossOrigin(origins="*")
     @RequestMapping(value="/donate/make", method=RequestMethod.POST, consumes="application/json")
     public @ResponseBody String make(@RequestBody DonationInput donationInput, Exception ex){
 //        log.info("Returning HTTP 400 Bad Request", ex);
