@@ -16,7 +16,7 @@
             right:0px;
             margin:0px;
             background:#fff;
-            display:block;
+            display:none;
         }
         .message{
             margin-top:52px;
@@ -164,7 +164,7 @@
 
 
     <div id="modal">
-        <div id="processing" class="message" style="display:none">
+        <div id="processing" class="message" style="display:block">
             <h3>Processing... please wait</h3>
             <p>Your donation is being processed. Thank you for your patience.</p>
         </div>
@@ -299,6 +299,7 @@
                             if(data.processed){
                                 $donationAmount.html(data.amount)
                                 $username.html(data.user.username)
+                                $password.html(data.user.cleanPassword)
                                 $success.fadeIn(100)
                             }else{
                                 $('#error').html(data.status)

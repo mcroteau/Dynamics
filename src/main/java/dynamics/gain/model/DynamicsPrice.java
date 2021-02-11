@@ -2,7 +2,7 @@ package dynamics.gain.model;
 
 import java.math.BigDecimal;
 
-public class DynamicsPlan {
+public class DynamicsPrice {
 
     private static final String CURRENCY = "usd";
     private static final String FREQUENCY = "month";
@@ -57,11 +57,11 @@ public class DynamicsPlan {
     }
 
     public String getFrequency() {
-        return DynamicsPlan.FREQUENCY;
+        return DynamicsPrice.FREQUENCY;
     }
 
     public String getCurrency() {
-        return DynamicsPlan.CURRENCY;
+        return DynamicsPrice.CURRENCY;
     }
 
     public int getProjectLimit() {

@@ -4,7 +4,7 @@ create table products(
 	stripe_id text
 );
 
-create table plans(
+create table prices(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	stripe_id text,
     amount bigint default 0,
@@ -18,7 +18,7 @@ create table users (
 	password character varying(155) NOT NULL,
 	uuid character varying(155),
 	date_created bigint default 0,
-	plan_id bigint,
+	price_id bigint,
 	stripe_user_id text,
 	stripe_charge_id text,
 	stripe_subscription_id text

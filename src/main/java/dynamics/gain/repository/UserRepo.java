@@ -265,27 +265,27 @@ public class UserRepo {
 		return accountsSearched;
 	}
 
-	public boolean removePlan(long id) {
-		String sql = "update users set plan_id = null, stripe_subscription_id = null where id = ?";
+	public boolean removePrice(long id) {
+		String sql = "update users set price_id = null, stripe_subscription_id = null where id = ?";
 		jdbcTemplate.update(sql, new Object[] { id });
 		return true;
 	}
 
-	public boolean updatePlan(User user) {
-		String sql = "update users set stripe_user_id = ?, plan_id = ?, stripe_subscription_id = ? where id = ?";
-		jdbcTemplate.update(sql, new Object[] { user.getStripeUserId(), user.getPlanId(), user.getStripeSubscriptionId() });
+	public boolean updatePrice(User user) {
+		String sql = "update users set stripe_user_id = ?, price_id = ?, stripe_subscription_id = ? where id = ?";
+		jdbcTemplate.update(sql, new Object[] { user.getStripeUserId(), user.getPriceId(), user.getStripeSubscriptionId() });
 		return true;
 	}
 
-	public List<User> getPlanList(long id) {
-		String sql = "select * from users where plan_id = ?";
+	public List<User> getPriceList(long id) {
+		String sql = "select * from users where price_id = ?";
 		List<User> people = jdbcTemplate.query(sql, new Object[]{id}, new BeanPropertyRowMapper<>(User.class));
 		return people;
 	}
 
     public boolean update(User user) {
-		String sql = "update users set username = ?, password = ?,  plan_id = ?, stripe_user_id = ?, stripe_charge_id = ?, stripe_subscription_id = ? where id = ?";
-		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getPlanId(), user.getStripeUserId(), user.getStripeChargeId(), user.getStripeSubscriptionId(), user.getId() });
+		String sql = "update users set username = ?, password = ?,  price_id = ?, stripe_user_id = ?, stripe_charge_id = ?, stripe_subscription_id = ? where id = ?";
+		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getPriceId(), user.getStripeUserId(), user.getStripeChargeId(), user.getStripeSubscriptionId(), user.getId() });
 		return true;
     }
 }

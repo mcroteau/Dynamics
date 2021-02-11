@@ -11,15 +11,15 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
-public class PlanRepo {
+public class StripeRepo {
 
-    private static final Logger log = Logger.getLogger(PlanRepo.class);
+    private static final Logger log = Logger.getLogger(StripeRepo.class);
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     public long getId() {
-        String sql = "select max(id) from plans";
+        String sql = "select max(id) from prices";
         long id = jdbcTemplate.queryForObject(sql, new Object[]{}, Long.class);
         return id;
     }
@@ -30,15 +30,15 @@ public class PlanRepo {
         return id;
     }
 
-    public long getPlanId() {
-        String sql = "select max(id) from plans";
+    public long getPriceId() {
+        String sql = "select max(id) from prices";
         long id = jdbcTemplate.queryForObject(sql, new Object[]{}, Long.class);
         return id;
     }
 
 
     public Integer getCount() {
-        String sql = "select count(*) from plans";
+        String sql = "select count(*) from prices";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
         return count;
     }
@@ -50,27 +50,27 @@ public class PlanRepo {
         return dynamicsProduct;
     }
 
-    public DynamicsPlan getPlan(long id){
-        String sql = "select * from plans where id = ?";
-        DynamicsPlan dynamicsPlan = jdbcTemplate.queryForObject(sql, new Object[] { id },
-                new BeanPropertyRowMapper<>(DynamicsPlan.class));
-        return dynamicsPlan;
+    public DynamicsPrice getPrice(long id){
+        String sql = "select * from prices where id = ?";
+        DynamicsPrice dynamicsPrice = jdbcTemplate.queryForObject(sql, new Object[] { id },
+                new BeanPropertyRowMapper<>(DynamicsPrice.class));
+        return dynamicsPrice;
     }
 
-    public DynamicsPlan getPlanAmount(BigDecimal amount){
+    public DynamicsPrice getPriceAmount(BigDecimal amount){
         try {
-            String sql = "select * from plans where amount = ?";
-            DynamicsPlan dynamicsPlan = jdbcTemplate.queryForObject(sql, new Object[]{amount},
-                    new BeanPropertyRowMapper<>(DynamicsPlan.class));
-            return dynamicsPlan;
+            String sql = "select * from prices where amount = ?";
+            DynamicsPrice dynamicsPrice = jdbcTemplate.queryForObject(sql, new Object[]{amount},
+                    new BeanPropertyRowMapper<>(DynamicsPrice.class));
+            return dynamicsPrice;
         }catch(Exception e){}
         return null;
     }
 
-    public List<DynamicsPlan> getList(){
-        String sql = "select * from plans";
-        List<DynamicsPlan> dynamicsPlans = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(DynamicsPlan.class));
-        return dynamicsPlans;
+    public List<DynamicsPrice> getList(){
+        String sql = "select * from prices";
+        List<DynamicsPrice> dynamicsPrices = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(DynamicsPrice.class));
+        return dynamicsPrices;
     }
 
     public DynamicsProduct saveProduct(DynamicsProduct dynamicsProduct){
@@ -83,14 +83,14 @@ public class PlanRepo {
         return savedProduct;
     }
 
-    public DynamicsPlan savePlan(DynamicsPlan dynamicsPlan){
-        String sql = "insert into plans (amount, nickname, product_id, stripe_id) values (?, ?, ?, ?)";
+    public DynamicsPrice savePrice(DynamicsPrice dynamicsPrice){
+        String sql = "insert into prices (amount, nickname, product_id, stripe_id) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                dynamicsPlan.getAmount(), dynamicsPlan.getNickname(), dynamicsPlan.getProductId(), dynamicsPlan.getStripeId()
+                dynamicsPrice.getAmount(), dynamicsPrice.getNickname(), dynamicsPrice.getProductId(), dynamicsPrice.getStripeId()
         });
-        Long id = getPlanId();
-        DynamicsPlan savedPlan = getPlan(id);
-        return savedPlan;
+        Long id = getPriceId();
+        DynamicsPrice savedPrice = getPrice(id);
+        return savedPrice;
     }
 
     public boolean deleteProduct(long id){
@@ -99,18 +99,18 @@ public class PlanRepo {
         return true;
     }
 
-    public boolean deletePlan(long id){
-        String sql = "delete from plans where id = ?";
+    public boolean deletePrice(long id){
+        String sql = "delete from prices where id = ?";
         jdbcTemplate.update(sql, new Object[] {id });
         return true;
     }
 
-    public DynamicsPlan getPlanProductId(Long id) {
+    public DynamicsPrice getPriceProductId(Long id) {
         try{
-            String sql = "select * from plans where product_id = ?";
-            DynamicsPlan dynamicsPlan = jdbcTemplate.queryForObject(sql, new Object[] { id },
-                    new BeanPropertyRowMapper<>(DynamicsPlan.class));
-            return dynamicsPlan;
+            String sql = "select * from prices where product_id = ?";
+            DynamicsPrice dynamicsPrice = jdbcTemplate.queryForObject(sql, new Object[] { id },
+                    new BeanPropertyRowMapper<>(DynamicsPrice.class));
+            return dynamicsPrice;
         }catch(Exception ex){ }
         return null;
     }

@@ -7,9 +7,8 @@ import dynamics.gain.common.Constants;
 import dynamics.gain.common.Dynamics;
 import dynamics.gain.common.Utils;
 import dynamics.gain.model.*;
-import dynamics.gain.repository.PlanRepo;
+import dynamics.gain.repository.StripeRepo;
 import dynamics.gain.repository.UserRepo;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import xyz.strongperched.Parakeet;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +44,7 @@ public class DonateService {
     UserRepo userRepo;
 
     @Autowired
-    PlanRepo planRepo;
+    StripeRepo stripeRepo;
 
     @Autowired
     AuthService authService;
@@ -91,18 +87,17 @@ public class DonateService {
         donation.setStatus("hasn't processed yet...");
 
         try{
-
             Stripe.apiKey = getApiKey();
             User user = userRepo.getByUsername(donationInput.getEmail());
             String password = Utils.getRandomString(7);
 
             if(user == null){
-                log.info("set password clean");
                 user = new User();
                 user.setUsername(donationInput.getEmail());
                 user.setPassword(Parakeet.dirty(password));
                 user = userRepo.save(user);
             }
+            user.setCleanPassword(password);
 
             Map<String, Object> card = new HashMap<>();
             card.put("number", donationInput.getCreditCard());
@@ -136,41 +131,42 @@ public class DonateService {
             Long amountInCents = donationInput.getAmount().multiply(new BigDecimal(100)).longValue();
             log.info("amount ~ " + amountInCents);
 
-            String recurringMessage = donationInput.isRecurring() ? MONTHLY : "";
-            log.info("recurring " + donationInput.isRecurring());
+            String reoccurringMessage = donationInput.isRecurring() ? MONTHLY : "";
+            String nickname = "$" + donationInput.getAmount() + " " + reoccurringMessage;
+            log.info("recurring " + nickname + " " + donationInput.isRecurring());
 
             if(donationInput.isRecurring()) {
 
-                DynamicsPlan storedPlan = planRepo.getPlanAmount(donationInput.getAmount());
+                DynamicsPrice storedPrice = stripeRepo.getPriceAmount(donationInput.getAmount());
 
-                if (storedPlan != null) {
-                    DynamicsProduct savedProduct = planRepo.getProduct(storedPlan.getProductId());
+                if (storedPrice != null) {
+                    DynamicsProduct savedProduct = stripeRepo.getProduct(storedPrice.getProductId());
                     Product stripeProduct = Product.retrieve(savedProduct.getStripeId());
-                    createSubscription(amountInCents, donationInput, savedProduct, storedPlan, stripeProduct, customer, user, password);
+                    createSubscription(amountInCents, donationInput, savedProduct, storedPrice, stripeProduct, customer, user, password);
                 }
 
-                if(storedPlan == null){
+                if(storedPrice == null){
 
-                    DynamicsPlan dynamicsPlan = new DynamicsPlan();
-                    dynamicsPlan.setAmount(donationInput.getAmount());
-                    dynamicsPlan.setNickname(donationInput.getAmount() + " " + recurringMessage);
+                    DynamicsPrice dynamicsPrice = new DynamicsPrice();
+                    dynamicsPrice.setAmount(donationInput.getAmount());
+                    dynamicsPrice.setNickname(nickname);
 
                     Map<String, Object> productParams = new HashMap<>();
-                    productParams.put("name", dynamicsPlan.getNickname());
+                    productParams.put("name", dynamicsPrice.getNickname());
                     com.stripe.model.Product stripeProduct = com.stripe.model.Product.create(productParams);
 
                     DynamicsProduct dynamicsProduct = new DynamicsProduct();
-                    dynamicsProduct.setNickname(dynamicsPlan.getNickname());
+                    dynamicsProduct.setNickname(dynamicsPrice.getNickname());
                     dynamicsProduct.setStripeId(stripeProduct.getId());
-                    DynamicsProduct savedProduct = planRepo.saveProduct(dynamicsProduct);
+                    DynamicsProduct savedProduct = stripeRepo.saveProduct(dynamicsProduct);
 
-                    Plan stripePlan = genStripePlan(amountInCents, dynamicsPlan, stripeProduct);
+                    Price stripePrice = genStripeReoccurringPrice(amountInCents, dynamicsPrice, stripeProduct);
 
-                    dynamicsPlan.setStripeId(stripePlan.getId());
-                    dynamicsPlan.setProductId(savedProduct.getId());
-                    DynamicsPlan savedPlan = planRepo.savePlan(dynamicsPlan);
+                    dynamicsPrice.setStripeId(stripePrice.getId());
+                    dynamicsPrice.setProductId(savedProduct.getId());
+                    DynamicsPrice savedPrice = stripeRepo.savePrice(dynamicsPrice);
 
-                    createSubscription(amountInCents, donationInput, savedProduct, savedPlan, stripeProduct, customer, user, password);
+                    createSubscription(amountInCents, donationInput, savedProduct, savedPrice, stripeProduct, customer, user, password);
 
                 }
             }
@@ -205,18 +201,21 @@ public class DonateService {
         return donation;
     }
 
-    private Plan genStripePlan(Long amountInCents, DynamicsPlan dynamicsPlan, Product stripeProduct) throws Exception {
-        Map<String, Object> planParams = new HashMap<>();
-        planParams.put("product", stripeProduct.getId());
-        planParams.put("nickname", dynamicsPlan.getNickname());
-        planParams.put("interval", dynamicsPlan.getFrequency());
-        planParams.put("currency", dynamicsPlan.getCurrency());
-        planParams.put("amount", amountInCents);
-        Plan stripePlan = Plan.create(planParams);
-        return stripePlan;
+    private Price genStripeReoccurringPrice(Long amountInCents, DynamicsPrice dynamicsPrice, Product stripeProduct) throws Exception {
+        Map<String, Object> recurring = new HashMap<>();
+        recurring.put("interval", dynamicsPrice.getFrequency());
+
+        Map<String, Object> priceParams = new HashMap<>();
+        priceParams.put("product", stripeProduct.getId());
+        priceParams.put("unit_amount", amountInCents);
+        priceParams.put("currency", dynamicsPrice.getCurrency());
+        priceParams.put("recurring", recurring);
+
+        Price stripePrice = Price.create(priceParams);
+        return stripePrice;
     }
 
-    private boolean createSubscription(Long amountInCents, DonationInput donationInput, DynamicsProduct savedProduct, DynamicsPlan dynamicsPlan, Product stripeProduct, Customer customer, User user, String password) throws Exception{
+    private boolean createSubscription(Long amountInCents, DonationInput donationInput, DynamicsProduct savedProduct, DynamicsPrice dynamicsPrice, Product stripeProduct, Customer customer, User user, String password) throws Exception{
         try {
             Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
             subscription.cancel();
@@ -225,7 +224,7 @@ public class DonateService {
         }
 
         Map<String, Object> itemParams = new HashMap<>();
-        itemParams.put("plan", dynamicsPlan.getStripeId());
+        itemParams.put("price", dynamicsPrice.getStripeId());
 
         Map<String, Object> itemsParams = new HashMap<>();
         itemsParams.put("0", itemParams);
@@ -236,7 +235,7 @@ public class DonateService {
 
         Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
 
-        user.setPlanId(dynamicsPlan.getId());
+        user.setPriceId(dynamicsPrice.getId());
         user.setStripeSubscriptionId(s.getId());
 
         userRepo.update(user);
@@ -249,9 +248,9 @@ public class DonateService {
             redirect.addFlashAttribute("message", "Please signin to continue");
             return "redirect:/";
         }
-        List<DynamicsPlan> dynamicsPlans = planRepo.getList();
-        modelMap.put("dynamicsPlans", dynamicsPlans);
-        return "plan/select";
+        List<DynamicsPrice> dynamicsPrices = stripeRepo.getList();
+        modelMap.put("dynamicsPrices", dynamicsPrices);
+        return "price/select";
     }
 
     public String upgrade(ModelMap modelMap, RedirectAttributes redirect){
@@ -261,12 +260,12 @@ public class DonateService {
         }
 
         User user = authService.getUser();
-        List<DynamicsPlan> dynamicsPlans = planRepo.getList();
+        List<DynamicsPrice> dynamicsPrices = stripeRepo.getList();
 
         modelMap.put("user", user);
-        modelMap.put("dynamicsPlans", dynamicsPlans);
+        modelMap.put("dynamicsPrices", dynamicsPrices);
 
-        return "plan/upgrade";
+        return "price/upgrade";
     }
 
     public String confirm(Long id, ModelMap modelMap){
@@ -281,10 +280,10 @@ public class DonateService {
             return "redirect:/unauthorized";
         }
 
-        DynamicsPlan dynamicsPlan = planRepo.getPlan(id);
-        modelMap.put("dynamicsPlan", dynamicsPlan);
+        DynamicsPrice dynamicsPrice = stripeRepo.getPrice(id);
+        modelMap.put("dynamicsPrice", dynamicsPrice);
 
-        return "dynamicsPlan/confirm";
+        return "dynamicsPrice/confirm";
     }
 
 
@@ -300,7 +299,7 @@ public class DonateService {
         }
 
         Stripe.apiKey = getApiKey();
-        DynamicsPlan dynamicsPlan = planRepo.getPlan(id);
+        DynamicsPrice dynamicsPrice = stripeRepo.getPrice(id);
 
         try {
             Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
@@ -312,7 +311,7 @@ public class DonateService {
             Customer customer = com.stripe.model.Customer.create(customerParams);
 
             Map<String, Object> itemParams = new HashMap<>();
-            itemParams.put("plan", dynamicsPlan.getStripeId());
+            itemParams.put("price", dynamicsPrice.getStripeId());
 
             Map<String, Object> itemsParams = new HashMap<>();
             itemsParams.put("0", itemParams);
@@ -324,19 +323,20 @@ public class DonateService {
             Subscription s = com.stripe.model.Subscription.create(params);
 
             user.setStripeUserId(customer.getId());
-            user.setPlanId(id);
+            user.setPriceId(id);
             user.setStripeSubscriptionId(s.getId());
-            userRepo.updatePlan(user);
+            userRepo.updatePrice(user);
 
-            redirect.addFlashAttribute("message", "Congratulations, you are now ready! " + dynamicsPlan.getNickname() + " for " + dynamicsPlan.getProjectLimit() + " websites!");
+            redirect.addFlashAttribute("message", "Congratulations, you are now ready! " + dynamicsPrice.getNickname() + " for " + dynamicsPrice.getProjectLimit() + " websites!");
 
         }catch(Exception ex){
             redirect.addFlashAttribute("message", "Something went wrong, nothing should have been charged. Please try again, or contact us mail@okay.page");
-            String message = user.getUsername() + " " + dynamicsPlan.getNickname();
+            DynamicsProduct storedProduct = stripeRepo.getProduct(dynamicsPrice.getProductId());
+            String message = user.getUsername() + " " + storedProduct.getNickname();
             emailService.send("croteau.mike@gmail.com", "subscription issue", message);
             ex.printStackTrace();
         }
-        return "redirect:/dynamicsPlan/select";
+        return "redirect:/dynamicsPrice/select";
     }
 
 
@@ -361,8 +361,8 @@ public class DonateService {
         }
 
         user.setStripeSubscriptionId(null);
-        user.setPlanId(null);
-        userRepo.updatePlan(user);
+        user.setPriceId(null);
+        userRepo.updatePrice(user);
 
         return "redirect:/user/edit/" + user.getId();
     }
@@ -375,9 +375,9 @@ public class DonateService {
         if(!authService.isAdministrator()){
             return "redirect:/unauthorized";
         }
-        List<DynamicsPlan> dynamicsPlans = planRepo.getList();
-        modelMap.put("dynamicsPlans", dynamicsPlans);
-        return "plan/index";
+        List<DynamicsPrice> dynamicsPrices = stripeRepo.getList();
+        modelMap.put("dynamicsPrices", dynamicsPrices);
+        return "price/index";
     }
 
     public String create(){
@@ -387,22 +387,22 @@ public class DonateService {
         if(!authService.isAdministrator()){
             return "redirect:/unauthorized";
         }
-        return "plan/create";
+        return "price/create";
     }
 
 
-    public String save(DynamicsPlan dynamicsPlan, RedirectAttributes redirectAttributes){
+    public String save(DynamicsPrice dynamicsPrice, RedirectAttributes redirectAttributes){
         if(!authService.isAuthenticated()){
             return "redirect:/unauthorized";
         }
         if(!authService.isAdministrator()){
             return "redirect:/unauthorized";
         }
-        if(dynamicsPlan.getAmount().multiply(new BigDecimal(100)).longValue() >= 1000){
+        if(dynamicsPrice.getAmount().multiply(new BigDecimal(100)).longValue() >= 1000){
             redirectAttributes.addFlashAttribute("message", "You just entered an amount larger than $1000.00");
             return "redirect:/donate/list";
         }
-        if(dynamicsPlan.getNickname().equals("")){
+        if(dynamicsPrice.getNickname().equals("")){
             redirectAttributes.addFlashAttribute("message", "blank nickname");
             return "redirect:/donate/list";
         }
@@ -412,32 +412,32 @@ public class DonateService {
             Stripe.apiKey = getApiKey();
 
             Map<String, Object> productParams = new HashMap<>();
-            productParams.put("name", dynamicsPlan.getNickname());
+            productParams.put("name", dynamicsPrice.getNickname());
             com.stripe.model.Product stripeProduct = com.stripe.model.Product.create(productParams);
 
             DynamicsProduct dynamicsProduct = new DynamicsProduct();
-            dynamicsProduct.setNickname(dynamicsPlan.getNickname());
+            dynamicsProduct.setNickname(dynamicsPrice.getNickname());
             dynamicsProduct.setStripeId(stripeProduct.getId());
-            DynamicsProduct savedDynamicsProduct = planRepo.saveProduct(dynamicsProduct);
+            DynamicsProduct savedDynamicsProduct = stripeRepo.saveProduct(dynamicsProduct);
 
 
-            Map<String, Object> planParams = new HashMap<>();
-            planParams.put("product", stripeProduct.getId());
-            planParams.put("nickname", dynamicsPlan.getNickname());
-            planParams.put("interval", dynamicsPlan.getFrequency());
-            planParams.put("currency", dynamicsPlan.getCurrency());
-            planParams.put("amount", dynamicsPlan.getAmount());
-            com.stripe.model.Plan stripePlan = com.stripe.model.Plan.create(planParams);
+            Map<String, Object> priceParams = new HashMap<>();
+            priceParams.put("product", stripeProduct.getId());
+            priceParams.put("nickname", dynamicsPrice.getNickname());
+            priceParams.put("interval", dynamicsPrice.getFrequency());
+            priceParams.put("currency", dynamicsPrice.getCurrency());
+            priceParams.put("amount", dynamicsPrice.getAmount());
+            com.stripe.model.Price stripePrice = com.stripe.model.Price.create(priceParams);
 
-            dynamicsPlan.setStripeId(stripePlan.getId());
-            dynamicsPlan.setProductId(savedDynamicsProduct.getId());
-            planRepo.savePlan(dynamicsPlan);
+            dynamicsPrice.setStripeId(stripePrice.getId());
+            dynamicsPrice.setProductId(savedDynamicsProduct.getId());
+            stripeRepo.savePrice(dynamicsPrice);
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
 
-        return "redirect:/dynamicsPlan/list";
+        return "redirect:/dynamicsPrice/list";
     }
 
     public String delete(Long id, RedirectAttributes redirect){
@@ -448,12 +448,12 @@ public class DonateService {
             return "redirect:/unauthorized";
         }
 
-        DynamicsPlan dynamicsPlan = planRepo.getPlan(id);
-        DynamicsProduct dynamicsProduct = planRepo.getProduct(dynamicsPlan.getProductId());
+        DynamicsPrice dynamicsPrice = stripeRepo.getPrice(id);
+        DynamicsProduct dynamicsProduct = stripeRepo.getProduct(dynamicsPrice.getProductId());
 
         try{
-            com.stripe.model.Plan plan = com.stripe.model.Plan.retrieve(dynamicsPlan.getStripeId());
-            plan.delete();
+            com.stripe.model.Plan price = com.stripe.model.Plan.retrieve(dynamicsPrice.getStripeId());
+            price.delete();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -465,15 +465,15 @@ public class DonateService {
             e.printStackTrace();
         }
 
-        List<User> users = userRepo.getPlanList(dynamicsPlan.getId());
+        List<User> users = userRepo.getPriceList(dynamicsPrice.getId());
         for(User user : users){
-            userRepo.removePlan(user.getId());
+            userRepo.removePrice(user.getId());
         }
 
-        planRepo.deletePlan(dynamicsPlan.getId());
-        planRepo.deleteProduct(dynamicsProduct.getId());
+        stripeRepo.deletePrice(dynamicsPrice.getId());
+        stripeRepo.deleteProduct(dynamicsProduct.getId());
 
-        return "redirect:/plan/list";
+        return "redirect:/price/list";
     }
 
     public String cleanup(){
@@ -487,9 +487,9 @@ public class DonateService {
             Stripe.apiKey = getApiKey();
 
             Map<String, Object> params = new HashMap<>();
-            PlanCollection planCollection = com.stripe.model.Plan.list(params);
-            List<com.stripe.model.Plan> plans = planCollection.getData();
-            for(com.stripe.model.Plan plan: plans){
+            PlanCollection priceCollection = com.stripe.model.Plan.list(params);
+            List<com.stripe.model.Plan> plans = priceCollection.getData();
+            for(Plan plan: plans){
                 plan.delete();
             }
 

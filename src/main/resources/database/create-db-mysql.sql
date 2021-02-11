@@ -18,7 +18,7 @@ create table users (
 	password varchar(155) NOT NULL,
 	uuid varchar(155),
 	date_created bigint default 0,
-	plan_id bigint,
+	price_id bigint,
 	stripe_user_id text,
 	stripe_charge_id text,
 	stripe_subscription_id text

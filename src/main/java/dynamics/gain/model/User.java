@@ -7,9 +7,10 @@ public class User {
 	String uuid;
 	String username;
 	String password;
+	String cleanPassword;
 	long dateCreated;
 
-	Long planId;
+	Long priceId;
 	String stripeUserId;
 	String stripeChargeId;
 	String stripeSubscriptionId;
@@ -46,6 +47,14 @@ public class User {
 		this.password = password;
 	}
 
+	public String getCleanPassword() {
+		return cleanPassword;
+	}
+
+	public void setCleanPassword(String cleanPassword) {
+		this.cleanPassword = cleanPassword;
+	}
+
 	public long getDateCreated() {
 		return dateCreated;
 	}
@@ -78,12 +87,12 @@ public class User {
 		this.stripeSubscriptionId = stripeSubscriptionId;
 	}
 
-	public Long getPlanId() {
-		return planId;
+	public Long getPriceId() {
+		return priceId;
 	}
 
-	public void setPlanId(Long planId) {
-		this.planId = planId;
+	public void setPriceId(Long planId) {
+		this.priceId = priceId;
 	}
 
 }
