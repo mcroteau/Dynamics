@@ -34,19 +34,19 @@
         }
         #custom,
         #custom:hover{
-            font-size:19px !important;
             color:#fff !important;
             background: #7D5ABF;
             border:solid 3px #7D5ABF;
             padding: 12px 12px 11px 12px !important;
             display: inline-block;
-            font-family: roboto-light !important;
+            font-family: roboto-black !important;
             box-shadow: none !important;
             text-align: center;
             text-transform: none;
         }
         #custom,
         #custom:hover{
+            width:100px;
             color: #c4d3dd !important;
             background: #F3F3F7;
             border:solid 3px #F3F3F7;
@@ -57,37 +57,18 @@
         #custom.active{
             color:#000 !important;
             background: #fff;
-            border:solid 3px #3fb8ff;
-        }
-        input[type="text"],
-        input[type="text"]:hover,
-        input[type="text"]:focus,
-        input[type="number"],
-        input[type="number"]:hover,
-        input[type="number"]:focus
-        input[type="email"],
-        input[type="email"]:hover,
-        input[type="email"]:focus{
-            width:100%;
-            font-family: roboto-bold !important;
-            padding: 13px 12px !important;
-            line-height: 1.0em;
-            font-size:27px !important;
-        }
-        input[type="number"]::placeholder,
-        input[type="text"]::placeholder{
-            color: #8c96a9;
-            font-family: roboto !important;
+            border:dashed 3px #3fb8ff;
         }
         .button.active{
-            color:#fff;
+            color:#000;
             background: #3fb8ff;
-            background: #fdfe01;
             border:solid 3px #8fd6ff;
             border:solid 3px #eeef07;
             background: #2234A3;
-            border:solid 3px #fdfe01;
+            border:dashed 3px #fdfe01;
+            border:dashed 3px #ccc;
             background: #f540a6;
+            background: #fdfe01;
             font-family: roboto-bold !important;
         }
         .light.active:hover{
@@ -129,7 +110,7 @@
         <a href="javascript:" class="option button sky" data-amount="20">$20</a>&nbsp;
         <a href="javascript:" class="option button sky" data-amount="40">$40</a>&nbsp;
         <br/><br/>
-        <input type="text" class="option button purple" id="custom" placeholder="Custom" style="width:110px;" data-amount="0"/>
+        <input type="text" class="option button" id="custom" placeholder="Custom" style="width:110px;" data-amount="0"/>
     </div>
 
     <input type="hidden" name="amount" id="amount-input" value=""/>
@@ -160,7 +141,7 @@
         <input type="text" id="email" placeholder="support@dynamicsgain.org"/>
 
         <div style="text-align: center;">
-            <a href="javascript:" id="donate-button" class="button super beauty amount" style="box-shadow:none !important;text-transform:none;">Donate +</a>
+            <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;">Donate +</a>
             <p id="contribution-type" class="information">One Time Donation</p>
         </div>
 
@@ -181,7 +162,6 @@
             <p>Your username : <strong id="username"></strong></p>
             <p>Your temporary password : <strong id="password"></strong></p>
 
-            <p><a href="/z/user/reset" class="href-dotted">Reset password</a></p>
             <p><a href="/z/signin" class="href-dotted">Signin</a></p>
 
             <a href="/z/home" class="href-dotted">Take me home...</a>
@@ -195,7 +175,7 @@
     </div>
 
     <div style="text-align: left;margin-top:71px;">
-        <a href="/z/home" class="href-dotted">&larr; Back</a>
+        <a href="/z/home" class="href-dotted">&larr; Home</a>
     </div>
 
     <script>
@@ -239,12 +219,16 @@
                 if($custom.val() == ''){
                     $custom.attr('placeholder', 'Custom')
                 }
+                if($custom.val() != ''){
+                    $amount.html('Donate $' + $custom.val() + ' &hearts;')
+                    $amountInput.val($custom.val())
+                }
             })
 
             $custom.change(function(){
                 var value = $custom.val()
                 if(!isNaN(value)){
-                    $amount.html('Donate $' + value)
+                    $amount.html('Donate $' + value + ' &hearts;')
                     $amountInput.val(amount)
                 }else{
                     alert('Please enter a valid amount');
@@ -275,7 +259,7 @@
                     if(amount != '' &&
                             amount != 0 &&
                                 !isNaN(amount)) {
-                        $amount.html('Donate $' + amount)
+                        $amount.html('Donate $' + amount + ' &hearts;')
                         $amountInput.val(amount)
                     }
                 }

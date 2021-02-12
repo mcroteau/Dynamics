@@ -1,6 +1,7 @@
 package dynamics.gain.service;
 
 import com.google.gson.Gson;
+import com.stripe.model.Charge;
 import com.stripe.model.Subscription;
 import com.stripe.model.SubscriptionCollection;
 import dynamics.gain.common.Dynamics;
@@ -80,18 +81,33 @@ public class UserService {
         }
 
         User user = userRepo.get(id);
-        if(user.getApiKey() != null &&
-                !user.getApiKey().equals(""))
-            user.setDeveloper(true);
 
         Subscription subscription = null;
         BigDecimal subscriptionAmount = null;
-        try {
-             subscription = Subscription.retrieve(user.getStripeSubscriptionId());
-             subscriptionAmount = subscription.getItems().getData().get(0).getPrice().getUnitAmountDecimal().divide(new BigDecimal(100));
-        }catch(Exception ex){}
+        if(user.getStripeSubscriptionId() != null &&
+                !user.getStripeSubscriptionId().equals("")) {
+            try {
+                subscription = Subscription.retrieve(user.getStripeSubscriptionId());
+                subscriptionAmount = subscription.getItems().getData().get(0).getPrice().getUnitAmountDecimal().divide(new BigDecimal(100));
+            } catch (Exception ex) {
+            }
+        }
 
+        Charge charge = null;
+        BigDecimal chargeAmount = null;
+        log.info(user.getStripeChargeId());
+        if(user.getStripeChargeId() != null &&
+                !user.getStripeChargeId().equals("")) {
+            try{
+                charge = Charge.retrieve(user.getStripeChargeId());
+                chargeAmount = new BigDecimal(charge.getAmount()).divide(new BigDecimal(100));
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
 
+        modelMap.put("charge", charge);
+        modelMap.put("chargeAmount", chargeAmount);
         modelMap.put("subscription", subscription);
         modelMap.put("subscriptionAmount", subscriptionAmount);
         modelMap.addAttribute("user", user);
@@ -104,14 +120,14 @@ public class UserService {
     public String editPassword(Long id, ModelMap modelMap) {
 
         String permission = getPermission(Long.toString(id));
-        if(!authService.isAdministrator() &&
+        if(!authService.isAdministrator() ||
                 !authService.hasPermission(permission)){
             return "redirect:/";
         }
 
         User user = userRepo.get(id);
         modelMap.addAttribute("user", user);
-        return "user/edit_password";
+        return "user/password";
     }
 
 
@@ -134,7 +150,8 @@ public class UserService {
         }
 
         redirect.addFlashAttribute("message", "password successfully updated");
-        return "redirect:/signout";
+        Long id = authService.getUser().getId();
+        return "redirect:/user/edit_password/" + id;
 
     }
 

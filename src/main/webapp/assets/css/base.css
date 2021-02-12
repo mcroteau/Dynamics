@@ -150,18 +150,18 @@ h1{
 	font-size:49px;
 	margin:11px 0px 0px;
 	line-height:1.3em;
-	font-family:roboto-bold !important;
+	font-family:roboto-slab-bold !important;
 }
 
 h2{
     font-size:36px;
     line-height: 1.0em;
-    font-family:roboto-bold !important;
+    font-family:roboto-slab-bold !important;
 }
 
 h3{
     font-size:29px;
-	font-family:roboto-bold !important;
+	font-family:roboto-slab-bold !important;
 	line-height:1.17;
     margin:10px auto 10px auto;
 }
@@ -392,10 +392,6 @@ input[type="submit"].button.super{
     font-family:roboto-black !important;
 }
 
-.button.tiny{
-    padding: 2px 3px
-}
-
 .button.bare,
 input[type="button"].button.bare,
 input[type="reset"].button.bare,
@@ -407,6 +403,14 @@ input[type="submit"].button.bare{
     -webkit-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
     -moz-box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
     box-shadow: 0px 3px 5px 0px rgba(179,179,179,0.43) !important;
+}
+
+.button.tiny{
+    padding: 2px 3px
+}
+
+.disabled{
+    opacity:0.3;
 }
 
 .notify{
@@ -555,10 +559,31 @@ input[type="password"]:focus{
     border:solid 3px #3fb8ff;
     outline: none;
 }
-
-input::placeholder{
-    font-size:19px;
+input[type="text"],
+input[type="text"]:hover,
+input[type="text"]:focus,
+input[type="password"],
+input[type="password"]:hover,
+input[type="password"]:focus,
+input[type="number"],
+input[type="number"]:hover,
+input[type="number"]:focus
+input[type="email"],
+input[type="email"]:hover,
+input[type="email"]:focus{
+    width:100%;
+    font-family: roboto-bold !important;
+    padding: 13px 12px !important;
+    line-height: 1.0em;
+    font-size:27px !important;
 }
+input[type="number"]::placeholder,
+input[type="text"]::placeholder{
+    font-size:19px;
+    color: #8c96a9;
+    font-family: roboto !important;
+}
+
 
 textarea{
     color:#000;

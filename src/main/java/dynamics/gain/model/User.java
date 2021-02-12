@@ -15,9 +15,7 @@ public class User {
 	String stripeChargeId;
 	String stripeSubscriptionId;
 
-	String stripeKey;
-	boolean developer;
-	String apiKey;
+	boolean hasCharge;
 
 	public long getId() {
 		return id;
@@ -99,28 +97,13 @@ public class User {
 		this.priceId = priceId;
 	}
 
-	public String getStripeKey() {
-		return stripeKey;
+	public boolean hasCharge() {
+		return hasCharge;
 	}
 
-	public void setStripeKey(String stripeKey) {
-		this.stripeKey = stripeKey;
+	public void setHasCharge(boolean hasCharge) {
+		this.hasCharge = hasCharge;
 	}
 
-	public boolean isDeveloper() {
-		return developer;
-	}
-
-	public void setDeveloper(boolean developer) {
-		this.developer = developer;
-	}
-
-	public String getApiKey() {
-		return apiKey;
-	}
-
-	public void setApiKey(String apiKey) {
-		this.apiKey = apiKey;
-	}
 }
 

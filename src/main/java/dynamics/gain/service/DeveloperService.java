@@ -34,7 +34,7 @@ public class DeveloperService {
         }
 
         String apiKey = Utils.getRandomString(19);
-        user.setApiKey(apiKey);
+//        user.setApiKey(apiKey);
         userRepo.update(user);
 
         User updatedUser = userRepo.get(user.getId());

@@ -38,14 +38,12 @@ public class DonateController {
     @CrossOrigin(origins="*")
     @RequestMapping(value="/donate/make", method=RequestMethod.POST, consumes="application/json")
     public @ResponseBody String make(@RequestBody DonationInput donationInput, Exception ex){
-//        log.info("Returning HTTP 400 Bad Request", ex);
         return gson.toJson(donateService.make(donationInput));
     }
 
     @CrossOrigin(origins="*")
-    @RequestMapping(value="/donate/cancel/{subscriptionId}", method=RequestMethod.POST, consumes="application/json")
-    public @ResponseBody String make(@PathVariable String subcriptionId){
-//        log.info("Returning HTTP 400 Bad Request", ex);
-        return gson.toJson(donateService.cancel(subcriptionId));
+    @RequestMapping(value="/donate/cancel/{subscriptionId}", method=RequestMethod.DELETE)
+    public @ResponseBody String make(@PathVariable String subscriptionId){
+        return gson.toJson(donateService.cancel(subscriptionId));
     }
 }

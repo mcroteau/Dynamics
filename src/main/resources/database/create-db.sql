@@ -21,9 +21,7 @@ create table users (
 	price_id bigint,
 	stripe_user_id text,
 	stripe_charge_id text,
-	stripe_subscription_id text,
-	stripe_key text,
-	api_key character varying(150)
+	stripe_subscription_id text
 );
 
 create table roles (

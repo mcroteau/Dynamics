@@ -283,12 +283,6 @@ public class UserRepo {
 		return true;
 	}
 
-	public boolean updatePrice(User user) {
-		String sql = "update users set stripe_user_id = ?, price_id = ?, stripe_subscription_id = ? where id = ?";
-		jdbcTemplate.update(sql, new Object[] { user.getStripeUserId(), user.getPriceId(), user.getStripeSubscriptionId() });
-		return true;
-	}
-
 	public List<User> getPriceList(long id) {
 		String sql = "select * from users where price_id = ?";
 		List<User> people = jdbcTemplate.query(sql, new Object[]{id}, new BeanPropertyRowMapper<>(User.class));
@@ -296,8 +290,8 @@ public class UserRepo {
 	}
 
     public boolean update(User user) {
-		String sql = "update users set username = ?, password = ?,  price_id = ?, stripe_user_id = ?, stripe_charge_id = ?, stripe_subscription_id = ?, stripe_key = ?, api_key = ? where id = ?";
-		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getPriceId(), user.getStripeUserId(), user.getStripeChargeId(), user.getStripeSubscriptionId(), user.getStripeKey(), user.getApiKey(), user.getId() });
+		String sql = "update users set username = ?, password = ?,  price_id = ?, stripe_user_id = ?, stripe_charge_id = ?, stripe_subscription_id = ? where id = ?";
+		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getPriceId(), user.getStripeUserId(), user.getStripeChargeId(), user.getStripeSubscriptionId(), user.getId() });
 		return true;
     }
 }

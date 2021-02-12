@@ -2,44 +2,79 @@
 <%@ page import="xyz.strongperched.Parakeet" %>
 <%@ page import="dynamics.gain.common.Constants" %>
 
-<div id="edit-user-form">
+    <style>
+        #message{
+            display:none;
+        }
+    </style>
 
 	<c:if test="${not empty error}">
 	    <div class="notify">${error}</div>
 	</c:if>
 
-	<div id="edit-user-container">
+    <h1>Your Profile</h1>
+    <p>Below are your contribution details.</p>
 
-        <h1>Profile</h1>
-        <p>Thank you for being a contributor. Below are your contribution details.</p>
-        <c:if test="${subscription != null}">
-            <p class="bold">Subscription Details</p>
-            <table>
-                <tr>
-                    <th style="text-align: right">Amount</th>
-                    <td style="text-align: left">$${subscriptionAmount}</td>
-                </tr>
-                <tr>
-                    <th style="text-align: right">Frequency</th>
-                    <td style="text-align: left">Month</td>
-                </tr>
-            </table>
-            <form action="/z/donate/cancel" modelAttribute="user">
-                <input type="hidden" name="id" value="${user.id}"/>
-                <input type="hidden" name="stripeSubscriptionId" value="${user.stripeSubscriptionId}"/>
-                <input type="submit" class="button small beauty" value="Cancel"/>
-            </form>
-        </c:if>
+    <c:if test="${subscription != null}">
+        <div id="subscription-details">
+            <h3 class="bold">Subscription Details</h3>
 
-        <c:if test="${!user.developer}">
-            <h3>Setup a Developer Account</h3>
-            <a href="/z/developer/setup" class="button retro">Go! Setup a Developer Account</a>
-        </c:if>
-        <c:if test="${user.developer}">
-            <h3>Developer Information</h3>
-            <p><strong>API Key:</strong> <strong>${user.apiKey}</strong></p>
-        </c:if>
-    </div>
-</div>
+            <p>$${subscriptionAmount} billed monthly</p>
+
+            <input type="submit" class="button small beauty" value="Cancel" id="cancel"/>
+        </div>
+        <p id="message" class="notify">Processing... please wait.</p>
+    </c:if>
+
+    <c:if test="${chargeAmount != null}">
+        <h3>One-Time Donation</h3>
+        <h1>$${chargeAmount}</h1>
+    </c:if>
+
+    <c:if test="${chargeAmount == null && subscription == null}">
+        <p>No current donations.</p>
+        <p><a href="/z/donate" class="href-dotted">Donate</a></p>
+    </c:if>
+
+    <p>Thank you for being a contributor.<br/>
+        Contact us any time if you have questions.</p>
+
+    <a href="/z/user/edit_password/${user.id}" class="href-dotted" style="display:inline-block;margin-top:60px;">Update Password</a>
+
+<script>
+    $(document).ready(function(){
+        var processing = false
+
+        var $cancelBtn = $('#cancel'),
+            $messageDiv = $('#message'),
+            $subscriptionDiv = $('#subscription-details');
+
+        $cancelBtn.click(function(evnt){
+            evnt.preventDefault();
+            if(!processing){
+                $messageDiv.show();
+                $.ajax({
+                    url : "/z/donate/cancel/${user.stripeSubscriptionId}",
+                    method: "delete",
+                    success: function(raw){
+                        var resp = JSON.parse(raw)
+                        console.log(resp)
+                        if(resp == "success") {
+                            $messageDiv.html("Successfully processed cancellation.")
+                            $subscriptionDiv.hide()
+                        }
+                        if(resp != "success") {
+                            $messageDiv.html("Something went wrong, looks like we are going to have to process manually.")
+                        }
+                    },
+                    error : function(){
+                        console.log("something went wrong.")
+                        $messageDiv.html("Something went wrong, looks like we are going to have to process manually.")
+                    }
+                })
+            }
+        })
+    })
+</script>
 	
 		

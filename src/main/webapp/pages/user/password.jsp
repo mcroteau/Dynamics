@@ -3,17 +3,10 @@
 <div id="edit-user-form">
 
 	<c:if test="${not empty message}">
-		<div class="span12">
-			<div class="alert alert-info">${message}</div>
+		<div class="notify">
+			${message}
 		</div>
 	</c:if>
-
-	<c:if test="${not empty error}">
-		<div>
-			<div class="alert alert-danger">${error}</div>
-		</div>
-	</c:if>
-
 		
 	<h1>Update Password</h1>
 	
@@ -23,12 +16,11 @@
 
 		<div class="form-group">
 		  	<label for="password">Password</label>
-		  	<input type="password" name="password" class="form-control" id="password" placeholder="******" value="">
+		  	<input type="text" name="password" id="password" placeholder="******" value="">
 		</div>
 		
 		
 		<div class="form-group">
-			<a href="${pageContext.request.contextPath}/user/edit/${user.id}">Cancel</a>
 			<input type="submit" class="button" id="update" value="Update"/>
 		</div>
 		

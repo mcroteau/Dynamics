@@ -26,13 +26,12 @@
         <a href="/z/donate" class="button super yellow">Give &hearts;</a>
     </div>
 
-    <p class="open-text regular" style="margin-bottom:10px;">Dynamics <strong class="gain">+Gain</strong> is a non profit designed with
-        the sole purpose of removing barriers that prevent people from
-        giving time, money and resources to those in need! Our goal is to
-        set up Booths with near real time homeless data displayed
-        everywhere you go in addition a virtual gateway allowing people
-        the ability to accept donations on behalf of their own Charity
-        Organization.
+    <p class="open-text regular" style="margin-bottom:10px;">Dynamics <strong class="gain">+Gain</strong>
+        is a charitable organization designed to removing barriers
+        that prevent people from giving time, money and resources to those
+        in need! Our goal is to set up Booths with near real time homeless
+        data displayed allowing people to stay up to date on the reality of
+        homelessness in their community.
     </p>
 
     <h3>Where your donations go</h3>
@@ -46,13 +45,6 @@
         a little javascript know-how... we also provide custom
         software services to the private and public sector.</p>
 
-    <h3>Interested in setting up your own Charitable Organization?</h3>
-    <p>We are here to help. You can either take our codebase and modify it
-    to fit your needs or use our donation api for free. All you need is a Stripe
-    account. Here is how to user our <a href="/setup" class="href-dotted">donation platform.</a>
-    For access to Dynamics +Gain source code, the code that runs this site
-    and the API.
-        <a href="https://github.com/mcroteau/Dynamics" class="href-dotted">Source Code</a></p>
 
     <h3>Towns/Cities</h3>
     <ul>
@@ -60,6 +52,8 @@
             <li style="padding:1px 0px;"><a href="/z/town/${town.townUri}" class="href-dotted">${town.name}</a></li>
         </c:forEach>
     </ul>
+
+    <p><a href="https://github.com/mcroteau/Dynamics" class="href-dotted" target="_blank">Source Code</a></p>
 
 </div>
 

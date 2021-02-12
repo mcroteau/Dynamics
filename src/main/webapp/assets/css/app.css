@@ -93,6 +93,7 @@ label{
     font-family: roboto-black !important;
 }
 
+
 @media screen and (max-width: 690px) {
     #outer-wrapper{
         width:calc(100% - 40px);

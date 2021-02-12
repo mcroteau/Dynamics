@@ -325,7 +325,7 @@ public class DonateService {
             user.setStripeUserId(customer.getId());
             user.setPriceId(id);
             user.setStripeSubscriptionId(s.getId());
-            userRepo.updatePrice(user);
+            userRepo.update(user);
 
             redirect.addFlashAttribute("message", "Congratulations, you are now ready! " + dynamicsPrice.getNickname() + " for " + dynamicsPrice.getProjectLimit() + " websites!");
 
@@ -362,7 +362,7 @@ public class DonateService {
 
         user.setStripeSubscriptionId(null);
         user.setPriceId(null);
-        userRepo.updatePrice(user);
+        userRepo.update(user);
 
         return Constants.GAINING_MOMENTUM;
     }
