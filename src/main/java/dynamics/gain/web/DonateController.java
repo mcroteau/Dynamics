@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 @Controller
 public class DonateController {
@@ -44,9 +45,9 @@ public class DonateController {
     }
 
     @CrossOrigin(origins="*")
-    @RequestMapping(value="/donate/cancel", method=RequestMethod.POST, consumes="application/json")
-    public @ResponseBody String make(@RequestBody User user, Exception ex){
+    @RequestMapping(value="/donate/cancel/{subscriptionId}", method=RequestMethod.POST, consumes="application/json")
+    public @ResponseBody String make(@PathVariable String subcriptionId){
 //        log.info("Returning HTTP 400 Bad Request", ex);
-        return gson.toJson(donateService.cancel(user));
+        return gson.toJson(donateService.cancel(subcriptionId));
     }
 }

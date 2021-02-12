@@ -128,6 +128,18 @@ public class UserRepo {
 
 		return user;
 	}
+
+	public User getBySubscription(String subscriptionId){
+		User user = null;
+		try{
+			String sql = "select * from users where stripe_subscription_id = ?";
+			user = jdbcTemplate.queryForObject(sql, new Object[] {subscriptionId},
+					new BeanPropertyRowMapper<>(User.class));
+
+		}catch(EmptyResultDataAccessException e){}
+
+		return user;
+	}
 	
 	public boolean delete(long id) {
 		String sql = "delete from users where id = ?";

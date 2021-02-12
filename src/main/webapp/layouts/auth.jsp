@@ -30,7 +30,7 @@
             <div class="col-sm-10">
                 <div id="header-wrapper">
                     <a href="/z" class="logo">Dynamics +Gain<span class="black apostrophe"></span><br/>
-                        <span class="tagline">Addressing Homelessness</span>
+                        <span class="tagline">The Needy are in Need</span>
                     </a>
 
                     <div id="navigation">

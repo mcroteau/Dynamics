@@ -340,15 +340,16 @@ public class DonateService {
     }
 
 
-    public String cancel(User user){
+    public String cancel(String subscriptionId){
         if(!authService.isAuthenticated()){
-            return "redirect:/";
+            return Constants.PERMISSION_REQUIRED;
         }
 
+        User user = userRepo.getBySubscription(subscriptionId);
         String permission = getUserPermission(Long.toString(user.getId()));
         if(!authService.isAdministrator() &&
                 !authService.hasPermission(permission)){
-            return "redirect:/unauthorized";
+            return Constants.PERMISSION_REQUIRED;
         }
 
         try{
@@ -363,7 +364,7 @@ public class DonateService {
         user.setPriceId(null);
         userRepo.updatePrice(user);
 
-        return "redirect:/user/edit/" + user.getId();
+        return Constants.GAINING_MOMENTUM;
     }
 
 

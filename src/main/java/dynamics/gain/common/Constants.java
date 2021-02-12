@@ -3,22 +3,9 @@ package dynamics.gain.common;
 public class Constants {
 
 	public static final Integer BAD_URI = 500;
+	public static final String GAINING_MOMENTUM = "success";
+	public static final String PERMISSION_REQUIRED = "permission required";
 	public static final String UNAUTHORIZED_REDIRECT = "redirect:/unauthorized";
-
-	public static final String HEALTH_GROUP = "Okay!";
-	public static final String PROJECT_REPO_KEY = "ProjectRepo";
-	public static final String PHONE_SERVICE_KEY = "PhoneService";
-	public static final int HEALTH_JOBS_DURATION = 60 * 15;
-
-	public static final String HEALTH_JOB1 = "Okay Job 1";
-	public static final String HEALTH1_TRIGGER = "Trigger1";
-
-	public static final String HEALTH_JOB2 = "Okay Job 2";
-	public static final String HEALTH2_TRIGGER = "Trigger2";
-
-	public static final String HEALTH_JOB3 = "Okay Job 3";
-	public static final String HEALTH3_TRIGGER = "Trigger3";
-
 
 	public static final String PASSWORD = "password";
 	public static final String ADMIN_USERNAME = "croteau.mike@gmail.com";
