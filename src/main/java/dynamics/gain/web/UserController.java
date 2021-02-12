@@ -78,7 +78,7 @@ public class UserController {
 	}
 
 
-	@PostMapping(value="/user/send_reset")
+	@PostMapping(value="/user/send")
 	public String sendReset(RedirectAttributes redirect,
 				    		HttpServletRequest request,
 				    		@RequestParam(value="username", required = true ) String username){
@@ -86,12 +86,12 @@ public class UserController {
 	}
 
 
-	@GetMapping(value="/user/confirm_reset")
-	public String resetView(ModelMap modelMap,
+	@GetMapping(value="/user/confirm")
+	public String confirm(ModelMap modelMap,
 							RedirectAttributes redirect,
 							@RequestParam(value="username", required = true ) String username,
 							@RequestParam(value="uuid", required = true ) String uuid){
-		return userService.resetView(uuid, username, modelMap, redirect);
+		return userService.confirm(uuid, username, modelMap, redirect);
 	}
 
 

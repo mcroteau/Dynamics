@@ -17,5 +17,8 @@
         <pattern>*/signup</pattern>
         <pattern>*/town/*</pattern>
         <pattern>*/location/*</pattern>
+        <pattern>*/user/reset*</pattern>
+        <pattern>*/user/send</pattern>
+        <pattern>*/user/confirm</pattern>
     </decorator>
 </decorators>

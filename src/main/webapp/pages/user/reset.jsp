@@ -17,9 +17,9 @@
 
 	<h2>Reset Password</h2>
 
-    <p style="line-height:1.23em;">Enter email that is registered with Amadeus to begin password reset process</p>
+    <p style="line-height:1.23em;">Enter email that is registered with Dynamics +Gain to reset your password</p>
 
-	<form action="${pageContext.request.contextPath}/user/send_reset" method="post" class="pure-form pure-form-stacked">
+	<form action="${pageContext.request.contextPath}/user/send" method="post">
 
         <fieldset>
 

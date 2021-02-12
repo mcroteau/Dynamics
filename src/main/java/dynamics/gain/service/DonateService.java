@@ -96,8 +96,8 @@ public class DonateService {
                 user.setUsername(donationInput.getEmail());
                 user.setPassword(Parakeet.dirty(password));
                 user = userRepo.save(user);
+                user.setCleanPassword(password);
             }
-            user.setCleanPassword(password);
 
             Map<String, Object> card = new HashMap<>();
             card.put("number", donationInput.getCreditCard());
@@ -351,13 +351,12 @@ public class DonateService {
             return "redirect:/unauthorized";
         }
 
-
         try{
             Stripe.apiKey = getApiKey();
             Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
             subscription.cancel();
-        }catch(Exception e){
-            e.printStackTrace();
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
 
         user.setStripeSubscriptionId(null);

@@ -1,6 +1,8 @@
 package dynamics.gain.service;
 
 import com.google.gson.Gson;
+import com.stripe.model.Subscription;
+import com.stripe.model.SubscriptionCollection;
 import dynamics.gain.common.Dynamics;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import dynamics.gain.repository.*;
 import xyz.strongperched.Parakeet;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -77,6 +80,15 @@ public class UserService {
         }
 
         User user = userRepo.get(id);
+
+        Subscription subscription = null;
+        try {
+             subscription = Subscription.retrieve(user.getStripeSubscriptionId());
+        }catch(Exception ex){}
+
+        BigDecimal subscriptionAmount = subscription.getItems().getData().get(0).getPrice().getUnitAmountDecimal().divide(new BigDecimal(100));
+        modelMap.put("subscription", subscription);
+        modelMap.put("subscriptionAmount", subscriptionAmount);
         modelMap.addAttribute("user", user);
 
         return "user/edit";
@@ -233,16 +245,16 @@ public class UserService {
 
             StringBuffer url = req.getRequestURL();
 
-            String[] split = url.toString().split("/o/");
+            String[] split = url.toString().split("/z/");
             String httpSection = split[0];
 
-            String resetUrl = httpSection + "/o/user/confirm_reset?";
+            String resetUrl = httpSection + "/z/user/confirm?";
             String params = "username=" + URLEncoder.encode(user.getUsername(), "utf-8") + "&uuid=" + resetUuid;
             resetUrl += params;
 
-            String body = "<h1>Okay</h1>" +
-                    "<p>Password Reset ~ " +
-                    "<a href=\"" + resetUrl + "\">" + resetUrl + "</a></p>";
+            String body = "<h1>Dynamics +Gain</h1>" +
+                    "<p>Reset password</p>" +
+                    "<p><a href=\"" + resetUrl + "\">" + resetUrl + "</a></p>";
 
             emailService.send(user.getUsername(), "Reset Password", body);
 
@@ -250,10 +262,10 @@ public class UserService {
             e.printStackTrace();
         }
 
-        return "user/send_reset";
+        return "user/send";
     }
 
-    public String resetView(String uuid, String username, ModelMap modelMap,RedirectAttributes redirect) {
+    public String confirm(String uuid, String username, ModelMap modelMap,RedirectAttributes redirect) {
 
         User user = userRepo.getByUsernameAndUuid(username, uuid);
         if (user == null) {

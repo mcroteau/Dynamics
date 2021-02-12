@@ -2,6 +2,7 @@ package dynamics.gain.web;
 
 import com.google.gson.Gson;
 import dynamics.gain.model.DonationInput;
+import dynamics.gain.model.User;
 import dynamics.gain.service.DonateService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +43,10 @@ public class DonateController {
         return gson.toJson(donateService.make(donationInput));
     }
 
+    @CrossOrigin(origins="*")
+    @RequestMapping(value="/donate/cancel", method=RequestMethod.POST, consumes="application/json")
+    public @ResponseBody String make(@RequestBody User user, Exception ex){
+//        log.info("Returning HTTP 400 Bad Request", ex);
+        return gson.toJson(donateService.cancel(user));
+    }
 }

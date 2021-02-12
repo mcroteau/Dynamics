@@ -44,6 +44,10 @@ span{
     text-decoration: none;
     font-family: roboto-slab-semibold !important;
 }
+.tagline{
+    font-size:16px;
+    font-family: roboto-light !important;
+}
 #welcome{
     display:block;
     margin-bottom:20px;

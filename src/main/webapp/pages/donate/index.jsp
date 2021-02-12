@@ -81,10 +81,12 @@
         }
         .button.active{
             color:#fff;
-            background: #fdfe01;
             background: #3fb8ff;
-            border:solid 3px #eeef07;
+            background: #fdfe01;
             border:solid 3px #8fd6ff;
+            border:solid 3px #eeef07;
+            background: #2234A3;
+            border:solid 3px #fdfe01;
             font-family: roboto-bold !important;
         }
         .light.active:hover{
@@ -158,6 +160,7 @@
 
         <div style="text-align: center;">
             <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;">Donate +</a>
+            <p id="contribution-type" class="information">One Time Donation</p>
         </div>
 
     </div>
@@ -169,13 +172,16 @@
             <p>Your donation is being processed. Thank you for your patience.</p>
         </div>
 
-        <div id="success" class="message" style="display:block">
+        <div id="success" class="message" style="display:none">
             <h1>Thank you!</h1>
             <h2><strong id="donation-amount"></strong> Donated</h2>
             <p>Successfully processed your donation.</p>
 
             <p>Your username : <strong id="username"></strong></p>
-            <p><a href="/z/user/reset" class="href-dotted">Set password</a></p>
+            <p>Your temporary password : <strong id="password"></strong></p>
+
+            <p><a href="/z/user/reset" class="href-dotted">Reset password</a></p>
+            <p><a href="/z/signin" class="href-dotted">Signin</a></p>
 
             <a href="/z/home" class="href-dotted">Take me home...</a>
         </div>
@@ -207,6 +213,7 @@
                 $custom = $('#custom'),
                 $fiver = $('#fiver'),
                 $success = $('#success'),
+                $contributionType = $('#contribution-type'),
                 $live = $('.live');
 
             var $creditCard = $('#credit-card'),
@@ -219,7 +226,8 @@
 
             var $username = $('#username'),
                 $password = $('#password'),
-                $donationAmount = ('#donation-amount');
+                $donationAmount = $('#donation-amount');
+
 
             $custom.focus(function(){
                 $custom.val('');
@@ -247,8 +255,10 @@
                 $durations.removeClass('active')
                 $(this).addClass('active').removeClass('sky')
                 if($(this).attr('data-recurring') == 'true'){
+                    $contributionType.html('Monthly Donation')
                     recurring = true
                 }else{
+                    $contributionType.html('One-Time Donation')
                     recurring = false
                 }
             })
@@ -297,9 +307,15 @@
                             console.log(data);
                             $processing.hide()
                             if(data.processed){
-                                $donationAmount.html(data.amount)
-                                $username.html(data.user.username)
-                                $password.html(data.user.cleanPassword)
+                                if('cleanPassword' in data.user){
+                                    $username.html(data.user.username)
+                                    $password.html(data.user.cleanPassword)
+                                }
+                                if(!('cleanPassword' in data.user)){
+                                    $username.parents('p').hide()
+                                    $password.parents('p').hide()
+                                }
+                                $donationAmount.html('$' + data.amount)
                                 $success.fadeIn(100)
                             }else{
                                 $('#error').html(data.status)

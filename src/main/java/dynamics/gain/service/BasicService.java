@@ -45,7 +45,8 @@ public class BasicService {
 
     public String index() {
         if(authService.isAuthenticated()){
-            return "redirect:/project/overview";
+            long id =  authService.getUser().getId();
+            return "redirect:/user/edit/" + id;
         }
         return "redirect:/home";
     }
