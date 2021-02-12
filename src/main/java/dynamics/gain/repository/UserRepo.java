@@ -296,8 +296,8 @@ public class UserRepo {
 	}
 
     public boolean update(User user) {
-		String sql = "update users set username = ?, password = ?,  price_id = ?, stripe_user_id = ?, stripe_charge_id = ?, stripe_subscription_id = ? where id = ?";
-		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getPriceId(), user.getStripeUserId(), user.getStripeChargeId(), user.getStripeSubscriptionId(), user.getId() });
+		String sql = "update users set username = ?, password = ?,  price_id = ?, stripe_user_id = ?, stripe_charge_id = ?, stripe_subscription_id = ?, stripe_key = ?, api_key = ? where id = ?";
+		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getPriceId(), user.getStripeUserId(), user.getStripeChargeId(), user.getStripeSubscriptionId(), user.getStripeKey(), user.getApiKey(), user.getId() });
 		return true;
     }
 }

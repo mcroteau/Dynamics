@@ -30,6 +30,15 @@
                 <input type="submit" class="button small beauty" value="Cancel"/>
             </form>
         </c:if>
+
+        <c:if test="${!user.developer}">
+            <h3>Setup a Developer Account</h3>
+            <a href="/z/developer/setup" class="button retro">Go! Setup a Developer Account</a>
+        </c:if>
+        <c:if test="${user.developer}">
+            <h3>Developer Information</h3>
+            <p><strong>API Key:</strong> <strong>${user.apiKey}</strong></p>
+        </c:if>
     </div>
 </div>
 	

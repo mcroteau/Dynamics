@@ -16,6 +16,8 @@ public class User {
 	String stripeSubscriptionId;
 
 	String stripeKey;
+	boolean developer;
+	String apiKey;
 
 	public long getId() {
 		return id;
@@ -105,5 +107,20 @@ public class User {
 		this.stripeKey = stripeKey;
 	}
 
+	public boolean isDeveloper() {
+		return developer;
+	}
+
+	public void setDeveloper(boolean developer) {
+		this.developer = developer;
+	}
+
+	public String getApiKey() {
+		return apiKey;
+	}
+
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
+	}
 }
 

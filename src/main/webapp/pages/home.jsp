@@ -52,12 +52,12 @@
     account. Here is how to user our <a href="/setup" class="href-dotted">donation platform.</a>
     For access to Dynamics +Gain source code, the code that runs this site
     and the API.
-        <a href="https://github.com/mcroteau/Dynamics">https://github.com/mcroteau/Dynamics</a></p>
+        <a href="https://github.com/mcroteau/Dynamics" class="href-dotted">Source Code</a></p>
 
     <h3>Towns/Cities</h3>
     <ul>
         <c:forEach var="town" items="${towns}">
-            <li style="padding:1px 0px;"><a href="/z/town/${town.townUri}">${town.name}</a></li>
+            <li style="padding:1px 0px;"><a href="/z/town/${town.townUri}" class="href-dotted">${town.name}</a></li>
         </c:forEach>
     </ul>
 

@@ -29,8 +29,8 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-10">
                 <div id="header-wrapper">
-                    <a href="/z" class="logo">Dynamics <strong class="gain">+Gain</strong><br/>
-                        <span class="tagline">Assisting those wanting to help others!</span>
+                    <a href="/z" class="logo">Dynamics <br/><strong class="gain">+Gain</strong><br/>
+                        <span class="tagline">Assisting those helping others!</span>
                     </a>
 
                     <div id="navigation">

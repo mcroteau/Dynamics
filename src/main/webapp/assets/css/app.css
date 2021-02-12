@@ -42,7 +42,8 @@ span{
     display:block;
     font-size: 29px;
     text-decoration: none;
-    font-family: roboto-bold !important;
+    line-height:1.0em;
+    font-family: roboto !important;
 }
 .logo:hover{color:#000}
 .tagline{
@@ -79,19 +80,6 @@ label{
     text-align: right;
 }
 
-.ok,
-.ok.not{
-    color:#fff;
-    background:#407C7C;
-    display:inline-block;
-    padding:3px 4px;
-    border-radius: 9px;
-}
-.ok.not{
-    font-family: roboto-light !important;
-    background:#CE6A6A;
-}
-
 .zero{
     margin:0 !important;
     padding:0;
@@ -99,6 +87,10 @@ label{
 
 .gain{
     color:#f540a6;
+    color:#6C169B;
+    color:#52B852;
+    color:#000;
+    font-family: roboto-black !important;
 }
 
 @media screen and (max-width: 690px) {

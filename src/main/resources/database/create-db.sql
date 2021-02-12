@@ -22,7 +22,8 @@ create table users (
 	stripe_user_id text,
 	stripe_charge_id text,
 	stripe_subscription_id text,
-	stripe_key text
+	stripe_key text,
+	api_key character varying(150)
 );
 
 create table roles (

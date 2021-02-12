@@ -80,6 +80,9 @@ public class UserService {
         }
 
         User user = userRepo.get(id);
+        if(user.getApiKey() != null &&
+                !user.getApiKey().equals(""))
+            user.setDeveloper(true);
 
         Subscription subscription = null;
         BigDecimal subscriptionAmount = null;
@@ -87,6 +90,7 @@ public class UserService {
              subscription = Subscription.retrieve(user.getStripeSubscriptionId());
              subscriptionAmount = subscription.getItems().getData().get(0).getPrice().getUnitAmountDecimal().divide(new BigDecimal(100));
         }catch(Exception ex){}
+
 
         modelMap.put("subscription", subscription);
         modelMap.put("subscriptionAmount", subscriptionAmount);

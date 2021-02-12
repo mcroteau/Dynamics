@@ -155,6 +155,7 @@ h1{
 
 h2{
     font-size:36px;
+    line-height: 1.0em;
     font-family:roboto-bold !important;
 }
 
@@ -290,8 +291,17 @@ input[type="submit"].beauty{
 input[type="button"].pepe,
 input[type="reset"].pepe,
 input[type="submit"].pepe{
-    background:#2234A3;
-    border:solid 1px #2234A3;
+    background:#6C169B;
+    border:solid 1px #6C169B;
+}
+
+
+.button.gain,
+input[type="button"].gain,
+input[type="reset"].gain,
+input[type="submit"].gain{
+    background:#40F540;
+    border:solid 1px #40F540;
 }
 
 .yellow,
