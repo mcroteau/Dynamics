@@ -10,7 +10,7 @@
 
 	<div id="edit-user-container">
 
-        <h1 class="regular">Profile</h1>
+        <h1>Profile</h1>
         <p>Thank you for being a contributor. Below are your contribution details.</p>
         <c:if test="${subscription != null}">
             <p class="bold">Subscription Details</p>

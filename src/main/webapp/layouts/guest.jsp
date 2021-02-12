@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>Dynamics +Gain: <decorator:title default="An attempt to fix Homelessness"/></title>
+    <title>Dynamics +Gain: <decorator:title default="Removing barriers that prevent those wanting to help!"/></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -28,7 +28,7 @@
             </div>
 
             <div id="footer-wrapper">
-                <span class="regular">&copy; 2021 <br/>Dynamics<br/> <span class="fun">+Gain</span></span>
+                <span class="regular">&copy; 2021 <br/>Dynamics<br/> <strong class="gain">+Gain</strong></span>
             </div>
 
             <style>

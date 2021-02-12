@@ -42,8 +42,9 @@ span{
     display:block;
     font-size: 29px;
     text-decoration: none;
-    font-family: roboto-slab-semibold !important;
+    font-family: roboto-bold !important;
 }
+.logo:hover{color:#000}
 .tagline{
     font-size:16px;
     font-family: roboto-light !important;
@@ -94,6 +95,10 @@ label{
 .zero{
     margin:0 !important;
     padding:0;
+}
+
+.gain{
+    color:#f540a6;
 }
 
 @media screen and (max-width: 690px) {

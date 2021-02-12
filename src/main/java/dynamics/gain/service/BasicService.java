@@ -40,7 +40,7 @@ public class BasicService {
 
         modelMap.put("towns", towns);
         modelMap.put("count", count);
-        return "index";
+        return "home";
     }
 
     public String index() {
@@ -59,7 +59,7 @@ public class BasicService {
     }
 
     public String beginReport() {
-        phoneService.support("Okay issue");
+        phoneService.support("Dynamics +Gain issue");
         return "basic/report";
     }
 

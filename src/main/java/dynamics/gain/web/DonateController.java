@@ -2,13 +2,11 @@ package dynamics.gain.web;
 
 import com.google.gson.Gson;
 import dynamics.gain.model.DonationInput;
-import dynamics.gain.model.User;
 import dynamics.gain.service.DonateService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.http.Path;
 
 @Controller
 public class DonateController {
@@ -27,7 +25,7 @@ public class DonateController {
 
     @GetMapping(value="/donate/once")
     public String once(){
-        return "index";
+        return "home";
     }
 
     @GetMapping(value="/donate/cleanup")

@@ -25,14 +25,7 @@ public class BasicController {
 	}
 
 	@RequestMapping(value="/home", method=RequestMethod.GET)
-	public String home(ModelMap modelMap){
-		return basicService.home(modelMap);
-	}
-
-	@RequestMapping(value="/pricing", method=RequestMethod.GET)
-	public String pricing(){
-		return "basic/pricing";
-	}
+	public String home(ModelMap modelMap){ return basicService.home(modelMap); }
 
 	@RequestMapping(value="/signin", method=RequestMethod.GET)
 	public String signin(){

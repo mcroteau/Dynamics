@@ -87,6 +87,7 @@
             border:solid 3px #eeef07;
             background: #2234A3;
             border:solid 3px #fdfe01;
+            background: #f540a6;
             font-family: roboto-bold !important;
         }
         .light.active:hover{
@@ -113,7 +114,7 @@
         }
     </style>
 
-    <h1 class="live">Make Donation+</h1>
+    <h1 class="live">Make Donation<strong class="">+</strong></h1>
 
     <p class="open-text live">Please select from the following:</p>
 
@@ -159,7 +160,7 @@
         <input type="text" id="email" placeholder="support@dynamicsgain.org"/>
 
         <div style="text-align: center;">
-            <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;">Donate +</a>
+            <a href="javascript:" id="donate-button" class="button super beauty amount" style="box-shadow:none !important;text-transform:none;">Donate +</a>
             <p id="contribution-type" class="information">One Time Donation</p>
         </div>
 
@@ -243,7 +244,7 @@
             $custom.change(function(){
                 var value = $custom.val()
                 if(!isNaN(value)){
-                    $amount.html('Donate $' + value + ' &hearts;')
+                    $amount.html('Donate $' + value)
                     $amountInput.val(amount)
                 }else{
                     alert('Please enter a valid amount');
@@ -274,7 +275,7 @@
                     if(amount != '' &&
                             amount != 0 &&
                                 !isNaN(amount)) {
-                        $amount.html('Donate $' + amount + ' &hearts;')
+                        $amount.html('Donate $' + amount)
                         $amountInput.val(amount)
                     }
                 }

@@ -15,6 +15,8 @@ public class User {
 	String stripeChargeId;
 	String stripeSubscriptionId;
 
+	String stripeKey;
+
 	public long getId() {
 		return id;
 	}
@@ -93,6 +95,14 @@ public class User {
 
 	public void setPriceId(Long planId) {
 		this.priceId = priceId;
+	}
+
+	public String getStripeKey() {
+		return stripeKey;
+	}
+
+	public void setStripeKey(String stripeKey) {
+		this.stripeKey = stripeKey;
 	}
 
 }

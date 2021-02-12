@@ -82,11 +82,12 @@ public class UserService {
         User user = userRepo.get(id);
 
         Subscription subscription = null;
+        BigDecimal subscriptionAmount = null;
         try {
              subscription = Subscription.retrieve(user.getStripeSubscriptionId());
+             subscriptionAmount = subscription.getItems().getData().get(0).getPrice().getUnitAmountDecimal().divide(new BigDecimal(100));
         }catch(Exception ex){}
 
-        BigDecimal subscriptionAmount = subscription.getItems().getData().get(0).getPrice().getUnitAmountDecimal().divide(new BigDecimal(100));
         modelMap.put("subscription", subscription);
         modelMap.put("subscriptionAmount", subscriptionAmount);
         modelMap.addAttribute("user", user);
