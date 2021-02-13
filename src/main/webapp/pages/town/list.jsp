@@ -10,6 +10,7 @@
     <table>
         <c:forEach var="town" items="${towns}">
             <tr>
+                <td>${town.id}</td>
                 <td>${town.name}</td>
                 <td>${town.townUri}</td>
                 <td class="right">

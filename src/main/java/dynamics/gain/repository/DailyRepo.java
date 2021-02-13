@@ -77,4 +77,10 @@ public class DailyRepo {
         List<DailyCount> counts = jdbcTemplate.query(sql, new Object[]{ locationId }, new BeanPropertyRowMapper<>(DailyCount.class));
         return counts;
     }
+
+    public boolean deleteCounts(Long id) {
+        String sql = "delete from daily_counts where location_id = ?";
+        jdbcTemplate.update(sql, new Object[] {id });
+        return true;
+    }
 }

@@ -3,6 +3,7 @@ package dynamics.gain.service;
 import dynamics.gain.common.Constants;
 import dynamics.gain.common.Utils;
 import dynamics.gain.model.*;
+import dynamics.gain.repository.DailyRepo;
 import dynamics.gain.repository.LocationRepo;
 import dynamics.gain.repository.TownRepo;
 import dynamics.gain.repository.UserRepo;
@@ -30,6 +31,9 @@ public class LocationService {
 
     @Autowired
     LocationRepo locationRepo;
+
+    @Autowired
+    DailyRepo dailyRepo;
 
     @Autowired
     AuthService authService;
@@ -137,6 +141,7 @@ public class LocationService {
             return "redirect:/unauthorized";
         }
 
+        dailyRepo.deleteCounts(id);
         locationRepo.delete(id);
         redirect.addFlashAttribute("message", "Successfully deleted location.");
 

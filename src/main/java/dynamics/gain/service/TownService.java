@@ -4,6 +4,7 @@ import dynamics.gain.common.Constants;
 import dynamics.gain.model.Location;
 import dynamics.gain.model.Town;
 import dynamics.gain.model.User;
+import dynamics.gain.repository.DailyRepo;
 import dynamics.gain.repository.LocationRepo;
 import dynamics.gain.repository.TownRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class TownService {
 
     @Autowired
     LocationRepo locationRepo;
+
+    @Autowired
+    DailyRepo dailyRepo;
 
     @Autowired
     AuthService authService;
@@ -134,6 +138,10 @@ public class TownService {
             return "redirect:/unauthorized";
         }
 
+        List<Location> locations = locationRepo.getList(id);
+        for(Location location: locations){
+            dailyRepo.deleteCounts(location.getId());
+        }
         locationRepo.deleteLocations(id);
         townRepo.delete(id);
         redirect.addFlashAttribute("message", "Successfully deleted town.");
