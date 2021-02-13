@@ -55,7 +55,7 @@ public class BasicController {
 
 	@RequestMapping(value="/unauthorized", method=RequestMethod.GET)
 	public String unauthorized(){
-		return "401";
+		return "basic/401";
 	}
 
 }

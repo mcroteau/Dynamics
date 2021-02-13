@@ -33,7 +33,8 @@ public class DailyService {
             return "redirect:/signin";
         }
 
-        if(!authService.hasRole(Constants.SUPER_DUPER)){
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
             return Constants.UNAUTHORIZED_REDIRECT;
         }
 
@@ -48,7 +49,8 @@ public class DailyService {
             return "redirect:/signin";
         }
 
-        if(!authService.hasRole(Constants.SUPER_DUPER)){
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
             return Constants.UNAUTHORIZED_REDIRECT;
         }
 
@@ -64,7 +66,8 @@ public class DailyService {
             return "redirect:/signin";
         }
 
-        if(!authService.hasRole(Constants.SUPER_DUPER)){
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
             return Constants.UNAUTHORIZED_REDIRECT;
         }
 
@@ -95,7 +98,8 @@ public class DailyService {
             return "redirect:/signin";
         }
 
-        if(!authService.hasRole(Constants.SUPER_DUPER)){
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
             return Constants.UNAUTHORIZED_REDIRECT;
         }
 

@@ -40,7 +40,7 @@
 
             <div id="footer-navigation">
                 <%if(Parakeet.hasRole(Constants.ROLE_ADMIN)){%>
-                    <a href="/z/admin/towns" class="href-dotted">Towns</a>&nbsp;&nbsp;|&nbsp;
+                    <a href="/z/admin/towns" class="href-dotted">Towns</a>&nbsp;&nbsp;&nbsp;
                     <a href="/z/admin/locations" class="href-dotted">Locations</a>
                 <%}%>
             </div>

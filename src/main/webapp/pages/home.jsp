@@ -11,6 +11,9 @@
     h3{
         margin:30px auto 3px ;
     }
+    #welcome-text{
+        margin-bottom:10px;
+    }
 </style>
 <div id="homepage-wrapper">
 
