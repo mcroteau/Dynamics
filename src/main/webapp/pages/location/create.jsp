@@ -10,15 +10,20 @@
     <label>Name</label>
     <input type="text" name="name" />
 
+    <label>Uri</label>
+    <input type="text" name="locationUri" />
+
     <label>Town</label>
-    <select name="townId">
+    <select name="townId" style="display: block">
         <c:forEach items="${towns}" var="town">
             <option value="${town.id}">${town.name}</option>
         </c:forEach>
     </select>
-    <br/>
 
-    <input type="submit" class="button retro" value="Save"/>
+    <label>Needs</label>
+    <textarea name="needs"></textarea>
+
+    <input type="submit" class="button retro" value="Save" style="display:inline-block;margin:30px auto;"/>
 </form>
 </body>
 </html>

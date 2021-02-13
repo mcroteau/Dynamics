@@ -19,7 +19,11 @@
     </c:if>
 
     <h1 id="welcome-text" class="">
-        ${count} <span>Homeless <span class="header-information">counted in ${towns.size()} Cities!</span></span>
+        ${count} <span>Homeless <span class="header-information">counted in
+            ${towns.size()}
+            <c:if test="${towns.size() == 1}">City!</c:if>
+            <c:if test="${towns.size() > 1}">Cities!</c:if>
+            </span></span>
     </h1>
 
     <div style="margin:0px auto 30px;">

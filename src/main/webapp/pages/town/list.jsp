@@ -11,6 +11,7 @@
         <c:forEach var="town" items="${towns}">
             <tr>
                 <td>${town.name}</td>
+                <td>${town.townUri}</td>
                 <td class="right">
                     <form action="/z/admin/towns/delete/${town.id}" method="post">
                         <input type="submit" class="button small beauty" value="Delete" onclick="return confirm('Are you sure you want to delete Town?');"/>

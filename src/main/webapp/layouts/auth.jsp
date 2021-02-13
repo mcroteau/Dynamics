@@ -27,7 +27,7 @@
         <div class="col-sm-10">
             <div id="header-wrapper">
                 <a href="/z" class="logo">Dynamics <br/><strong class="gain">+Gain</strong><br/>
-                    <span class="tagline">Removing barriers.</span>
+                    <span class="tagline">Goal to Remove Barriers.</span>
                 </a>
 
                 <div id="navigation">

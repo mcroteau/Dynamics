@@ -10,7 +10,10 @@
     <label>Name</label>
     <input type="text" name="name" />
 
-    <input type="submit" class="button retro" value="Save"/>
+    <label>Uri</label>
+    <input type="text" name="townUri" />
+
+    <input type="submit" class="button retro" value="Save" style="display:inline-block;margin:30px auto;"/>
 </form>
 </body>
 </html>
