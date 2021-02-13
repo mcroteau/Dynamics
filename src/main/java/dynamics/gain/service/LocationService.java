@@ -4,6 +4,7 @@ import dynamics.gain.common.Constants;
 import dynamics.gain.common.Utils;
 import dynamics.gain.model.*;
 import dynamics.gain.repository.LocationRepo;
+import dynamics.gain.repository.TownRepo;
 import dynamics.gain.repository.UserRepo;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class LocationService {
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    TownRepo townRepo;
 
     @Autowired
     LocationRepo locationRepo;
@@ -46,6 +50,8 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
+        List<Town> towns = townRepo.getList();
+        modelMap.put("towns", towns);
         return "location/create";
     }
 
@@ -71,11 +77,11 @@ public class LocationService {
 
         if(location.getName().equals("")){
             redirect.addFlashAttribute("message", "Please give your web location a name...");
-            return "redirect:/location/create";
+            return "redirect:/admin/locations/create";
         }
 
         locationRepo.save(location);
-        return "redirect:/location/overview";
+        return "redirect:/admin/locations";
     }
 
     public String edit(Long id, ModelMap modelMap) {
@@ -116,11 +122,11 @@ public class LocationService {
 
         if(location.getName().equals("")){
             redirect.addFlashAttribute("message", "Please give your web location a name...");
-            return "redirect:/location/edit/" + location.getId();
+            return "redirect:/admin/locations/edit/" + location.getId();
         }
 
         redirect.addFlashAttribute("message", "Successfully updated location");
-        return "redirect:/location/edit/" + location.getId();
+        return "redirect:/admin/locations/edit/" + location.getId();
     }
 
     public String delete(Long id, RedirectAttributes redirect) {
@@ -134,7 +140,7 @@ public class LocationService {
         locationRepo.delete(id);
         redirect.addFlashAttribute("message", "Successfully deleted location.");
 
-        return "redirect:/location/overview";
+        return "redirect:/admin/locations";
     }
 
 }

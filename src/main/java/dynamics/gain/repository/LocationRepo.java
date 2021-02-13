@@ -70,4 +70,10 @@ public class LocationRepo {
                 new BeanPropertyRowMapper<>(Location.class));
         return location;
     }
+
+    public boolean deleteLocations(Long id) {
+        String sql = "delete from locations where town_id = ?";
+        jdbcTemplate.update(sql, new Object[] {id });
+        return true;
+    }
 }

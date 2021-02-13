@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/layouts">
-    <decorator name="admin" page="admin.jsp">
-        <pattern>*/admin</pattern>
-    </decorator>
-    <decorator name="auth" page="auth.jsp">
-        <pattern>*/user*</pattern>
-        <pattern>*/project*</pattern>
-        <pattern>*/moola*</pattern>
-        <pattern>*/issues*</pattern>
-    </decorator>
     <decorator name="guest" page="guest.jsp">
         <pattern>*/home</pattern>
         <pattern>*/donate*</pattern>
         <pattern>*/privacy</pattern>
         <pattern>*/signin</pattern>
         <pattern>*/signup</pattern>
-        <pattern>*/town/*</pattern>
-        <pattern>*/location/*</pattern>
+        <pattern>*/towns/*</pattern>
+        <pattern>*/locations/*</pattern>
         <pattern>*/user/reset*</pattern>
         <pattern>*/user/send</pattern>
         <pattern>*/user/confirm</pattern>
+    </decorator>
+    <decorator name="auth" page="auth.jsp">
+        <pattern>*/user*</pattern>
+        <pattern>*/admin/towns*</pattern>
+        <pattern>*/admin/locations*</pattern>
     </decorator>
 </decorators>

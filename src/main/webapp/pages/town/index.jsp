@@ -21,7 +21,7 @@
     <h3>Locations</h3>
     <ul>
         <c:forEach var="location" items="${locations}">
-            <li style="padding:1px 0px;"><a href="/z/location/${location.locationUri}">${location.name}</a></li>
+            <li style="padding:1px 0px;"><a href="/z/locations/${location.locationUri}">${location.name}</a></li>
         </c:forEach>
     </ul>
 

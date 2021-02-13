@@ -74,11 +74,11 @@ public class TownService {
 
         if(town.getName().equals("")){
             redirect.addFlashAttribute("message", "Please give your web town a name...");
-            return "redirect:/town/create";
+            return "redirect:/admin/towns/create";
         }
 
         townRepo.save(town);
-        return "redirect:/town/overview";
+        return "redirect:/admin/towns";
     }
 
     public String edit(Long id, ModelMap modelMap) {
@@ -119,11 +119,11 @@ public class TownService {
 
         if(town.getName().equals("")){
             redirect.addFlashAttribute("message", "Please give your web town a name...");
-            return "redirect:/town/edit/" + town.getId();
+            return "redirect:/admin/towns/edit/" + town.getId();
         }
 
         redirect.addFlashAttribute("message", "Successfully updated town");
-        return "redirect:/town/edit/" + town.getId();
+        return "redirect:/admin/towns/edit/" + town.getId();
     }
 
     public String delete(Long id, RedirectAttributes redirect) {
@@ -134,10 +134,11 @@ public class TownService {
             return "redirect:/unauthorized";
         }
 
+        locationRepo.deleteLocations(id);
         townRepo.delete(id);
         redirect.addFlashAttribute("message", "Successfully deleted town.");
 
-        return "redirect:/town/overview";
+        return "redirect:/admin/towns";
     }
 
 }

@@ -17,41 +17,41 @@ public class LocationController {
     @Autowired
     LocationService locationService;
 
-    @GetMapping(value="/location/{uri}")
+    @GetMapping(value="/locations/{uri}")
     public String index(ModelMap modelMap,
                         @PathVariable String uri){
         return locationService.index(uri, modelMap);
     }
 
-    @GetMapping(value="/location/create")
+    @GetMapping(value="/admin/locations/create")
     public String index(ModelMap modelMap){
         return locationService.create(modelMap);
     }
 
-    @PostMapping(value="/location/save")
+    @PostMapping(value="/admin/locations/save")
     protected String save(@ModelAttribute("location") Location location,
                           RedirectAttributes redirect){
         return locationService.save(location, redirect);
     }
 
-    @GetMapping(value="/admin/location/list")
+    @GetMapping(value="/admin/locations")
     public String getProjects(ModelMap modelMap){
         return locationService.getLocations(modelMap);
     }
 
-    @GetMapping(value="/location/edit/{id}")
+    @GetMapping(value="/admin/locations/edit/{id}")
     public String getEdit(ModelMap modelMap,
                               @PathVariable Long id){
         return locationService.getEdit(id, modelMap);
     }
 
-    @PostMapping(value="/location/update")
+    @PostMapping(value="/admin/locations/update")
     protected String update(@ModelAttribute("location") Location location,
                             RedirectAttributes redirect){
         return locationService.update(location, redirect);
     }
 
-    @PostMapping(value="/location/delete/{id}")
+    @PostMapping(value="/admin/locations/delete/{id}")
     protected String delete(@PathVariable Long id,
                             RedirectAttributes redirect){
         return locationService.delete(id, redirect);

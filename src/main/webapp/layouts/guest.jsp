@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>Dynamics +Gain: <decorator:title default="Removing barriers that prevent those wanting to help!"/></title>
+    <title><decorator:title default="Removing barriers that prevent those wanting to help others"/></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,6 +27,14 @@
                 <decorator:body />
             </div>
 
+            <div id="footer-navigation">
+                <%if(!request.getServletPath().equals("/home")){%>
+                    <a href="/z/home" class="href-dotted">Home</a>&nbsp;&nbsp;|&nbsp;
+                <%}%>
+                <a href="/z/signin" class="href-dotted">Signin</a>&nbsp;&nbsp;|&nbsp;
+                <a href="https://github.com/mcroteau/Dynamics" class="href-dotted" target="_blank">Source Code</a>
+            </div>
+
             <div id="footer-wrapper">
                 <span class="regular">&copy; 2021 <br/>Dynamics<br/> <strong class="gain">+Gain</strong></span>
             </div>
@@ -34,6 +42,10 @@
             <style>
                 #guest-content{
                     margin-top:30px;
+                }
+                #footer-navigation{
+                    text-align:center;
+                    margin-top:70px;
                 }
                 #footer-wrapper{
                     margin:103px auto 200px;

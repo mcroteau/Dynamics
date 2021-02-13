@@ -26,7 +26,8 @@
         <a href="/z/donate" class="button super yellow">Give &hearts;</a>
     </div>
 
-    <p class="open-text regular" style="margin-bottom:10px;">Dynamics <strong class="gain">+Gain</strong>
+    <p class="open-text" style="margin-bottom:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Dynamics <strong class="gain">+Gain</strong>
         is a charitable organization designed to removing barriers
         that prevent people from giving time, money and resources to those
         in need! Our goal is to set up Booths with near real time homeless
@@ -35,9 +36,11 @@
     </p>
 
     <h3>Where your donations go</h3>
-    <p>A few major ways in which we would like to give include
-        Walmart Gift Cards, Prepaid Cellphones, Laptops and Bus Passes
-        and sometimes just plain old money!</p>
+    <p>We will work closely local homeless shelters to learn of
+        the needs of others, but majority of your donations will go
+        towards Walmart Gift Cards, Prepaid Cellphones, Laptops &
+        funding towards local community housing.
+    </p>
 
     <h3>Services we provide</h3>
     <p>As a non-profile, in addition to fundraising, we provide our
@@ -49,11 +52,10 @@
     <h3>Towns/Cities</h3>
     <ul>
         <c:forEach var="town" items="${towns}">
-            <li style="padding:1px 0px;"><a href="/z/town/${town.townUri}" class="href-dotted">${town.name}</a></li>
+            <li style="padding:1px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted">${town.name}</a></li>
         </c:forEach>
     </ul>
 
-    <p><a href="https://github.com/mcroteau/Dynamics" class="href-dotted" target="_blank">Source Code</a></p>
 
 </div>
 

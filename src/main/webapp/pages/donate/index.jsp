@@ -57,16 +57,16 @@
         #custom.active{
             color:#000 !important;
             background: #fff;
-            border:dashed 3px #3fb8ff;
+            border:dashed 3px #2234A3;
         }
         .button.active{
             color:#000;
-            background: #3fb8ff;
+            background: #00a1ff;
             border:solid 3px #8fd6ff;
             border:solid 3px #eeef07;
             background: #2234A3;
             border:dashed 3px #fdfe01;
-            border:dashed 3px #ccc;
+            border:dashed 3px #2234A3;
             background: #f540a6;
             background: #fdfe01;
             font-family: roboto-bold !important;
@@ -110,7 +110,7 @@
         <a href="javascript:" class="option button sky" data-amount="20">$20</a>&nbsp;
         <a href="javascript:" class="option button sky" data-amount="40">$40</a>&nbsp;
         <br/><br/>
-        <input type="text" class="option button" id="custom" placeholder="Custom" style="width:110px;" data-amount="0"/>
+        <input type="text" class="option button" id="custom" placeholder="Other Amount" style="width:150px;" data-amount="0"/>
     </div>
 
     <input type="hidden" name="amount" id="amount-input" value=""/>
@@ -217,7 +217,7 @@
 
             $custom.mouseleave(function(){
                 if($custom.val() == ''){
-                    $custom.attr('placeholder', 'Custom')
+                    $custom.attr('placeholder', 'Other Amount')
                 }
                 if($custom.val() != ''){
                     $amount.html('Donate $' + $custom.val() + ' &hearts;')
