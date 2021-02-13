@@ -55,8 +55,7 @@ public class AppRunner {
 
 	public void createBaseLocations(){
 
-		if(stateRepo.getCount() == 0){
-			User user = userRepo.getByUsername(Constants.ADMIN_USERNAME);
+		if(townRepo.getCount() == 0){
 			String[][] townData = {
 					{ "Fallon", "fallon"},
 					{ "Reno", "reno"},
