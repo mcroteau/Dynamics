@@ -4,10 +4,8 @@ public class DailyCount {
 
     long id;
     long locationId;
-    long accountId;
+    long userId;
     int count;
-
-    String notes;
     long dateEntered;
 
     public long getId() {
@@ -26,12 +24,12 @@ public class DailyCount {
         this.locationId = locationId;
     }
 
-    public long getAccountId() {
-        return accountId;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public int getCount() {
@@ -40,14 +38,6 @@ public class DailyCount {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 
     public long getDateEntered() {

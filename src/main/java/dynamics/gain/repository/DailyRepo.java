@@ -14,6 +14,12 @@ public class DailyRepo {
     @Autowired
     public JdbcTemplate jdbcTemplate;
 
+    public long getId() {
+        String sql = "select max(id) from daily_counts";
+        long id = jdbcTemplate.queryForObject(sql, new Object[]{}, Long.class);
+        return id;
+    }
+
     public DailyCount get(long id) {
         String sql = "select * from daily_counts where id = ?";
         DailyCount dailyCount = jdbcTemplate.queryForObject(sql, new Object[] { id },
@@ -21,18 +27,20 @@ public class DailyRepo {
         return dailyCount;
     }
 
-    public boolean save(DailyCount count){
-        String sql = "insert into daily_counts (account_id, location_id, count, notes, date_entered) values(?, ?, ?, ?, ?)";
+    public DailyCount save(DailyCount count){
+        String sql = "insert into daily_counts (user_id, location_id, count, date_entered) values(?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                count.getAccountId(), count.getLocationId(), count.getCount(), count.getNotes(), count.getDateEntered()
+                count.getUserId(), count.getLocationId(), count.getCount(), count.getDateEntered()
         });
-        return true;
+        Long id = getId();
+        DailyCount savedCount = get(id);
+        return savedCount;
     }
 
     public boolean update(DailyCount count) {
-        String sql = "update daily_counts set count = ?, notes = ?, date_entered = ? where id = ?";
+        String sql = "update daily_counts set user_id = ?, count = ?, date_entered = ? where id = ?";
         jdbcTemplate.update(sql, new Object[] {
-                count.getCount(), count.getNotes(), count.getDateEntered(), count.getId()
+                count.getUserId(), count.getCount(), count.getDateEntered(), count.getId()
         });
         return true;
     }

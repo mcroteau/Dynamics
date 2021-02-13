@@ -17,5 +17,6 @@
         <pattern>*/user*</pattern>
         <pattern>*/admin/towns*</pattern>
         <pattern>*/admin/locations*</pattern>
+        <pattern>*/admin/count*</pattern>
     </decorator>
 </decorators>

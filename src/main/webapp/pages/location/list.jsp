@@ -20,7 +20,7 @@
                 <td>${location.name}</td>
                 <td>${location.townId}</td>
                 <td>${location.locationUri}</td>
-                <td><a href="/z/admin/daily/${location.id}" class="href-dotted-black">${location.count}</a></td>
+                <td><a href="/z/admin/count/${location.id}" class="href-dotted-black">${location.count}</a></td>
                 <td class="right">
                     <form action="/z/admin/locations/delete/${location.id}" method="post">
                         <input type="submit" class="button small beauty" value="Delete" onclick="return confirm('Are you sure you want to delete Location?');"/>

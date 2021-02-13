@@ -38,59 +38,74 @@ public class DailyService {
             return Constants.UNAUTHORIZED_REDIRECT;
         }
 
+        User user = authService.getUser();
+
+        DailyCount dailyCount = dailyRepo.getCount(id, Utils.getToday());
+        DailyCount storedCount = dailyCount;
+        if(dailyCount == null){
+            dailyCount = new DailyCount();
+            dailyCount.setCount(0);
+            dailyCount.setLocationId(id);
+            dailyCount.setUserId(user.getId());
+            dailyCount.setDateEntered(Utils.getToday());
+            storedCount = dailyRepo.save(dailyCount);
+        }
+
         Location location = locationRepo.get(id);
         modelMap.addAttribute("location", location);
+        modelMap.addAttribute("dailyCount", storedCount);
+
         return "daily/entry";
     }
 
-    public String edit(Long id, ModelMap modelMap) {
-
-        if(!authService.isAuthenticated()){
-            return "redirect:/signin";
-        }
-
-        if(!authService.isAdministrator() &&
-                !authService.hasRole(Constants.SUPER_DUPER)){
-            return Constants.UNAUTHORIZED_REDIRECT;
-        }
-
-        DailyCount dailyCount = dailyRepo.get(id);
-        modelMap.addAttribute("dailyCount", dailyCount);
-
-        return "daily/edit";
-    }
-
-    public String save(DailyCount dailyCount, RedirectAttributes redirect) {
-
-        if(!authService.isAuthenticated()){
-            return "redirect:/signin";
-        }
-
-        if(!authService.isAdministrator() &&
-                !authService.hasRole(Constants.SUPER_DUPER)){
-            return Constants.UNAUTHORIZED_REDIRECT;
-        }
-
-        User user = authService.getUser();
-        dailyCount.setAccountId(user.getId());
-
-        long date = Utils.getToday();
-        dailyCount.setDateEntered(date);
-
-        if(Objects.isNull(dailyCount.getCount())){
-            dailyCount.setCount(0);
-        }
-
-        if(dailyCount.getCount() != 0){
-            Location location = locationRepo.get(dailyCount.getLocationId());
-            location.setCount(dailyCount.getCount());
-            locationRepo.update(location);
-        }
-
-        dailyRepo.save(dailyCount);
-        redirect.addFlashAttribute("message", "Successfully entered numbers...");
-        return "redirect:/admin/locations";
-    }
+//    public String edit(Long id, ModelMap modelMap) {
+//
+//        if(!authService.isAuthenticated()){
+//            return "redirect:/signin";
+//        }
+//
+//        if(!authService.isAdministrator() &&
+//                !authService.hasRole(Constants.SUPER_DUPER)){
+//            return Constants.UNAUTHORIZED_REDIRECT;
+//        }
+//
+//        DailyCount dailyCount = dailyRepo.get(id);
+//        modelMap.addAttribute("dailyCount", dailyCount);
+//
+//        return "daily/edit";
+//    }
+//
+//    public String save(DailyCount dailyCount, RedirectAttributes redirect) {
+//
+//        if(!authService.isAuthenticated()){
+//            return "redirect:/signin";
+//        }
+//
+//        if(!authService.isAdministrator() &&
+//                !authService.hasRole(Constants.SUPER_DUPER)){
+//            return Constants.UNAUTHORIZED_REDIRECT;
+//        }
+//
+//        User user = authService.getUser();
+//        dailyCount.setAccountId(user.getId());
+//
+//        long date = Utils.getToday();
+//        dailyCount.setDateEntered(date);
+//
+//        if(Objects.isNull(dailyCount.getCount())){
+//            dailyCount.setCount(0);
+//        }
+//
+//        if(dailyCount.getCount() != 0){
+//            Location location = locationRepo.get(dailyCount.getLocationId());
+//            location.setCount(dailyCount.getCount());
+//            locationRepo.update(location);
+//        }
+//
+//        dailyRepo.save(dailyCount);
+//        redirect.addFlashAttribute("message", "Successfully entered numbers...");
+//        return "redirect:/admin/locations";
+//    }
 
     public String update(DailyCount dailyCount, RedirectAttributes redirect) {
 
@@ -106,18 +121,17 @@ public class DailyService {
         if(Objects.isNull(dailyCount.getCount())){
             dailyCount.setCount(0);
         }
+        User user = authService.getUser();
 
-        DailyCount existingCount = dailyRepo.get(dailyCount.getId());
-        dailyCount.setDateEntered(existingCount.getDateEntered());
+        dailyCount.setUserId(user.getId());
+        dailyCount.setDateEntered(Utils.getToday());
         dailyRepo.update(dailyCount);
 
-        if(dailyCount.getCount() != 0){
-            Location location = locationRepo.get(dailyCount.getLocationId());
-            location.setCount(dailyCount.getCount());
-            locationRepo.update(location);
-        }
+        Location location = locationRepo.get(dailyCount.getLocationId());
+        location.setCount(dailyCount.getCount());
+        locationRepo.update(location);
 
-        redirect.addFlashAttribute("message", "Successfully updated numbers...");
-        return "redirect:/admin/locations";
+        redirect.addFlashAttribute("message", "Successfully updated count...");
+        return "redirect:/admin/daily/entry/" + location.getId();
     }
 }
