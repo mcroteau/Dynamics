@@ -10,7 +10,8 @@
     </c:if>
 
     <p id="welcome-text">
-        ${town.count} <span>Homeless <span class="header-information">in ${town.name}!</span></span>
+        ${town.count} <span>Homeless <span class="header-information">in
+            <strong class="highlight">${town.name}</strong>!</span></span>
     </p>
 
     <p class="open-text regular">Dynamics +Gain is a non profit designed with
@@ -18,7 +19,7 @@
         giving time, money and resources to those in need!</p>
 
 
-    <h3>Locations</h3>
+    <h3>Locations/Shelters</h3>
     <ul>
         <c:forEach var="location" items="${locations}">
             <li style="padding:1px 0px;"><a href="/z/locations/${location.locationUri}">${location.name}</a></li>

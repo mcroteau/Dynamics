@@ -20,7 +20,7 @@
 
     <h1 id="welcome-text" class="">
         ${count} <span>Homeless <span class="header-information">counted in
-            ${towns.size()}
+            &nbsp;<a href="/z/towns" class="counts href-dotted-black">${towns.size()}</a>&nbsp;
             <c:if test="${towns.size() == 1}">City!</c:if>
             <c:if test="${towns.size() > 1}">Cities!</c:if>
             </span></span>
@@ -53,7 +53,7 @@
         software services to the private and public sector.</p>
 
 
-    <h3>Towns/Cities</h3>
+    <h3 id="towns">Towns/Cities</h3>
     <ul>
         <c:forEach var="town" items="${towns}">
             <li style="padding:1px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted">${town.name}</a></li>

@@ -104,6 +104,21 @@ table td a{
 table tr:hover{
     background:#eff4f4;
 }
+.highlight{
+    color:#fff;
+    background: #000;
+    padding:0px 3px;
+    display:inline-block;
+}
+.counts{
+    font-size:34px !important;
+    display:inline-block !important;
+    text-decoration: underline;
+    font-family: roboto-slab-bold !important;
+}
+.counts.h2{
+    font-size:36px !important;
+}
 
 .right{
     text-align: right;

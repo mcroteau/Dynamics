@@ -2,6 +2,7 @@
 <decorators defaultdir="/layouts">
     <decorator name="guest" page="guest.jsp">
         <pattern>*/home</pattern>
+        <pattern>*/towns</pattern>
         <pattern>*/donate*</pattern>
         <pattern>*/privacy</pattern>
         <pattern>*/signin</pattern>

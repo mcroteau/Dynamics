@@ -8,11 +8,13 @@ import dynamics.gain.model.User;
 import dynamics.gain.repository.DailyRepo;
 import dynamics.gain.repository.LocationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Objects;
 
+@Service
 public class DailyService {
 
     @Autowired

@@ -515,6 +515,9 @@ a:hover{
     font-family: roboto-light !important;
 }
 
+ul li{
+    margin:5px 0px 5px;
+}
 
 a{
     font-size:19px;
@@ -522,11 +525,6 @@ a{
     color:#13B1FF;
 }
 
-a:hover{
-    cursor:hand;
-    color:#03afff;
-    color:#13B1FF
-}
 
 
 input[type="text"],

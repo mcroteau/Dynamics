@@ -29,6 +29,15 @@ public class BasicService {
     @Autowired
     private EmailService emailService;
 
+
+    public String index() {
+        if(authService.isAuthenticated()){
+            long id =  authService.getUser().getId();
+            return "redirect:/user/edit/" + id;
+        }
+        return "redirect:/home";
+    }
+
     public String home(ModelMap modelMap){
         int count = 0;
         List<Location> locations = locationRepo.getList();
@@ -43,12 +52,10 @@ public class BasicService {
         return "home";
     }
 
-    public String index() {
-        if(authService.isAuthenticated()){
-            long id =  authService.getUser().getId();
-            return "redirect:/user/edit/" + id;
-        }
-        return "redirect:/home";
+    public String towns(ModelMap modelMap){
+        List<Town> towns = townRepo.getList();
+        modelMap.put("towns", towns);
+        return "basic/towns";
     }
 
     public String showSignin() {

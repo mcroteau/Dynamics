@@ -24,7 +24,7 @@ public class DailyRepo {
     public boolean save(DailyCount count){
         String sql = "insert into daily_counts (account_id, location_id, count, notes, date_entered) values(?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                count.getAccountId(), count.getShelterId(), count.getCount(), count.getNotes(), count.getDateEntered()
+                count.getAccountId(), count.getLocationId(), count.getCount(), count.getNotes(), count.getDateEntered()
         });
         return true;
     }
