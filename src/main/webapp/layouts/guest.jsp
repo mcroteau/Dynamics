@@ -32,7 +32,7 @@
                     <a href="/z/home" class="href-dotted">Home</a>
                 <%}%>
                 <%if(!request.getServletPath().equals("/towns")){%>
-                &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;
                 <a href="/z/signin" class="href-dotted">Signin</a>&nbsp;&nbsp;
                 <a href="https://github.com/mcroteau/Dynamics" class="href-dotted" target="_blank">Source Code</a>
                 <%}%>

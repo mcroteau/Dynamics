@@ -18,9 +18,10 @@ public class Constants {
 	public static final String SUPER_DUPER  = "ROLE_SUPER_DUPER";
 
 	public static final String ACCOUNT_MAINTENANCE = "users:";
-	public static final String LOCATION_MAINTENANCE = "projects:";
+	public static final String LOCATION_MAINTENANCE = "locations:";
 	public static final String TOWN_MAINTENANCE   = "towns:";
-	
+
+	public static final String ZERO_TIME_FORMAT  = "yyyyMMdd";
     public static final String DATE_SEARCH_FORMAT  = "yyyyMMddHHmmssSSS";
 	public static final String DATE_GRAPH_FORMAT  = "dd MMM";
 	public static final String DATE_ACTUAL_FORMAT  = "hh:mm z";

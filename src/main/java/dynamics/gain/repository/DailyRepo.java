@@ -1,6 +1,7 @@
 package dynamics.gain.repository;
 
 import dynamics.gain.model.DailyCount;
+import dynamics.gain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -37,10 +38,19 @@ public class DailyRepo {
         return savedCount;
     }
 
+//    public boolean update(DailyCount count) {
+//        System.out.println("count again: " + count.getCount());
+//        String sql = "update daily_counts set user_id = ?, count = ?, date_entered = ? where id = ?";
+//        jdbcTemplate.update(sql, new Object[] {
+//                count.getUserId(), count.getCount(), count.getDateEntered(), count.getId()
+//        });
+//        return true;
+//    }
+
     public boolean update(DailyCount count) {
-        String sql = "update daily_counts set user_id = ?, count = ?, date_entered = ? where id = ?";
+        String sql = "update daily_counts set count = ?, user_id = ? where id = ?";
         jdbcTemplate.update(sql, new Object[] {
-                count.getUserId(), count.getCount(), count.getDateEntered(), count.getId()
+                count.getCount(), count.getUserId(), count.getId()
         });
         return true;
     }
@@ -52,14 +62,14 @@ public class DailyRepo {
     }
 
     public DailyCount getCount(long locationId, long date){
+        DailyCount count = null;
         try {
             String sql = "select * from daily_counts where location_id = ? and date_entered = ?";
-            DailyCount count = jdbcTemplate.queryForObject(sql, new Object[]{locationId, date}, new BeanPropertyRowMapper<>(DailyCount.class));
-
-            return count;
+            count = jdbcTemplate.queryForObject(sql, new Object[]{locationId, date}, new BeanPropertyRowMapper<>(DailyCount.class));
         }catch(Exception e){
             return null;
         }
+        return count;
     }
 
     public List<DailyCount> getCounts(long locationId){

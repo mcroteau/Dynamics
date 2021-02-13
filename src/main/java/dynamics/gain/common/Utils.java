@@ -103,9 +103,7 @@ public class Utils {
 
 	public static long getToday(){
 		Calendar cal = Calendar.getInstance();
-		Utils.clearTime(cal);
-
-		DateFormat df = new SimpleDateFormat(Constants.DATE_SEARCH_FORMAT);
+		DateFormat df = new SimpleDateFormat(Constants.ZERO_TIME_FORMAT);
 		String date = df.format(cal.getTime());
 		log.info("get today > " + date);
 		return Long.parseLong(date);

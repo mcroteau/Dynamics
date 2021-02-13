@@ -1,9 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h1>Today's Count</h1>
 <p>${location.name}</p>
 
+<c:if test="${not empty message}">
+    <div class="notify">${message}</div>
+</c:if>
+
 <form action="${pageContext.request.contextPath}/admin/count/update" id="count-form" modelAttribute="dailyCount" method="post">
 
+    <input type="hidden" name="id" value="${dailyCount.id}">
     <input type="hidden" name="locationId" value="${location.id}">
 
     <div class="form-group" style="text-align: center">
