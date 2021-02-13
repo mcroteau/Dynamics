@@ -3,7 +3,7 @@ package dynamics.gain.model;
 public class DailyCount {
 
     long id;
-    long shelterId;
+    long locationId;
     long accountId;
     int count;
 
@@ -18,12 +18,12 @@ public class DailyCount {
         this.id = id;
     }
 
-    public long getShelterId() {
-        return shelterId;
+    public long getLocationId() {
+        return locationId;
     }
 
-    public void setShelterId(long shelterId) {
-        this.shelterId = shelterId;
+    public void setLocationId(long locationId) {
+        this.locationId = locationId;
     }
 
     public long getAccountId() {

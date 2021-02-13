@@ -96,16 +96,13 @@ label{
 table{
     width:100%;
 }
-table td{
+table td,
+table td a{
     font-size:27px;
     font-family:roboto-slab !important;
 }
 table tr:hover{
     background:#eff4f4;
-}
-
-input[type="submit"]{
-    margin:30px auto;
 }
 
 .right{

@@ -22,7 +22,7 @@ public class DailyRepo {
     }
 
     public boolean save(DailyCount count){
-        String sql = "insert into daily_counts (account_id, shelter_id, count, notes, date_entered) values(?, ?, ?, ?, ?)";
+        String sql = "insert into daily_counts (account_id, location_id, count, notes, date_entered) values(?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
                 count.getAccountId(), count.getShelterId(), count.getCount(), count.getNotes(), count.getDateEntered()
         });
@@ -43,10 +43,10 @@ public class DailyRepo {
         return true;
     }
 
-    public DailyCount getCount(long shelterId, long date){
+    public DailyCount getCount(long locationId, long date){
         try {
-            String sql = "select * from daily_counts where shelter_id = ? and date_entered = ?";
-            DailyCount count = jdbcTemplate.queryForObject(sql, new Object[]{shelterId, date}, new BeanPropertyRowMapper<>(DailyCount.class));
+            String sql = "select * from daily_counts where location_id = ? and date_entered = ?";
+            DailyCount count = jdbcTemplate.queryForObject(sql, new Object[]{locationId, date}, new BeanPropertyRowMapper<>(DailyCount.class));
 
             return count;
         }catch(Exception e){
@@ -54,9 +54,9 @@ public class DailyRepo {
         }
     }
 
-    public List<DailyCount> getCounts(long shelterId){
-        String sql = "select * from daily_counts where shelter_id = ?";
-        List<DailyCount> counts = jdbcTemplate.query(sql, new Object[]{ shelterId }, new BeanPropertyRowMapper<>(DailyCount.class));
+    public List<DailyCount> getCounts(long locationId){
+        String sql = "select * from daily_counts where location_id = ?";
+        List<DailyCount> counts = jdbcTemplate.query(sql, new Object[]{ locationId }, new BeanPropertyRowMapper<>(DailyCount.class));
         return counts;
     }
 }

@@ -8,9 +8,15 @@
 <a href="/z/admin/locations/create" class="href-dotted">+ New Location</a>
 <c:if test="${locations.size() > 0}">
     <table>
+        <tr>
+            <th></th>
+            <th>Count</th>
+            <th></th>
+        </tr>
         <c:forEach var="location" items="${locations}">
             <tr>
                 <td>${location.name}</td>
+                <td><a href="/z/admin/daily" class="href-dotted-black">${location.count}</a></td>
                 <td class="right">
                     <form action="/z/admin/locations/delete/${location.id}" method="post">
                         <input type="submit" class="button small beauty" value="Delete" onclick="return confirm('Are you sure you want to delete Location?');"/>

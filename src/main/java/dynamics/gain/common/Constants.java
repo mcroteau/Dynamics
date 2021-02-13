@@ -15,6 +15,7 @@ public class Constants {
 
 	public static final String ROLE_ADMIN   = "ROLE_ADMIN";
 	public static final String ROLE_ACCOUNT = "ROLE_ACCOUNT";
+	public static final String SUPER_DUPER  = "ROLE_SUPER_DUPER";
 
 	public static final String ACCOUNT_MAINTENANCE = "users:";
 	public static final String LOCATION_MAINTENANCE = "projects:";

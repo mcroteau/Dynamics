@@ -30,9 +30,6 @@ public class AppRunner {
 	RoleRepo roleRepo;
 
 	@Autowired
-	StateRepo stateRepo;
-
-	@Autowired
 	TownRepo townRepo;
 
 	@Autowired

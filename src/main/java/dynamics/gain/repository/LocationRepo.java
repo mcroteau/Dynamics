@@ -76,4 +76,10 @@ public class LocationRepo {
         jdbcTemplate.update(sql, new Object[] {id });
         return true;
     }
+
+    public boolean update(Location location) {
+        String sql = "update users set name = ?, location_uri = ?, description = ?, needs = ?, count = ? where id = ?";
+        jdbcTemplate.update(sql, new Object[] { location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getCount(), location.getId() });
+        return true;
+    }
 }
