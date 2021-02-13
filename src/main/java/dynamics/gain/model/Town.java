@@ -3,11 +3,11 @@ package dynamics.gain.model;
 import java.util.List;
 
 public class Town {
+
     long id;
     String name;
     String townUri;
     int count;
-    long stateId;
 
     List<Location> locations;
 
@@ -41,14 +41,6 @@ public class Town {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    public long getStateId() {
-        return stateId;
-    }
-
-    public void setStateId(long stateId) {
-        this.stateId = stateId;
     }
 
     public List<Location> getLocations() {

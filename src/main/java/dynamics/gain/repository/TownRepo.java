@@ -44,9 +44,9 @@ public class TownRepo {
 
 
     public Town save(Town town){
-        String sql = "insert into towns (name, town_uri, state_id) values (?, ?, ?)";
+        String sql = "insert into towns (name, town_uri) values (?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                town.getName(), town.getTownUri(), town.getStateId()
+                town.getName(), town.getTownUri()
         });
 
         Long id = getId();

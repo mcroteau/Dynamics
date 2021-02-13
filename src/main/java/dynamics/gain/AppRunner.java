@@ -57,16 +57,11 @@ public class AppRunner {
 
 		if(stateRepo.getCount() == 0){
 			User user = userRepo.getByUsername(Constants.ADMIN_USERNAME);
-			String BASE_STATE = "Nevada";
 			String[][] townData = {
 					{ "Fallon", "fallon"},
 					{ "Reno", "reno"},
 					{ "Las Vegas", "lasvegas"},
 			};
-
-			State state = new State();
-			state.setName(BASE_STATE);
-			State savedState = stateRepo.save(state);
 
 			int index = 0;
 
@@ -74,7 +69,6 @@ public class AppRunner {
 				Town town = new Town();
 				town.setName(data[0]);
 				town.setTownUri(data[1]);
-				town.setStateId(savedState.getId());
 				Town savedTown = townRepo.save(town);
 
 				String[][] locations = {

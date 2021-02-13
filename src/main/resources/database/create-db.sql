@@ -39,16 +39,10 @@ create table user_roles(
 	user_id bigint NOT NULL REFERENCES users(id)
 );
 
-create table states(
-	id bigint PRIMARY KEY AUTO_INCREMENT,
-	name character varying(255) NOT NULL
-);
-
 create table towns(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	name character varying(255) NOT NULL,
-    town_uri character varying(255),
-	state_id bigint NOT NULL REFERENCES states(id)
+    town_uri character varying(255)
 );
 
 create table locations (

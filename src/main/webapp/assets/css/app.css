@@ -104,9 +104,14 @@ table tr:hover{
     background:#eff4f4;
 }
 
+input[type="submit"]{
+    margin:30px auto;
+}
+
 .right{
     text-align: right;
 }
+
 
 @media screen and (max-width: 690px) {
     #outer-wrapper{
