@@ -23,8 +23,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
+        <div class="col-sm-12">
             <div id="header-wrapper">
                 <a href="/z" class="logo">Dynamics <br/><strong class="gain">+Gain</strong><br/>
                     <span class="tagline">Goal to Remove Barriers.</span>
@@ -45,8 +44,6 @@
                 <%}%>
             </div>
         </div>
-
-        <div class="col-sm-1"></div>
     </div>
 
 <div id="footer-wrapper">
