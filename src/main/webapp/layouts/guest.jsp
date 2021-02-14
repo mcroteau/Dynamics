@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title><decorator:title default="Removing barriers that prevent those wanting to help others"/></title>
+    <title>Dynamics + Gain: <decorator:title default="The Goal is to Remove Barriers"/></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

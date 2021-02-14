@@ -9,9 +9,11 @@
         <div class="notify">${message}</div>
     </c:if>
 
-    <p id="welcome-text">
+    <p>Please help!</p>
+
+    <p id="welcome-text" class="help">
         ${town.count} <span>Homeless <span class="header-information">in
-            <strong class="highlight">${town.name}</strong>!</span></span>
+            <strong class="highlight">${town.name}</strong></span></span>
     </p>
 
     <p class="open-text regular">Dynamics +Gain is a non profit designed with
@@ -19,20 +21,27 @@
         giving time, money and resources to those in need!</p>
 
 
-    <h3>Locations/Shelters</h3>
-    <ul>
+    <h3>Locations &amp; Shelters</h3>
+    <table>
         <c:forEach var="location" items="${locations}">
-            <li style="padding:1px 0px;"><a href="/z/locations/${location.locationUri}">${location.name}</a></li>
+            <tr>
+                <td class="right" style="padding-right:5px;width:50%;">
+                    <a href="/z/locations/${location.locationUri}" class="href-dotted">${location.name}</a>
+                </td>
+                <td class="left" style="padding-left:10px;width:50%">
+                    <a href="/z/donate/location/${location.id}" class="button light">Give &hearts;</a>
+                </td>
+            </tr>
         </c:forEach>
-    </ul>
+    </table>
+
+    <p>or</p>
+
+    <p>Give directly to Dynmaics <strong>+Gain</strong></p>
 
     <div style="margin-bottom:70px;">
-        <a href="/z/donate" class="button super yellow">Give &hearts;</a>
+        <a href="/z/donate" class="button yellow small">Give &hearts;</a>
     </div>
 
-
-    <div style="text-align: left">
-        <a href="/z/home" class="href-dotted">&larr; Back</a>
-    </div>
 </body>
 </html>

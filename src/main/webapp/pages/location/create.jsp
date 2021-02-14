@@ -20,9 +20,6 @@
         </c:forEach>
     </select>
 
-    <label>Needs</label>
-    <textarea name="needs"></textarea>
-
     <input type="submit" class="button retro" value="Save" style="display:inline-block;margin:30px auto;"/>
 </form>
 </body>

@@ -78,8 +78,8 @@ public class LocationRepo {
     }
 
     public boolean update(Location location) {
-        String sql = "update locations set name = ?, location_uri = ?, description = ?, needs = ?, count = ? where id = ?";
-        jdbcTemplate.update(sql, new Object[] { location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getCount(), location.getId() });
+        String sql = "update locations set name = ?, location_uri = ?, description = ?, needs = ?, town_id = ? where id = ?";
+        jdbcTemplate.update(sql, new Object[] { location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getTownId(), location.getId() });
         return true;
     }
 }

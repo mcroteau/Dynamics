@@ -84,22 +84,8 @@ public class LocationService {
             return "redirect:/admin/locations/create";
         }
 
-        locationRepo.save(location);
-        return "redirect:/admin/locations";
-    }
-
-    public String edit(Long id, ModelMap modelMap) {
-        if(!authService.isAuthenticated()){
-            return "redirect:/";
-        }
-        if(!authService.isAdministrator()){
-            return "redirect:/";
-        }
-
-        Location location = locationRepo.get(id);
-        modelMap.addAttribute("location", location);
-
-        return "location/edit";
+        Location savedLocation = locationRepo.save(location);
+        return "redirect:/admin/locations/edit/" + savedLocation.getId();
     }
 
     public String getEdit(Long id, ModelMap modelMap) {
@@ -110,7 +96,10 @@ public class LocationService {
             return "redirect:/unauthorized";
         }
 
+        List<Town> towns = townRepo.getList();
         Location location = locationRepo.get(id);
+
+        modelMap.put("towns", towns);
         modelMap.put("location", location);
 
         return "location/edit";
@@ -125,9 +114,11 @@ public class LocationService {
         }
 
         if(location.getName().equals("")){
-            redirect.addFlashAttribute("message", "Please give your web location a name...");
+            redirect.addFlashAttribute("message", "Please give your location a name...");
             return "redirect:/admin/locations/edit/" + location.getId();
         }
+
+        locationRepo.update(location);
 
         redirect.addFlashAttribute("message", "Successfully updated location");
         return "redirect:/admin/locations/edit/" + location.getId();

@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Dynamics +Gain : Removing barriers that prevent those wanting to help!.</title>
+    <title>Dynamics +Gain : The Goal is to remove barriers.</title>
 </head>
 <body>
 <style>
@@ -35,7 +35,7 @@
 
     <p class="open-text" style="margin-bottom:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         Dynamics <strong class="gain">+Gain</strong>
-        is a charitable organization designed to removing barriers
+        is a charitable organization designed to remove barriers
         that prevent people from giving time, money and resources to those
         in need! Our goal is to set up Booths with near real time homeless
         data displayed allowing people to stay up to date on the reality of

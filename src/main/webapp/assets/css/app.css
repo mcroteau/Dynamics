@@ -120,8 +120,15 @@ table tr:hover{
     font-size:36px !important;
 }
 
+.help{
+    color:#f540a6;
+}
+
 .right{
     text-align: right;
+}
+.left{
+    text-align: left;
 }
 
 
