@@ -54,6 +54,10 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
+            return "redirect:/";
+        }
         List<Town> towns = townRepo.getList();
         modelMap.put("towns", towns);
         return "location/create";
@@ -63,8 +67,8 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
-
-        if(!authService.isAdministrator()){
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
             return "redirect:/";
         }
 
@@ -76,6 +80,10 @@ public class LocationService {
 
     public String save(Location location, RedirectAttributes redirect) {
         if(!authService.isAuthenticated()){
+            return "redirect:/";
+        }
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
             return "redirect:/";
         }
 
@@ -92,8 +100,9 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
-        if(!authService.isAdministrator()){
-            return "redirect:/unauthorized";
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
+            return "redirect:/";
         }
 
         List<Town> towns = townRepo.getList();
@@ -109,7 +118,8 @@ public class LocationService {
         if(!authService.isAuthenticated()){
             return "redirect:/";
         }
-        if(!authService.isAdministrator()){
+        if(!authService.isAdministrator() &&
+                !authService.hasRole(Constants.SUPER_DUPER)){
             return "redirect:/";
         }
 

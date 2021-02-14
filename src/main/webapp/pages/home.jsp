@@ -24,7 +24,7 @@
     <p style="text-align: center">Please help!</p>
 
     <h1 id="welcome-text" class="help">
-        ${count} <span>Homeless <span class="header-information">counted in
+        ${count} <span>Homeless <span class="header-information"> in
             &nbsp;<a href="/z/locations" class="counts href-dotted-black">${towns.size()}</a>&nbsp;
             <c:if test="${towns.size() == 1}">City!</c:if>
             <c:if test="${towns.size() > 1}">Cities!</c:if>
@@ -45,23 +45,19 @@
     </p>
 
     <h3>Where your donations go</h3>
-    <p>We will work closely local homeless shelters to learn of
+    <p>You may either select an organization or shelter to donate to
+        or you may donate directly to us. We will work closely
+        local homeless shelters to learn of
         the needs of others, but majority of your donations will go
-        towards Walmart Gift Cards, Prepaid Cellphones, Laptops &
-        funding towards local community housing.
+        towards funding for local Community Housing, Walmart Gift Cards &amp;
+        Prepaid Cellphones
     </p>
-
-    <h3>Services we provide</h3>
-    <p>As a non-profile, in addition to fundraising, we provide our
-        donation platform as a service, all you need your Stripe key and
-        a little javascript know-how... we also provide custom
-        software services to the private and public sector.</p>
 
 
     <h3 id="towns">Towns/Cities</h3>
     <ul>
         <c:forEach var="town" items="${towns}">
-            <li style="padding:1px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted">${town.name}</a></li>
+            <li style="padding:4px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted" style="font-size:27px;">${town.name}</a></li>
         </c:forEach>
     </ul>
 

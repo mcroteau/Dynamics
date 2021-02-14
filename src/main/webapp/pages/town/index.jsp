@@ -21,15 +21,12 @@
         giving time, money and resources to those in need!</p>
 
 
-    <h3>Locations &amp; Shelters</h3>
+    <h3>Organizations &amp; Shelters</h3>
     <table>
         <c:forEach var="location" items="${locations}">
             <tr>
-                <td class="right" style="padding-right:5px;width:50%;">
-                    <a href="/z/locations/${location.locationUri}" class="href-dotted">${location.name}</a>
-                </td>
-                <td class="left" style="padding-left:10px;width:50%">
-                    <a href="/z/donate/location/${location.id}" class="button light">Give &hearts;</a>
+                <td class="center">
+                    <a href="/z/donate/${location.id}" class="href-dotted">${location.name} ${location.count} in need</a>
                 </td>
             </tr>
         </c:forEach>

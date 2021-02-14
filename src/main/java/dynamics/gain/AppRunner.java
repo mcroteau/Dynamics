@@ -91,7 +91,8 @@ public class AppRunner {
 
 	private void createRoles(){
 		Role adminRole = roleRepo.find(Constants.ROLE_ADMIN);
-		Role accountRole = roleRepo.find(Constants.ROLE_ACCOUNT);
+		Role superDuperRole = roleRepo.find(Constants.SUPER_DUPER);
+		Role donorRole = roleRepo.find(Constants.ROLE_DONOR);
 
 		if(adminRole == null){
 			adminRole = new Role();
@@ -99,10 +100,16 @@ public class AppRunner {
 			roleRepo.save(adminRole);
 		}
 
-		if(accountRole == null){
-			accountRole = new Role();
-			accountRole.setName(Constants.ROLE_ACCOUNT);
-			roleRepo.save(accountRole);
+		if(superDuperRole == null){
+			superDuperRole = new Role();
+			superDuperRole.setName(Constants.SUPER_DUPER);
+			roleRepo.save(superDuperRole);
+		}
+
+		if(donorRole == null){
+			donorRole = new Role();
+			donorRole.setName(Constants.ROLE_DONOR);
+			roleRepo.save(donorRole);
 		}
 
 		log.info("Roles : " + roleRepo.count());

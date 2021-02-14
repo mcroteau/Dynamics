@@ -191,8 +191,8 @@ public class DonateService {
                 userRepo.update(user);
             }
 
-            if(donationInput.getLocationId() != null){
-                Location location = locationRepo.get(donationInput.getLocationId());
+            if(donationInput.getLocation() != null){
+                Location location = locationRepo.get(donationInput.getLocation());
                 donation.setLocation(location);
             }
 
@@ -520,13 +520,14 @@ public class DonateService {
     }
 
     private String getApiKey(DonationInput donationInput){
-        if(donationInput.getLocationId() != null){
+        if(donationInput.getLocation() != null){
             if(Dynamics.isDevEnv(env)){
-                return locationRepo.getDevKey(donationInput.getLocationId());
+                log.info("key " + locationRepo.getDevKey(donationInput.getLocation()));
+                return locationRepo.getDevKey(donationInput.getLocation());
             }
-            return locationRepo.getLiveKey(donationInput.getLocationId());
+            return locationRepo.getLiveKey(donationInput.getLocation());
         }
-        if(donationInput.getLocationId() != null){
+        if(donationInput.getLocation() == null){
             if(!Dynamics.isDevEnv(env)){
                 return apiKey;
             }

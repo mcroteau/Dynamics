@@ -24,7 +24,7 @@ public class DonateController {
         return "donate/index";
     }
 
-    @GetMapping(value="/donate/location/{id}")
+    @GetMapping(value="/donate/{id}")
     public String location(@PathVariable Long id, ModelMap modelMap){
         return donateService.location(id, modelMap);
     }

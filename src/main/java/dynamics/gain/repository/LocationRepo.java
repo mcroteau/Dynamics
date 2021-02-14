@@ -78,15 +78,14 @@ public class LocationRepo {
     }
 
     public boolean update(Location location) {
-        String sql = "update locations set name = ?, location_uri = ?, description = ?, needs = ?, town_id = ? where id = ?";
-        jdbcTemplate.update(sql, new Object[] { location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getTownId(), location.getId() });
+        String sql = "update locations set name = ?, location_uri = ?, description = ?, needs = ?, town_id = ?, dev_key = ?, live_key = ? where id = ?";
+        jdbcTemplate.update(sql, new Object[] { location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getTownId(), location.getDevKey(), location.getLiveKey(), location.getId() });
         return true;
     }
 
     public String getDevKey(Long id) {
         String sql = "select dev_key from locations where id = ?";
-        String apiKey = jdbcTemplate.queryForObject(sql, new Object[] { id },
-                new BeanPropertyRowMapper<>(String.class));
+        String apiKey = jdbcTemplate.queryForObject(sql, new Object[] { id }, String.class);
         return apiKey;
     }
 

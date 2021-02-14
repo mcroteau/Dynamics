@@ -2,6 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="dynamics.gain.model.Location" %>
+<%@ page import="xyz.strongperched.Parakeet" %>
+<%@ page import="dynamics.gain.common.Constants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -39,6 +41,13 @@
 
 <%--    <label>Needs</label>--%>
 <%--    <textarea name="needs">${location.needs}</textarea>--%>
+
+    <label>Stripe Dev Key</label>
+    <input type="text" name="devKey" value="${location.devKey}"/>
+
+    <label>Stripe Live Key</label>
+    <input type="text" name="liveKey" value="${location.liveKey}"/>
+
 
     <input type="submit" class="button retro" value="Save" style="display:inline-block;margin:30px auto;"/>
 </form>

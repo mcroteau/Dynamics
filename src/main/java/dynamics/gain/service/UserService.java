@@ -218,7 +218,7 @@ public class UserService {
             userRepo.save(user);
 
             User savedUser = userRepo.getByUsername(user.getUsername());
-            Role defaultRole = roleRepo.find(Constants.ROLE_ACCOUNT);
+            Role defaultRole = roleRepo.find(Constants.ROLE_DONOR);
 
             userRepo.saveUserRole(savedUser.getId(), defaultRole.getId());
             String permission = Constants.ACCOUNT_MAINTENANCE + savedUser.getId();

@@ -30,7 +30,7 @@
 <%--                        <a href="/z/locations/${location.locationUri}" class="href-dotted">${location.name}</a>--%>
 <%--                    </td>--%>
                     <td class="center" style="padding-left:10px;width:50%">
-                        <a href="/z/donate/location/${location.id}" class="href-dotted">${location.name} ${location.count} in need</a>
+                        <a href="/z/donate/${location.id}" class="href-dotted">${location.name} ${location.count} in need</a>
                     </td>
                 </tr>
             </c:forEach>

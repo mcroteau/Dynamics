@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Dynamics +Gain: Make Donation</title>
@@ -95,7 +96,23 @@
         }
     </style>
 
-    <h1 class="live">Make Donation<strong class="">+</strong></h1>
+
+    <c:if test="${location != null}">
+        <h1>Give to ${location.name}</h1>
+        <h2><strong class="highlight">${location.count}</strong>&nbsp; in need.</h2>
+        <p>${location.description}</p>
+        <p>You can make a one-time or a reoccurring donation that goes
+            directly to ${location.name}.</p>
+        <p class="live">Make Donation<strong class="">+</strong></p>
+    </c:if>
+    <c:if test="${location == null}">
+        <h1>Give to Dynamics +Gain</h1>
+        <p>You can make a one-time or a reoccurring donation that goes
+            directly to Dynamics <strong>+Gain</strong>.</p>
+    </c:if>
+
+    <input type="hidden" name="locationId" value="${location.id}" id="location-id"/>
+
 
     <p class="open-text live">Please select from the following:</p>
 
@@ -174,9 +191,6 @@
         </div>
     </div>
 
-    <div style="text-align: left;margin-top:71px;">
-        <a href="/z/home" class="href-dotted">&larr; Home</a>
-    </div>
 
     <script>
         $(document).ready(function() {
@@ -197,7 +211,8 @@
                 $contributionType = $('#contribution-type'),
                 $live = $('.live');
 
-            var $creditCard = $('#credit-card'),
+            var $locationId = $('#location-id'),
+                $creditCard = $('#credit-card'),
                 $expMonth = $('#exp-month'),
                 $expYear = $('#exp-year'),
                 $cvc = $('#cvc'),
@@ -323,7 +338,8 @@
                     "expYear" : $expYear.val(),
                     "cvc" : $cvc.val(),
                     "email" : $email.val(),
-                    "recurring" : recurring
+                    "recurring" : recurring,
+                    "location" : $locationId.val()
                 };
             }
 

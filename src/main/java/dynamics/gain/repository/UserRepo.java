@@ -162,7 +162,7 @@ public class UserRepo {
 	}
 
 	public boolean checkSaveDefaultUserRole(long accountId){
-		Role role = roleRepo.find(Constants.ROLE_ACCOUNT);
+		Role role = roleRepo.find(Constants.ROLE_DONOR);
 		UserRole existing = getUserRole(accountId, role.getId());
 		if(existing == null){
 			saveUserRole(accountId, role.getId());
