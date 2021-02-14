@@ -15,6 +15,7 @@ public class Donation {
     String status;
 
     User user;
+    Location location;
 
     public Long getId() {
         return id;
@@ -78,5 +79,13 @@ public class Donation {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

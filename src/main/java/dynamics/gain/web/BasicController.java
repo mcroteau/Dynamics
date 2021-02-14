@@ -27,9 +27,6 @@ public class BasicController {
 	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String home(ModelMap modelMap){ return basicService.home(modelMap); }
 
-	@RequestMapping(value="/towns", method=RequestMethod.GET)
-	public String towns(ModelMap modelMap){ return basicService.towns(modelMap); }
-
 	@RequestMapping(value="/locations", method=RequestMethod.GET)
 	public String locations(ModelMap modelMap){ return basicService.locations(modelMap); }
 

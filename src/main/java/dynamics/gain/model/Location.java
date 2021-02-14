@@ -16,8 +16,8 @@ public class Location {
     String locationUri;
     String description;
 
-    String stripePublishable;
-    String stripeSecret;
+    String devKey;
+    String liveKey;
 
     List<User> accounts = new ArrayList<>();
     List<DailyCount> counts = new ArrayList<>();
@@ -94,20 +94,20 @@ public class Location {
         this.description = description;
     }
 
-    public String getStripePublishable() {
-        return stripePublishable;
+    public String getDevKey() {
+        return devKey;
     }
 
-    public void setStripePublishable(String stripePublishable) {
-        this.stripePublishable = stripePublishable;
+    public void setDevKey(String devKey) {
+        this.devKey = devKey;
     }
 
-    public String getStripeSecret() {
-        return stripeSecret;
+    public String getLiveKey() {
+        return liveKey;
     }
 
-    public void setStripeSecret(String stripeSecret) {
-        this.stripeSecret = stripeSecret;
+    public void setLiveKey(String liveKey) {
+        this.liveKey = liveKey;
     }
 
     public List<User> getAccounts() {

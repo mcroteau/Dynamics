@@ -131,9 +131,8 @@ public class DonateService {
             user.setStripeUserId(customer.getId());
             userRepo.update(user);
 
-
             Long amountInCents = donationInput.getAmount().multiply(new BigDecimal(100)).longValue();
-            log.info("amount ~ " + amountInCents);
+            log.info("amount -> " + amountInCents);
 
             String reoccurringMessage = donationInput.isRecurring() ? MONTHLY : "";
             String nickname = "$" + donationInput.getAmount() + " " + reoccurringMessage;
@@ -190,6 +189,11 @@ public class DonateService {
                 user.setStripeUserId(customer.getId());
                 user.setStripeChargeId(charge.getId());
                 userRepo.update(user);
+            }
+
+            if(donationInput.getLocationId() != null){
+                Location location = locationRepo.get(donationInput.getLocationId());
+                donation.setLocation(location);
             }
 
             donation.setAmount(donationInput.getAmount());
@@ -526,6 +530,13 @@ public class DonateService {
             if(!Dynamics.isDevEnv(env)){
                 return apiKey;
             }
+        }
+        return devApiKey;
+    }
+
+    private String getApiKey(){
+        if(!Dynamics.isDevEnv(env)){
+            return apiKey;
         }
         return devApiKey;
     }
