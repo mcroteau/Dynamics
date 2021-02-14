@@ -82,4 +82,18 @@ public class LocationRepo {
         jdbcTemplate.update(sql, new Object[] { location.getName(), location.getLocationUri(), location.getDescription(), location.getNeeds(), location.getTownId(), location.getId() });
         return true;
     }
+
+    public String getDevKey(Long id) {
+        String sql = "select dev_key from locations where id = ?";
+        String apiKey = jdbcTemplate.queryForObject(sql, new Object[] { id },
+                new BeanPropertyRowMapper<>(String.class));
+        return apiKey;
+    }
+
+    public String getLiveKey(Long id) {
+        String sql = "select live_key from locations where id = ?";
+        String apiKey = jdbcTemplate.queryForObject(sql, new Object[] { id },
+                new BeanPropertyRowMapper<>(String.class));
+        return apiKey;
+    }
 }

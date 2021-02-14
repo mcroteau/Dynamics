@@ -3,6 +3,7 @@
     <decorator name="guest" page="guest.jsp">
         <pattern>*/home</pattern>
         <pattern>*/towns</pattern>
+        <pattern>*/locations</pattern>
         <pattern>*/donate*</pattern>
         <pattern>*/privacy</pattern>
         <pattern>*/signin</pattern>

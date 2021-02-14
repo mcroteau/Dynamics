@@ -7,6 +7,7 @@ import dynamics.gain.common.Constants;
 import dynamics.gain.common.Dynamics;
 import dynamics.gain.common.Utils;
 import dynamics.gain.model.*;
+import dynamics.gain.repository.LocationRepo;
 import dynamics.gain.repository.StripeRepo;
 import dynamics.gain.repository.UserRepo;
 import org.apache.log4j.Logger;
@@ -42,6 +43,9 @@ public class DonateService {
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    LocationRepo locationRepo;
 
     @Autowired
     StripeRepo stripeRepo;
@@ -87,7 +91,7 @@ public class DonateService {
         donation.setStatus("hasn't processed yet...");
 
         try{
-            Stripe.apiKey = getApiKey();
+            Stripe.apiKey = getApiKey(donationInput);
             User user = userRepo.getByUsername(donationInput.getEmail());
             String password = Utils.getRandomString(7);
 
@@ -505,11 +509,25 @@ public class DonateService {
         return "redirect:/";
     }
 
-    private String getApiKey(){
-        if(Dynamics.isDevEnv(env)){
-            return devApiKey;
+    public String location(Long id, ModelMap modelMap) {
+        Location location = locationRepo.get(id);
+        modelMap.put("location", location);
+        return "donate/index";
+    }
+
+    private String getApiKey(DonationInput donationInput){
+        if(donationInput.getLocationId() != null){
+            if(Dynamics.isDevEnv(env)){
+                return locationRepo.getDevKey(donationInput.getLocationId());
+            }
+            return locationRepo.getLiveKey(donationInput.getLocationId());
         }
-        return apiKey;
+        if(donationInput.getLocationId() != null){
+            if(!Dynamics.isDevEnv(env)){
+                return apiKey;
+            }
+        }
+        return devApiKey;
     }
 
 }

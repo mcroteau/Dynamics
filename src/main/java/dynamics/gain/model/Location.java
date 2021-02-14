@@ -8,6 +8,7 @@ public class Location {
     long id;
     long userId;
     long townId;
+    Town town;
     String name;
     String needs;
     int count;
@@ -43,6 +44,14 @@ public class Location {
 
     public void setTownId(long townId) {
         this.townId = townId;
+    }
+
+    public Town getTown() {
+        return town;
+    }
+
+    public void setTown(Town town) {
+        this.town = town;
     }
 
     public String getName() {

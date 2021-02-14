@@ -54,9 +54,9 @@ public class AppRunner {
 
 		if(townRepo.getCount() == 0){
 			String[][] townData = {
-					{ "Fallon", "fallon"},
-					{ "Reno", "reno"},
-					{ "Las Vegas", "lasvegas"},
+					{ "Fallon, NV", "fallon"},
+					{ "Reno, NV", "reno"},
+					{ "Las Vegas, NV", "lasvegas"},
 			};
 
 			int index = 0;

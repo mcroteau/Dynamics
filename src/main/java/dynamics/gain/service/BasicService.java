@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,6 +58,21 @@ public class BasicService {
         modelMap.put("towns", towns);
         return "basic/towns";
     }
+
+    public String locations(ModelMap modelMap){
+        List<Town> locations = new ArrayList();
+        List<Town> towns = townRepo.getList();
+
+        for(Town town: towns){
+            List<Location> townLocations = locationRepo.getList(town.getId());
+            town.setLocations(townLocations);
+            locations.add(town);
+        }
+
+        modelMap.put("locations", locations);
+        return "basic/locations";
+    }
+
 
     public String showSignin() {
         if(authService.isAuthenticated()){
