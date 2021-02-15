@@ -13,6 +13,7 @@ out.
 * clone repo
 * cd into DynamicsGain
 * run project
+    
     `mvn jetty:run -Dspring.profiles.active=Dev`
     
 The project is completely open source. 
