@@ -125,8 +125,8 @@
         <a href="javascript:" class="option button sky active" id="fiver" data-amount="5">$5</a>&nbsp;
         <a href="javascript:" class="option button sky" data-amount="10">$10</a>&nbsp;
         <a href="javascript:" class="option button sky" data-amount="20">$20</a>&nbsp;
-        <a href="javascript:" class="option button sky" data-amount="40">$40</a>&nbsp;
-        <br/><br/>
+<%--        <a href="javascript:" class="option button sky" data-amount="40">$40</a>&nbsp;--%>
+<%--        <br/><br/>--%>
         <input type="text" class="option button" id="custom" placeholder="Other Amount" style="width:150px;" data-amount="0"/>
     </div>
 
@@ -158,7 +158,7 @@
         <input type="text" id="email" placeholder="support@dynamicsgain.org"/>
 
         <div style="text-align: center;">
-            <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;">Donate +</a>
+            <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;border:dashed 3px #2234A3">Donate +</a>
             <p id="contribution-type" class="information">One Time Donation</p>
         </div>
 
@@ -185,9 +185,11 @@
         </div>
 
         <div id="error-container" class="message" style="display:none">
-            <h3>There was an issue...</h3>
-            <p id="error"></p>
-            <a href="/z/donate">Back</a>
+            <h3>Something is not right...</h3>
+            <p>Please make sure all information is correct...</p>
+<%--            <p>or</p>--%>
+<%--            <p id="error"></p>--%>
+            <a href="/z/donate" class="href-dotted">Go Back!</a>
         </div>
     </div>
 

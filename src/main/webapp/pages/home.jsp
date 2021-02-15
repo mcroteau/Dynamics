@@ -44,13 +44,13 @@
         homelessness in their community.
     </p>
 
-    <h3>Where your donations go</h3>
+    <h3>Where your donations go!</h3>
     <p>You may either select an organization or shelter to donate to
         or you may donate directly to us. We will work closely
-        local homeless shelters to learn of
-        the needs of others, but majority of your donations will go
+        local homeless shelters to learn of their needs,
+        but majority of your donations will go
         towards funding for local Community Housing, Walmart Gift Cards &amp;
-        Prepaid Cellphones
+        Prepaid Cellphones.
     </p>
 
 

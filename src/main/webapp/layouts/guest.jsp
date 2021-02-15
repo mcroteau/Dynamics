@@ -31,14 +31,20 @@
                 <%if(!request.getServletPath().equals("/home")){%>
                     <a href="/z/home" class="href-dotted">Home</a>
                 <%}%>
+
+                <%if(!request.getServletPath().equals("/about")){%>
+                    &nbsp;<a href="/z/about" class="href-dotted">About</a>
+                <%}%>
+
                 <%if(!request.getServletPath().equals("/towns")){%>
-                &nbsp;&nbsp;
-                <a href="/z/signin" class="href-dotted">Signin</a>&nbsp;&nbsp;
+                &nbsp;
+                <a href="/z/signin" class="href-dotted">Signin</a>&nbsp;
                 <a href="https://github.com/mcroteau/Dynamics" class="href-dotted" target="_blank">Source Code</a>
                 <%}%>
             </div>
 
             <div id="footer-wrapper">
+                <p><a href="mailto:support@dynamicsgain.org" class="href-dotted-black">support@dynamicsgain.org</a></p>
                 <span class="regular">&copy; 2021 <br/>Dynamics<br/> <strong class="gain">+Gain</strong></span>
             </div>
 

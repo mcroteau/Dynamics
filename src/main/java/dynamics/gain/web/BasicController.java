@@ -30,6 +30,9 @@ public class BasicController {
 	@RequestMapping(value="/locations", method=RequestMethod.GET)
 	public String locations(ModelMap modelMap){ return basicService.locations(modelMap); }
 
+	@RequestMapping(value="/about", method=RequestMethod.GET)
+	public String about(ModelMap modelMap){ return "basic/about"; }
+
 	@RequestMapping(value="/signin", method=RequestMethod.GET)
 	public String signin(){
 		return basicService.showSignin();
