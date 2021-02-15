@@ -9,7 +9,7 @@ Dynamics +Gain is a non-profit designed with the sole purpose of removing the ba
 Feel free to fork and run on your own to check it
 out.
 
-## Steps
+## Run
 * clone repo
 * cd into DynamicsGain
 * run project
