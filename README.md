@@ -2,7 +2,7 @@
 
 # Dynamics +Gain
 
-###A Aqo Project for Zqo
+### A Aqo Project for Zqo
 
 Dynamics +Gain is a non-profit designed with the sole purpose of removing the barriers that prevent others from donating time, money and resources!
 
