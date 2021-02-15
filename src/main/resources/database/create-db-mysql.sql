@@ -53,6 +53,8 @@ create table locations (
 	count bigint default 1,
 	location_uri varchar (255),
 	town_id bigint NOT NULL REFERENCES towns(id),
+	dev_key text,
+	live_key text,
 	constraint unique_location_uri unique(location_uri)
 );
 
