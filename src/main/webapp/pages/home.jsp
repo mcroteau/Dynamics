@@ -44,15 +44,29 @@
         homelessness in their community.
     </p>
 
-    <h3>Where your donations go!</h3>
-    <p>You may either select an organization or shelter to donate to
-        or you may donate directly to us. We will work closely
+
+    <h3 style="margin-top:20px;">How does it work?</h3>
+    <p>These, the kiosks/booths (see below) would be set up at your local community shopping centers
+    where they would display the number of people in need in your community, and
+    in addition allowing you to donate right there on the spot.</p>
+
+    <img src="/z/assets/media/booth.png" style="margin:auto;"/>
+
+    <p class="left">100% of your donation goes toward the organization you select
+        or to Dynamics <strong>+Gain</strong>, your choice. We programed
+        the application to directly deposit the funds to the organizations
+        account, and the organization has signed up to be on our list and
+        has gone through the registration process to link their account.
+        </p>
+
+
+    <h3>What does Dynamics <strong>+Gain do?</h3>
+    <p>We will work closely
         local homeless shelters to learn of their needs,
         but majority of your donations will go
         towards funding for local Community Housing, Walmart Gift Cards &amp;
         Prepaid Cellphones.
     </p>
-
 
     <h3 id="towns">Towns/Cities</h3>
     <ul>

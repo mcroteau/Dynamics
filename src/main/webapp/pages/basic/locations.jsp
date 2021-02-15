@@ -18,17 +18,13 @@
 
     <h1>Organizations</h1>
 
-    <p>Please select an organization or give directly to <a href="/z/donate" class="href-dotted">Dynamics +Gain</a></p>
+    <p>Please select an organization or give directly to Dynamics +Gain</p>
 
     <c:forEach var="town" items="${locations}">
         <h3>${town.name}</h3>
         <table>
             <c:forEach var="location" items="${town.locations}">
                 <tr>
-<%--                    <td class="right" style="padding-right:5px;width:50%;">--%>
-<%--                        <span class="information" style="display:block">${location.town.name}</span>--%>
-<%--                        <a href="/z/locations/${location.locationUri}" class="href-dotted">${location.name}</a>--%>
-<%--                    </td>--%>
                     <td class="center" style="padding-left:10px;width:50%">
                         <a href="/z/donate/${location.id}" class="href-dotted">${location.name} ${location.count} in need</a>
                     </td>
