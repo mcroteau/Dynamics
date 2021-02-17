@@ -20,16 +20,25 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import xyz.strongperched.Parakeet;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
 
 @Service
 @PropertySource("classpath:application.properties")
 public class DonateService {
 
     private static final Logger log = Logger.getLogger(DonateService.class);
+
+    private static final String DEV_PREFIX = "dev.";
+    private static final String LIVE_PREFIX = "live.";
+    private static final String PROPS = "org.properties";
 
     private static final String MONTHLY = "monthly donation";
 
@@ -55,6 +64,9 @@ public class DonateService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    LightService lightService;
 
     @Autowired
     Environment env;
@@ -91,7 +103,7 @@ public class DonateService {
         donation.setStatus("hasn't processed yet...");
 
         try{
-            Stripe.apiKey = getApiKey(donationInput);
+            Stripe.apiKey = getApiKey(donationInput.getLocationId());
             User user = userRepo.getByUsername(donationInput.getEmail());
             String password = Utils.getRandomString(7);
 
@@ -191,8 +203,8 @@ public class DonateService {
                 userRepo.update(user);
             }
 
-            if(donationInput.getLocation() != null){
-                Location location = locationRepo.get(donationInput.getLocation());
+            if(donationInput.getLocationId() != null){
+                Location location = locationRepo.get(donationInput.getLocationId());
                 donation.setLocation(location);
             }
 
@@ -244,6 +256,7 @@ public class DonateService {
         Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
 
         user.setPriceId(dynamicsPrice.getId());
+        user.setLocationId(donationInput.getLocationId());
         user.setStripeSubscriptionId(s.getId());
 
         userRepo.update(user);
@@ -375,6 +388,32 @@ public class DonateService {
         return Constants.GAINING_MOMENTUM;
     }
 
+    public Object cancel(Long locationId, String subscriptionId) {
+        if(!authService.isAuthenticated()){
+            return Constants.PERMISSION_REQUIRED;
+        }
+
+        User user = userRepo.getBySubscription(subscriptionId);
+        String permission = getUserPermission(Long.toString(user.getId()));
+        if(!authService.isAdministrator() &&
+                !authService.hasPermission(permission)){
+            return Constants.PERMISSION_REQUIRED;
+        }
+
+        try{
+            Stripe.apiKey = getApiKey(locationId);
+            Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
+            subscription.cancel();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        user.setStripeSubscriptionId(null);
+        user.setPriceId(null);
+        userRepo.update(user);
+
+        return Constants.GAINING_MOMENTUM;
+    }
 
     public String list(ModelMap modelMap) {
         if(!authService.isAuthenticated()){
@@ -519,20 +558,11 @@ public class DonateService {
         return "donate/index";
     }
 
-    private String getApiKey(DonationInput donationInput){
-        if(donationInput.getLocation() != null){
-            if(Dynamics.isDevEnv(env)){
-                log.info("key " + locationRepo.getDevKey(donationInput.getLocation()));
-                return locationRepo.getDevKey(donationInput.getLocation());
-            }
-            return locationRepo.getLiveKey(donationInput.getLocation());
+    private String getApiKey(Long locationId) throws IOException {
+        if(!Dynamics.isDevEnv(env)){
+            return lightService.get(Constants.ORGANIZATIONS, "dev."+ locationId);
         }
-        if(donationInput.getLocation() == null){
-            if(!Dynamics.isDevEnv(env)){
-                return apiKey;
-            }
-        }
-        return devApiKey;
+        return lightService.get(Constants.ORGANIZATIONS, "live." + locationId);
     }
 
     private String getApiKey(){

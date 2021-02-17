@@ -44,6 +44,9 @@ public class LocationService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    LightService lightService;
+
     public String index(String uri, ModelMap modelMap) {
         Location location = locationRepo.get(uri);
         modelMap.put("location", location);
@@ -108,6 +111,12 @@ public class LocationService {
         List<Town> towns = townRepo.getList();
         Location location = locationRepo.get(id);
 
+        String devKey = lightService.get(Constants.ORGANIZATIONS, "dev." + location.getId());
+        String liveKey = lightService.get(Constants.ORGANIZATIONS, "live." + location.getId());
+
+        location.setDevKey(devKey);
+        location.setLiveKey(liveKey);
+
         modelMap.put("towns", towns);
         modelMap.put("location", location);
 
@@ -128,6 +137,12 @@ public class LocationService {
             return "redirect:/admin/locations/edit/" + location.getId();
         }
 
+        if(location.getDevKey() != null &&
+                location.getLiveKey() != null){
+            String[] keys = {"dev." + location.getId(), "live." + location.getId()};
+            String[] values = { location.getDevKey(), location.getLiveKey() };
+            lightService.write(Constants.ORGANIZATIONS, keys, values);
+        }
         locationRepo.update(location);
 
         redirect.addFlashAttribute("message", "Successfully updated location");

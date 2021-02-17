@@ -44,7 +44,14 @@ public class DonateController {
 
     @CrossOrigin(origins="*")
     @RequestMapping(value="/donate/cancel/{subscriptionId}", method=RequestMethod.DELETE)
-    public @ResponseBody String make(@PathVariable String subscriptionId){
+    public @ResponseBody String cancel(@PathVariable String subscriptionId){
         return gson.toJson(donateService.cancel(subscriptionId));
+    }
+
+    @CrossOrigin(origins="*")
+    @RequestMapping(value="/donate/cancel/{locationId}/{subscriptionId}", method=RequestMethod.DELETE)
+    public @ResponseBody String cancel(@PathVariable Long locationId,
+                                       @PathVariable String subscriptionId){
+        return gson.toJson(donateService.cancel(locationId, subscriptionId));
     }
 }

@@ -10,7 +10,7 @@ public class DonationInput {
     String expYear;
     String cvc;
     boolean recurring;
-    Long location;
+    Long locationId;
 
     public BigDecimal getAmount() {
         return amount;
@@ -68,11 +68,11 @@ public class DonationInput {
         this.recurring = recurring;
     }
 
-    public Long getLocation() {
-        return location;
+    public Long getLocationId() {
+        return locationId;
     }
 
-    public void setLocation(Long location) {
-        this.location = location;
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 }

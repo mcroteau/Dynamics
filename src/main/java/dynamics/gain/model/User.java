@@ -14,6 +14,7 @@ public class User {
 	String stripeUserId;
 	String stripeChargeId;
 	String stripeSubscriptionId;
+	Long locationId;
 
 	boolean hasCharge;
 
@@ -105,5 +106,12 @@ public class User {
 		this.hasCharge = hasCharge;
 	}
 
+	public Long getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(Long locationId) {
+		this.locationId = locationId;
+	}
 }
 
