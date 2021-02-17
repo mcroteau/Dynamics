@@ -1,6 +1,6 @@
 package dynamics.gain;
 
-import dynamics.gain.common.Utils;
+import dynamics.gain.common.App;
 import dynamics.gain.service.PhoneService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +79,7 @@ public class AppRunner {
 					location.setDescription("Helping at-risk and homeless families in Clark County achieve sustainable housing and independence through a compassionate, community-based response.");
 					location.setNeeds("Shoes, Socks, Jackets, Laptops, Prepaid Phones");
 					location.setTownId(savedTown.getId());
-					location.setCount(Utils.getRandomNumber(231));
+					location.setCount(App.getRandomNumber(231));
 					locationRepo.save(location);
 				}
 				index++;

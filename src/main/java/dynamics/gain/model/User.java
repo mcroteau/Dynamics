@@ -10,12 +10,7 @@ public class User {
 	String cleanPassword;
 	long dateCreated;
 
-	Long priceId;
 	String stripeUserId;
-	String stripeChargeId;
-	String stripeSubscriptionId;
-	Long locationId;
-
 	boolean hasCharge;
 
 	public long getId() {
@@ -74,30 +69,6 @@ public class User {
 		this.stripeUserId = stripeUserId;
 	}
 
-	public String getStripeChargeId() {
-		return stripeChargeId;
-	}
-
-	public void setStripeChargeId(String stripeChargeId) {
-		this.stripeChargeId = stripeChargeId;
-	}
-
-	public String getStripeSubscriptionId() {
-		return stripeSubscriptionId;
-	}
-
-	public void setStripeSubscriptionId(String stripeSubscriptionId) {
-		this.stripeSubscriptionId = stripeSubscriptionId;
-	}
-
-	public Long getPriceId() {
-		return priceId;
-	}
-
-	public void setPriceId(Long planId) {
-		this.priceId = priceId;
-	}
-
 	public boolean hasCharge() {
 		return hasCharge;
 	}
@@ -106,12 +77,5 @@ public class User {
 		this.hasCharge = hasCharge;
 	}
 
-	public Long getLocationId() {
-		return locationId;
-	}
-
-	public void setLocationId(Long locationId) {
-		this.locationId = locationId;
-	}
 }
 

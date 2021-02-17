@@ -1,12 +1,11 @@
 package dynamics.gain.service;
 
-import dynamics.gain.common.Utils;
+import dynamics.gain.common.App;
 import dynamics.gain.model.User;
 import dynamics.gain.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Service
 public class DeveloperService {
@@ -33,7 +32,7 @@ public class DeveloperService {
             return "redirect:/";
         }
 
-        String apiKey = Utils.getRandomString(19);
+        String apiKey = App.getRandomString(19);
 //        user.setApiKey(apiKey);
         userRepo.update(user);
 

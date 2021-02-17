@@ -5,7 +5,6 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -17,9 +16,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Utils {
+public class App {
 
-	private static final Logger log = Logger.getLogger(Utils.class);
+	private static final Logger log = Logger.getLogger(App.class);
 	
 	@Autowired
 	private static ApplicationContext applicationContext;
@@ -112,7 +111,7 @@ public class Utils {
 	public static long getYesterday(int day) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -day);
-		Utils.clearTime(cal);
+		App.clearTime(cal);
 
 		long date = getSimpleDateFormatted(cal);
 		return date;

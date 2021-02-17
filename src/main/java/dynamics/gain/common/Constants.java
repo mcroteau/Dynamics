@@ -5,7 +5,7 @@ public class Constants {
 	public static final String ORGANIZATIONS = "org.properties";
 
 	public static final Integer BAD_URI = 500;
-	public static final String GAINING_MOMENTUM = "success";
+	public static final String GAINING = "success";
 	public static final String PERMISSION_REQUIRED = "permission required";
 	public static final String UNAUTHORIZED_REDIRECT = "redirect:/unauthorized";
 

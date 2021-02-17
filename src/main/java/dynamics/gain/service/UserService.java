@@ -3,7 +3,6 @@ package dynamics.gain.service;
 import com.google.gson.Gson;
 import com.stripe.model.Charge;
 import com.stripe.model.Subscription;
-import com.stripe.model.SubscriptionCollection;
 import dynamics.gain.common.Dynamics;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dynamics.gain.common.Constants;
-import dynamics.gain.common.Utils;
+import dynamics.gain.common.App;
 import dynamics.gain.model.*;
 import dynamics.gain.repository.*;
 import xyz.strongperched.Parakeet;
@@ -188,7 +187,7 @@ public class UserService {
             return "redirect:/signup";
         }
 
-        if(!Utils.isValidMailbox(user.getUsername())){
+        if(!App.isValidMailbox(user.getUsername())){
             redirect.addFlashAttribute("message", "Username must be a valid email.");
             return "redirect:/signup";
         }
@@ -261,7 +260,7 @@ public class UserService {
                 return ("redirect:/user/reset");
             }
 
-            String resetUuid = Utils.getRandomString(13);
+            String resetUuid = App.getRandomString(13);
             user.setUuid(resetUuid);
             userRepo.updateUuid(user);
 

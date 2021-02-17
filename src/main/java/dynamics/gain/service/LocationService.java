@@ -1,23 +1,16 @@
 package dynamics.gain.service;
 
 import dynamics.gain.common.Constants;
-import dynamics.gain.common.Utils;
 import dynamics.gain.model.*;
 import dynamics.gain.repository.DailyRepo;
 import dynamics.gain.repository.LocationRepo;
 import dynamics.gain.repository.TownRepo;
 import dynamics.gain.repository.UserRepo;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -111,8 +104,8 @@ public class LocationService {
         List<Town> towns = townRepo.getList();
         Location location = locationRepo.get(id);
 
-        String devKey = lightService.get(Constants.ORGANIZATIONS, "dev." + location.getId());
-        String liveKey = lightService.get(Constants.ORGANIZATIONS, "live." + location.getId());
+        String devKey = lightService.get("dev." + location.getId());
+        String liveKey = lightService.get("live." + location.getId());
 
         location.setDevKey(devKey);
         location.setLiveKey(liveKey);
@@ -139,10 +132,10 @@ public class LocationService {
 
         if(location.getDevKey() != null &&
                 location.getLiveKey() != null){
-            String[] keys = {"dev." + location.getId(), "live." + location.getId()};
-            String[] values = { location.getDevKey(), location.getLiveKey() };
-            lightService.write(Constants.ORGANIZATIONS, keys, values);
+            lightService.write("dev." + location.getId(), location.getDevKey());
+            lightService.write("live." + location.getId(), location.getLiveKey());
         }
+
         locationRepo.update(location);
 
         redirect.addFlashAttribute("message", "Successfully updated location");

@@ -7,12 +7,18 @@ public class Donation {
     Long id;
     BigDecimal amount;
 
-    String donorId;
     String chargeId;
     String subscriptionId;
+    String priceId;
+
+    Long userId;
+    Long locationId;
 
     Boolean processed;
     String status;
+
+    String username;
+    String locationName;
 
     User user;
     Location location;
@@ -33,14 +39,6 @@ public class Donation {
         this.amount = amount;
     }
 
-    public String getDonorId() {
-        return donorId;
-    }
-
-    public void setDonorId(String donorId) {
-        this.donorId = donorId;
-    }
-
     public String getChargeId() {
         return chargeId;
     }
@@ -57,6 +55,22 @@ public class Donation {
         this.subscriptionId = subscriptionId;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
+    }
+
     public Boolean getProcessed() {
         return processed;
     }
@@ -71,6 +85,22 @@ public class Donation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public User getUser() {

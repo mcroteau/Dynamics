@@ -14,6 +14,7 @@
 <form action="/z/admin/locations/update" method="post">
 
     <input type="hidden" name="id" value="${location.id}"/>
+    <input type="hidden" name="count" value="${location.count}"/>
 
     <label>Name</label>
     <input type="text" name="name" value="${location.name}"/>

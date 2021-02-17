@@ -9,36 +9,38 @@ import java.util.Properties;
 @Service
 public class LightService {
 
-    public String get(String name, String key){
+    private static final String ORGANIZATIONS = "org.properties";
+
+    public String get(String key){
         try {
-            Properties props = read(name);
+            Properties props = read();
             return props.get(key).toString();
         }catch (Exception ex){}
         return "";
     }
 
-    public boolean write(String name, String[] keys, String[] values){
+    public boolean write(String key, String value){
         Properties props = new Properties();
-        try(OutputStream outputStream = new FileOutputStream(name)){
-            int idx = 0;
-            for(String key : keys) {
-                System.out.println(key + ":" + values[idx]);
-                props.setProperty(key, values[idx]);
-                idx++;
-            }
-            props.store(outputStream, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        try {
+            FileInputStream in = new FileInputStream(ORGANIZATIONS);
+            props.load(in);
+            in.close();
+
+            FileOutputStream out = new FileOutputStream(ORGANIZATIONS);
+            props.setProperty(key, value);
+            props.store(out, null);
+            out.close();
+
+        }catch(Exception ex){}
         return true;
     }
 
-    private Properties read(String name) throws IOException {
+    private Properties read() throws IOException {
         FileInputStream fis = null;
         Properties prop = null;
 
         try {
-            fis = new FileInputStream(name);
+            fis = new FileInputStream(ORGANIZATIONS);
             prop = new Properties();
             prop.load(fis);
         } catch(FileNotFoundException fnfe) {

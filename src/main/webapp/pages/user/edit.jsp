@@ -21,7 +21,7 @@
 
             <p>$${subscriptionAmount} billed monthly</p>
 
-            <input type="submit" class="button small beauty" value="Cancel" id="cancel"/>
+<%--            <input type="submit" class="button small beauty" value="Cancel" id="cancel"/>--%>
         </div>
         <p id="message" class="notify">Processing... please wait.</p>
     </c:if>

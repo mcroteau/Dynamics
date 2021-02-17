@@ -20,8 +20,8 @@ public class DonateController {
     DonateService donateService;
 
     @GetMapping(value="/donate")
-    public String index(){
-        return "donate/index";
+    public String index(ModelMap modelMap){
+        return donateService.index(modelMap);
     }
 
     @GetMapping(value="/donate/{id}")
@@ -54,4 +54,10 @@ public class DonateController {
                                        @PathVariable String subscriptionId){
         return gson.toJson(donateService.cancel(locationId, subscriptionId));
     }
+
+    @GetMapping(value="/donate/momentum")
+    public String momentum(ModelMap modelMap){
+        return donateService.momentum(modelMap);
+    }
+
 }

@@ -35,9 +35,9 @@
         <a href="/z/locations" class="button super yellow">Give &hearts;</a>
     </div>
 
-    <p class="open-text" style="margin-bottom:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <p class="open-text" style="margin-bottom:10px;">
         Dynamics <strong class="gain">+Gain</strong>
-        is a charitable organization designed to remove barriers
+        is an organization designed to remove barriers
         that prevent people from giving time, money and resources to those
         in need! Our goal is to set up Booths with near real time homeless
         data displayed allowing people to stay up to date on the reality of
@@ -46,17 +46,13 @@
 
 
     <h3 style="margin-top:20px;">How does it work?</h3>
-    <p>These, the kiosks/booths (see below) would be set up at your local community shopping centers
+    <p>Kiosks/booths would be set up at your local community shopping centers
     where they would display the number of people in need in your community, and
-    in addition allowing you to donate right there on the spot.</p>
-
-    <img src="/z/assets/media/booth.png" style="margin:auto;"/>
-
-    <p class="left">100% of your donation goes toward the organization you select
-        or to Dynamics <strong>+Gain</strong>, your choice. We programed
-        the application to directly deposit the funds to the organizations
-        account, and the organization has signed up to be on our list and
-        has gone through the registration process to link their account.
+    in addition allowing you to donate right there on the spot.
+        100% of your donation goes toward the organization you select
+        or to Dynamics <strong>+Gain</strong>, your choice. The organization
+        has signed up to be on our list and has gone through the
+        registration process to link their account.
         </p>
 
 

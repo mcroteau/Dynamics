@@ -5,8 +5,9 @@ import com.stripe.Stripe;
 import com.stripe.model.*;
 import dynamics.gain.common.Constants;
 import dynamics.gain.common.Dynamics;
-import dynamics.gain.common.Utils;
+import dynamics.gain.common.App;
 import dynamics.gain.model.*;
+import dynamics.gain.repository.DonationRepo;
 import dynamics.gain.repository.LocationRepo;
 import dynamics.gain.repository.StripeRepo;
 import dynamics.gain.repository.UserRepo;
@@ -20,14 +21,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import xyz.strongperched.Parakeet;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 
 @Service
@@ -35,12 +32,6 @@ import java.util.Properties;
 public class DonateService {
 
     private static final Logger log = Logger.getLogger(DonateService.class);
-
-    private static final String DEV_PREFIX = "dev.";
-    private static final String LIVE_PREFIX = "live.";
-    private static final String PROPS = "org.properties";
-
-    private static final String MONTHLY = "monthly donation";
 
     @Value("${stripe.api.key}")
     private String apiKey;
@@ -60,6 +51,9 @@ public class DonateService {
     StripeRepo stripeRepo;
 
     @Autowired
+    DonationRepo donationRepo;
+
+    @Autowired
     AuthService authService;
 
     @Autowired
@@ -75,12 +69,32 @@ public class DonateService {
         return Constants.ACCOUNT_MAINTENANCE + id;
     }
 
+    public String index(ModelMap modelMap) {
+        modelMap.put("inDonateMode", true);
+        return "donate/index";
+    }
+
+    public String location(Long id, ModelMap modelMap) {
+        Location location = locationRepo.get(id);
+        String devKey = lightService.get("dev." + id);
+        String liveKey = lightService.get("live." + id);
+
+        if(!devKey.equals("")
+                |!liveKey.equals(""))
+            modelMap.put("inDonateMode", true);
+
+        modelMap.put("location", location);
+        return "donate/index";
+    }
 
     public Donation make(DonationInput donationInput){
 
         Donation donation = new Donation();
-        donation.setProcessed(false);
-        if(!Utils.isValidMailbox(donationInput.getEmail())){
+        if(donation.getAmount() == null){
+            donation.setStatus("$ amount not passed in. ");
+            return donation;
+        }
+        if(!App.isValidMailbox(donationInput.getEmail())){
             donation.setStatus("Email is invalid, please try again!");
             return donation;
         }
@@ -100,12 +114,11 @@ public class DonateService {
             donation.setStatus("Cvc is empty! please try again.");
             return donation;
         }
-        donation.setStatus("hasn't processed yet...");
 
         try{
             Stripe.apiKey = getApiKey(donationInput.getLocationId());
             User user = userRepo.getByUsername(donationInput.getEmail());
-            String password = Utils.getRandomString(7);
+            String password = App.getRandomString(7);
 
             if(user == null){
                 user = new User();
@@ -114,6 +127,16 @@ public class DonateService {
                 user = userRepo.save(user);
                 user.setCleanPassword(password);
             }
+
+            donation.setProcessed(false);
+            donation.setAmount(donationInput.getAmount());
+            donation.setUserId(user.getId());
+            if(donationInput.getLocationId() != null) {
+                donation.setLocationId(donationInput.getLocationId());
+            }
+
+            donation = donationRepo.save(donation);
+            donation.setStatus("hasn't processed yet...");
 
             Map<String, Object> card = new HashMap<>();
             card.put("number", donationInput.getCreditCard());
@@ -127,8 +150,8 @@ public class DonateService {
 
             if(user.getStripeUserId() != null &&
                     !user.getStripeUserId().equals("")){
-                Customer oldCustomer = Customer.retrieve(user.getStripeUserId());
                 try {
+                    Customer oldCustomer = Customer.retrieve(user.getStripeUserId());
                     oldCustomer.delete();
                 }catch(Exception e){ log.info("stale stripe customer id");}
             }
@@ -146,18 +169,15 @@ public class DonateService {
             Long amountInCents = donationInput.getAmount().multiply(new BigDecimal(100)).longValue();
             log.info("amount -> " + amountInCents);
 
-            String reoccurringMessage = donationInput.isRecurring() ? MONTHLY : "";
-            String nickname = "$" + donationInput.getAmount() + " " + reoccurringMessage;
-            log.info("recurring " + nickname + " " + donationInput.isRecurring());
+            String nickname = getDescription(donationInput);
+            log.info("nickname " + nickname);
 
             if(donationInput.isRecurring()) {
 
                 DynamicsPrice storedPrice = stripeRepo.getPriceAmount(donationInput.getAmount());
 
                 if (storedPrice != null) {
-                    DynamicsProduct savedProduct = stripeRepo.getProduct(storedPrice.getProductId());
-                    Product stripeProduct = Product.retrieve(savedProduct.getStripeId());
-                    createSubscription(amountInCents, donationInput, savedProduct, storedPrice, stripeProduct, customer, user, password);
+                    createSubscription(donation, storedPrice, customer);
                 }
 
                 if(storedPrice == null){
@@ -181,7 +201,7 @@ public class DonateService {
                     dynamicsPrice.setProductId(savedProduct.getId());
                     DynamicsPrice savedPrice = stripeRepo.savePrice(dynamicsPrice);
 
-                    createSubscription(amountInCents, donationInput, savedProduct, savedPrice, stripeProduct, customer, user, password);
+                    createSubscription(donation, savedPrice, customer);
 
                 }
             }
@@ -197,21 +217,22 @@ public class DonateService {
 
                 Charge charge = Charge.create(chargeParams);
                 donation.setChargeId(charge.getId());
+                donationRepo.update(donation);
 
                 user.setStripeUserId(customer.getId());
-                user.setStripeChargeId(charge.getId());
                 userRepo.update(user);
             }
 
             if(donationInput.getLocationId() != null){
                 Location location = locationRepo.get(donationInput.getLocationId());
+                donation.setLocationId(location.getId());
                 donation.setLocation(location);
             }
 
-            donation.setAmount(donationInput.getAmount());
             donation.setUser(user);
             donation.setProcessed(true);
             donation.setStatus("Successfully processed donation");
+            donationRepo.update(donation);
 
         }catch(Exception ex){
             donation.setStatus("Please contact support@dynamicsgain.org, the payment didn't process");
@@ -220,6 +241,17 @@ public class DonateService {
 
         return donation;
     }
+
+    private String getDescription(DonationInput donationInput){
+        String reoccurring = donationInput.isRecurring() ? "monthly" : "";
+        String location = "";
+        if(donationInput.getLocationId() != null){
+            Location storedLocation = locationRepo.get(donationInput.getLocationId());
+            location = storedLocation.getName();
+        }
+        return "$" + donationInput.getAmount() + " " + reoccurring + " " +  location;
+    }
+
 
     private Price genStripeReoccurringPrice(Long amountInCents, DynamicsPrice dynamicsPrice, Product stripeProduct) throws Exception {
         Map<String, Object> recurring = new HashMap<>();
@@ -235,14 +267,7 @@ public class DonateService {
         return stripePrice;
     }
 
-    private boolean createSubscription(Long amountInCents, DonationInput donationInput, DynamicsProduct savedProduct, DynamicsPrice dynamicsPrice, Product stripeProduct, Customer customer, User user, String password) throws Exception{
-        try {
-            Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
-            subscription.cancel();
-        }catch(Exception e){
-            log.info("cannot cancel previous donation");
-        }
-
+    private boolean createSubscription(Donation donation, DynamicsPrice dynamicsPrice, Customer customer) throws Exception{
         Map<String, Object> itemParams = new HashMap<>();
         itemParams.put("price", dynamicsPrice.getStripeId());
 
@@ -254,12 +279,8 @@ public class DonateService {
         subscriptionParams.put("items", itemsParams);
 
         Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
-
-        user.setPriceId(dynamicsPrice.getId());
-        user.setLocationId(donationInput.getLocationId());
-        user.setStripeSubscriptionId(s.getId());
-
-        userRepo.update(user);
+        donation.setSubscriptionId(s.getId());
+        donationRepo.update(donation);
 
         return true;
     }
@@ -323,8 +344,6 @@ public class DonateService {
         DynamicsPrice dynamicsPrice = stripeRepo.getPrice(id);
 
         try {
-            Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
-            subscription.cancel();
 
             Map<String, Object> customerParams = new HashMap<String, Object>();
             customerParams.put("email", user.getUsername());
@@ -344,8 +363,6 @@ public class DonateService {
             Subscription s = com.stripe.model.Subscription.create(params);
 
             user.setStripeUserId(customer.getId());
-            user.setPriceId(id);
-            user.setStripeSubscriptionId(s.getId());
             userRepo.update(user);
 
             redirect.addFlashAttribute("message", "Congratulations, you are now ready! " + dynamicsPrice.getNickname() + " for " + dynamicsPrice.getProjectLimit() + " websites!");
@@ -375,44 +392,13 @@ public class DonateService {
 
         try{
             Stripe.apiKey = getApiKey();
-            Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
+            Subscription subscription = com.stripe.model.Subscription.retrieve(subscriptionId);
             subscription.cancel();
         }catch(Exception ex){
             ex.printStackTrace();
         }
 
-        user.setStripeSubscriptionId(null);
-        user.setPriceId(null);
-        userRepo.update(user);
-
-        return Constants.GAINING_MOMENTUM;
-    }
-
-    public Object cancel(Long locationId, String subscriptionId) {
-        if(!authService.isAuthenticated()){
-            return Constants.PERMISSION_REQUIRED;
-        }
-
-        User user = userRepo.getBySubscription(subscriptionId);
-        String permission = getUserPermission(Long.toString(user.getId()));
-        if(!authService.isAdministrator() &&
-                !authService.hasPermission(permission)){
-            return Constants.PERMISSION_REQUIRED;
-        }
-
-        try{
-            Stripe.apiKey = getApiKey(locationId);
-            Subscription subscription = com.stripe.model.Subscription.retrieve(user.getStripeSubscriptionId());
-            subscription.cancel();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-
-        user.setStripeSubscriptionId(null);
-        user.setPriceId(null);
-        userRepo.update(user);
-
-        return Constants.GAINING_MOMENTUM;
+        return Constants.GAINING;
     }
 
     public String list(ModelMap modelMap) {
@@ -552,17 +538,17 @@ public class DonateService {
         return "redirect:/";
     }
 
-    public String location(Long id, ModelMap modelMap) {
-        Location location = locationRepo.get(id);
-        modelMap.put("location", location);
-        return "donate/index";
-    }
-
-    private String getApiKey(Long locationId) throws IOException {
-        if(!Dynamics.isDevEnv(env)){
-            return lightService.get(Constants.ORGANIZATIONS, "dev."+ locationId);
+    private String getApiKey(Long locationId){
+        if(locationId != null && !locationId.equals("")) {
+            if (!Dynamics.isDevEnv(env)) {
+                return lightService.get("live." + locationId);
+            }
+            return lightService.get("dev." + locationId);
         }
-        return lightService.get(Constants.ORGANIZATIONS, "live." + locationId);
+        if(!Dynamics.isDevEnv(env)){
+            return apiKey;
+        }
+        return devApiKey;
     }
 
     private String getApiKey(){
@@ -572,4 +558,20 @@ public class DonateService {
         return devApiKey;
     }
 
+    public String momentum(ModelMap modelMap) {
+        if(!authService.isAuthenticated()){
+            return "redirect:/";
+        }
+        if(!authService.isAdministrator()){
+            return "redirect:/unauthorized";
+        }
+        List<Donation> donations = donationRepo.getList();
+        BigDecimal sum = new BigDecimal(0);
+        for(Donation donation: donations){
+            sum = sum.add(donation.getAmount());
+        }
+        modelMap.put("sum", sum);
+        modelMap.put("donations", donations);
+        return "donate/momentum";
+    }
 }

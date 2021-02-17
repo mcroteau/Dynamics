@@ -57,6 +57,16 @@ create table locations (
 	constraint unique_location_uri unique(location_uri)
 );
 
+create table donations(
+	id bigint PRIMARY KEY AUTO_INCREMENT,
+	amount bigint,
+	processed boolean,
+	charge_id text,
+	subscription_id text,
+	user_id bigint NOT NULL REFERENCES users(id),
+	location_id bigint NOT NULL REFERENCES locations(id),
+)
+
 create table daily_counts (
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	user_id bigint NOT NULL REFERENCES users(id),

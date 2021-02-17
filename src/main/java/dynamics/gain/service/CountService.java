@@ -1,7 +1,7 @@
 package dynamics.gain.service;
 
 import dynamics.gain.common.Constants;
-import dynamics.gain.common.Utils;
+import dynamics.gain.common.App;
 import dynamics.gain.model.DailyCount;
 import dynamics.gain.model.Location;
 import dynamics.gain.model.User;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Objects;
 
 @Service
 public class CountService {
@@ -43,7 +41,7 @@ public class CountService {
 
         User user = authService.getUser();
 
-        DailyCount dailyCount = dailyRepo.getCount(id, Utils.getToday());
+        DailyCount dailyCount = dailyRepo.getCount(id, App.getToday());
         log.info(dailyCount);
         if(dailyCount != null){
             log.info(dailyCount.getCount());
@@ -55,7 +53,7 @@ public class CountService {
             dailyCount.setCount(0);
             dailyCount.setLocationId(id);
             dailyCount.setUserId(user.getId());
-            dailyCount.setDateEntered(Utils.getToday());
+            dailyCount.setDateEntered(App.getToday());
             storedCount = dailyRepo.save(dailyCount);
         }
 
