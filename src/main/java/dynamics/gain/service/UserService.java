@@ -1,6 +1,7 @@
 package dynamics.gain.service;
 
 import com.google.gson.Gson;
+import com.stripe.Stripe;
 import com.stripe.model.Price;
 import dynamics.gain.common.Dynamics;
 import org.apache.log4j.Logger;
@@ -41,6 +42,9 @@ public class UserService {
 
     @Autowired
     LocationService locationService;
+
+    @Autowired
+    LightService lightService;
 
     @Autowired
     UserRepo userRepo;
@@ -91,7 +95,12 @@ public class UserService {
 
         for(Donation donation: donations) {
 
-            Location location = locationRepo.get(donation.getLocationId());
+            Stripe.apiKey = lightService.getApiKey(donation.getLocationId());
+            
+            Location storedLocation = null;
+            if(donation.getLocationId() != null) {
+                storedLocation = locationRepo.get(donation.getLocationId());
+            }
 
             if(donation.getChargeId() != null &&
                     !donation.getChargeId().equals("")) {
@@ -103,8 +112,9 @@ public class UserService {
                     charge.setAmount(amount);
                     charge.setId(donation.getId());
                     charge.setStripeId(stripeCharge.getId());
-                    if(location != null)
-                        charge.setLocation(location);
+                    if(storedLocation != null){
+                        charge.setLocation(storedLocation);
+                    }
                     charges.add(charge);
 
                 }catch(Exception ex){
@@ -124,11 +134,13 @@ public class UserService {
                     subscription.setAmount(amount);
                     subscription.setId(donation.getId());
                     subscription.setStripeId(stripeSubscription.getId());
-                    if(location != null)
-                        subscription.setLocation(location);
+                    if(storedLocation != null) {
+                        subscription.setLocation(storedLocation);
+                    }
                     subscriptions.add(subscription);
 
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         }

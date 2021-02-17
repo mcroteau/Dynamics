@@ -11,10 +11,17 @@
 
     <c:if test="${subscriptions.size() > 0}">
         <div id="subscription-details">
-            <h3>Subscriptions Details</h3>
+            <h3>Subscriptions</h3>
 
             <c:forEach var="subscription" items="${subscriptions}">
-                <p>$${subscription.amount} monthly to ${subscription.location.name}</p>
+                <p><strong>$${subscription.amount}</strong> monthly to
+                        <c:if test="${subscription.location != null}">
+                            ${subscription.location.name}
+                        </c:if>
+                        <c:if test="${subscription.location == null}">
+                            Dynamics <strong>+Gain</strong>
+                        </c:if>
+                </p>
             </c:forEach>
         </div>
     </c:if>
@@ -22,7 +29,14 @@
     <c:if test="${charges.size() > 0}">
         <h3 style="margin-top:30px;">One-Time Donations</h3>
         <c:forEach var="charge" items="${charges}">
-            <p>$${charge.amount} donated to ${charge.location.name}</p>
+            <p><strong>$${charge.amount}</strong> donated to
+                <c:if test="${charge.location != null}">
+                    ${charge.location.name}
+                </c:if>
+                <c:if test="${charge.location == null}">
+                    Dynamics <strong>+Gain</strong>
+                </c:if>
+            </p>
         </c:forEach>
     </c:if>
 

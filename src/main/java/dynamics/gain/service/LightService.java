@@ -1,9 +1,15 @@
 package dynamics.gain.service;
 
+import dynamics.gain.common.Dynamics;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 @Service
@@ -11,12 +17,39 @@ public class LightService {
 
     private static final String ORGANIZATIONS = "org.properties";
 
-    public String get(String key){
+    @Value("${stripe.api.key}")
+    private String apiKey;
+
+    @Value("${stripe.dev.api.key}")
+    private String devApiKey;
+
+    @Autowired
+    Environment env;
+
+    public static String get(String key){
         try {
             Properties props = read();
             return props.get(key).toString();
         }catch (Exception ex){}
         return "";
+    }
+
+    private static Properties read() throws IOException {
+        FileInputStream fis = null;
+        Properties prop = null;
+
+        try {
+            fis = new FileInputStream(ORGANIZATIONS);
+            prop = new Properties();
+            prop.load(fis);
+        } catch(FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+            fis.close();
+        }
+        return prop;
     }
 
     public boolean write(String key, String value){
@@ -35,21 +68,23 @@ public class LightService {
         return true;
     }
 
-    private Properties read() throws IOException {
-        FileInputStream fis = null;
-        Properties prop = null;
-
-        try {
-            fis = new FileInputStream(ORGANIZATIONS);
-            prop = new Properties();
-            prop.load(fis);
-        } catch(FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
-        } finally {
-            fis.close();
+    public String getApiKey(Long locationId){
+        if(locationId != null && !locationId.equals("")) {
+            if (!Dynamics.isDevEnv(env)) {
+                return get("live." + locationId);
+            }
+            return get("dev." + locationId);
         }
-        return prop;
+        if(!Dynamics.isDevEnv(env)){
+            return apiKey;
+        }
+        return devApiKey;
+    }
+
+    public String getApiKey(){
+        if(!Dynamics.isDevEnv(env)){
+            return apiKey;
+        }
+        return devApiKey;
     }
 }

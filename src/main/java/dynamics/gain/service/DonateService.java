@@ -3,9 +3,8 @@ package dynamics.gain.service;
 import com.google.gson.Gson;
 import com.stripe.Stripe;
 import com.stripe.model.*;
-import dynamics.gain.common.Constants;
-import dynamics.gain.common.Dynamics;
 import dynamics.gain.common.App;
+import dynamics.gain.common.Constants;
 import dynamics.gain.model.*;
 import dynamics.gain.repository.DonationRepo;
 import dynamics.gain.repository.LocationRepo;
@@ -13,9 +12,7 @@ import dynamics.gain.repository.StripeRepo;
 import dynamics.gain.repository.UserRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,12 +29,6 @@ import java.util.Map;
 public class DonateService {
 
     private static final Logger log = Logger.getLogger(DonateService.class);
-
-    @Value("${stripe.api.key}")
-    private String apiKey;
-
-    @Value("${stripe.dev.api.key}")
-    private String devApiKey;
 
     Gson gson = new Gson();
 
@@ -61,9 +52,6 @@ public class DonateService {
 
     @Autowired
     LightService lightService;
-
-    @Autowired
-    Environment env;
 
     public String getUserPermission(String id){
         return Constants.ACCOUNT_MAINTENANCE + id;
@@ -116,7 +104,7 @@ public class DonateService {
         }
 
         try{
-            Stripe.apiKey = getApiKey(donationInput.getLocationId());
+            Stripe.apiKey = lightService.getApiKey(donationInput.getLocationId());
             User user = userRepo.getByUsername(donationInput.getEmail());
             String password = App.getRandomString(7);
 
@@ -340,7 +328,7 @@ public class DonateService {
             return "redirect:/unauthorized";
         }
 
-        Stripe.apiKey = getApiKey();
+        Stripe.apiKey = lightService.getApiKey();
         DynamicsPrice dynamicsPrice = stripeRepo.getPrice(id);
 
         try {
@@ -391,7 +379,7 @@ public class DonateService {
         }
 
         try{
-            Stripe.apiKey = getApiKey();
+            Stripe.apiKey = lightService.getApiKey();
             com.stripe.model.Subscription subscription = com.stripe.model.Subscription.retrieve(subscriptionId);
             subscription.cancel();
         }catch(Exception ex){
@@ -442,7 +430,7 @@ public class DonateService {
 
         try {
 
-            Stripe.apiKey = getApiKey();
+            Stripe.apiKey = lightService.getApiKey();
 
             Map<String, Object> productParams = new HashMap<>();
             productParams.put("name", dynamicsPrice.getNickname());
@@ -517,7 +505,7 @@ public class DonateService {
             return "redirect:/";
         }
         try {
-            Stripe.apiKey = getApiKey();
+            Stripe.apiKey = lightService.getApiKey();
 
             Map<String, Object> params = new HashMap<>();
             PlanCollection priceCollection = com.stripe.model.Plan.list(params);
@@ -536,26 +524,6 @@ public class DonateService {
             ex.printStackTrace();
         }
         return "redirect:/";
-    }
-
-    private String getApiKey(Long locationId){
-        if(locationId != null && !locationId.equals("")) {
-            if (!Dynamics.isDevEnv(env)) {
-                return lightService.get("live." + locationId);
-            }
-            return lightService.get("dev." + locationId);
-        }
-        if(!Dynamics.isDevEnv(env)){
-            return apiKey;
-        }
-        return devApiKey;
-    }
-
-    private String getApiKey(){
-        if(!Dynamics.isDevEnv(env)){
-            return apiKey;
-        }
-        return devApiKey;
     }
 
     public String momentum(ModelMap modelMap) {

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="parakeet" uri="/META-INF/tags/parakeet.tld" %>
 <html>
 <head>
     <title>Dynamics +Gain: Make Donation</title>
@@ -166,8 +167,9 @@
 
             <br class="clear"/>
 
-            <label>email</label>
-            <input type="text" id="email" placeholder="support@dynamicsgain.org"/>
+            <label>Email <span class="highlight">Signed in</span></label>
+            <input type="text" id="email" value="<parakeet:username/>" placeholder="mail@dynamicsgain.org"/>
+
 
             <div style="text-align: center;">
                 <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;border:dashed 3px #2234A3">Donate +</a>
@@ -185,8 +187,9 @@
             </div>
 
             <div id="success" class="message" style="display:none">
-                <h1>Thank you!</h1>
-                <h2><strong id="donation-amount"></strong> Donated</h2>
+                <h1><strong id="donation-amount"></strong> Donated</h1>
+                <h2 id="location"></h2>
+                <h3>Thank you!</h3>
                 <p>Successfully processed your donation.</p>
 
                 <p>Your username : <strong id="username"></strong></p>
@@ -237,6 +240,7 @@
 
                 var $username = $('#username'),
                     $password = $('#password'),
+                    $location = $('#location'),
                     $donationAmount = $('#donation-amount');
 
 
@@ -317,9 +321,7 @@
                             data: data,
                             contentType: "application/json",
                             success: function(resp){
-                                console.log('success', resp)
                                 var data = JSON.parse(resp)
-                                console.log(data);
                                 $processing.hide()
                                 if(data.processed){
                                     if('cleanPassword' in data.user){
@@ -329,6 +331,9 @@
                                     if(!('cleanPassword' in data.user)){
                                         $username.parents('p').hide()
                                         $password.parents('p').hide()
+                                    }
+                                    if('location' in data){
+                                        $location.html(data.location.name)
                                     }
                                     $donationAmount.html('$' + data.amount)
                                     $success.fadeIn(100)
@@ -347,14 +352,14 @@
 
                 var getRaw = function(){
                     return {
-                        "amount" : $amountInput.val(),
-                        "creditCard": $creditCard.val(),
-                        "expMonth" : $expMonth.val(),
-                        "expYear" : $expYear.val(),
-                        "cvc" : $cvc.val(),
-                        "email" : $email.val(),
+                        "amount" : $amountInput.val().replace(/ /g,''),
+                        "creditCard": $creditCard.val().replace(/ /g,''),
+                        "expMonth" : $expMonth.val().replace(/ /g,''),
+                        "expYear" : $expYear.val().replace(/ /g,''),
+                        "cvc" : $cvc.val().replace(/ /g,''),
+                        "email" : $email.val().replace(/ /g,''),
                         "recurring" : recurring,
-                        "locationId" : $locationId.val()
+                        "locationId" : $locationId.val().replace(/ /g,'')
                     };
                 }
 

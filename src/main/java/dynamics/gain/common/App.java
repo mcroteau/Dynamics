@@ -1,5 +1,6 @@
 package dynamics.gain.common;
 
+import dynamics.gain.service.LightService;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 public class App {
 
 	private static final Logger log = Logger.getLogger(App.class);
-	
+
 	@Autowired
 	private static ApplicationContext applicationContext;
 
@@ -166,4 +167,5 @@ public class App {
 		}catch (Exception e){}
 		return "";
 	}
+
 }
