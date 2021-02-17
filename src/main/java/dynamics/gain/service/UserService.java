@@ -52,6 +52,9 @@ public class UserService {
     DonationRepo donationRepo;
 
     @Autowired
+    LocationRepo locationRepo;
+
+    @Autowired
     private Environment env;
 
     private String getPermission(String id){
@@ -88,6 +91,7 @@ public class UserService {
 
         for(Donation donation: donations) {
 
+            Location location = locationRepo.get(donation.getLocationId());
 
             if(donation.getChargeId() != null &&
                     !donation.getChargeId().equals("")) {
@@ -99,6 +103,8 @@ public class UserService {
                     charge.setAmount(amount);
                     charge.setId(donation.getId());
                     charge.setStripeId(stripeCharge.getId());
+                    if(location != null)
+                        charge.setLocation(location);
                     charges.add(charge);
 
                 }catch(Exception ex){
@@ -118,6 +124,8 @@ public class UserService {
                     subscription.setAmount(amount);
                     subscription.setId(donation.getId());
                     subscription.setStripeId(stripeSubscription.getId());
+                    if(location != null)
+                        subscription.setLocation(location);
                     subscriptions.add(subscription);
 
                 } catch (Exception ex) {

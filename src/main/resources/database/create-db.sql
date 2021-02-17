@@ -64,8 +64,8 @@ create table donations(
 	charge_id text,
 	subscription_id text,
 	user_id bigint NOT NULL REFERENCES users(id),
-	location_id bigint NOT NULL REFERENCES locations(id),
-)
+	location_id bigint REFERENCES locations(id)
+);
 
 create table daily_counts (
 	id bigint PRIMARY KEY AUTO_INCREMENT,

@@ -180,6 +180,7 @@
         <div id="modal">
             <div id="processing" class="message" style="display:block">
                 <h3>Processing... please wait</h3>
+                <img src="/z/assets/media/processing.gif"/>
                 <p>Your donation is being processed. Thank you for your patience.</p>
             </div>
 

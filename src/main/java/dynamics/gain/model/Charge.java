@@ -6,6 +6,7 @@ public class Charge {
     Long id;
     String stripeId;
     BigDecimal amount;
+    Location location;
 
     public Long getId() {
         return id;
@@ -30,4 +31,13 @@ public class Charge {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
 }

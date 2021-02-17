@@ -90,7 +90,7 @@ public class DonateService {
     public Donation make(DonationInput donationInput){
 
         Donation donation = new Donation();
-        if(donation.getAmount() == null){
+        if(donationInput.getAmount() == null){
             donation.setStatus("$ amount not passed in, please give it another go!");
             return donation;
         }
@@ -215,7 +215,7 @@ public class DonateService {
                 chargeParams.put("card", token.getCard().getId());
                 chargeParams.put("currency", "usd");
 
-                Charge charge = Charge.create(chargeParams);
+                com.stripe.model.Charge charge = com.stripe.model.Charge.create(chargeParams);
                 donation.setChargeId(charge.getId());
                 donationRepo.update(donation);
 
@@ -243,7 +243,7 @@ public class DonateService {
     }
 
     private String getDescription(DonationInput donationInput){
-        String reoccurring = donationInput.isRecurring() ? "monthly" : "";
+        String reoccurring = donationInput.isRecurring() ? "month" : "";
         String location = "";
         if(donationInput.getLocationId() != null){
             Location storedLocation = locationRepo.get(donationInput.getLocationId());
@@ -278,7 +278,7 @@ public class DonateService {
         subscriptionParams.put("customer", customer.getId());
         subscriptionParams.put("items", itemsParams);
 
-        Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
+        com.stripe.model.Subscription s = com.stripe.model.Subscription.create(subscriptionParams);
         donation.setSubscriptionId(s.getId());
         donationRepo.update(donation);
 
@@ -360,7 +360,7 @@ public class DonateService {
             params.put("customer", customer.getId());
             params.put("items", itemsParams);
 
-            Subscription s = com.stripe.model.Subscription.create(params);
+            com.stripe.model.Subscription s = com.stripe.model.Subscription.create(params);
 
             user.setStripeUserId(customer.getId());
             userRepo.update(user);
@@ -392,7 +392,7 @@ public class DonateService {
 
         try{
             Stripe.apiKey = getApiKey();
-            Subscription subscription = com.stripe.model.Subscription.retrieve(subscriptionId);
+            com.stripe.model.Subscription subscription = com.stripe.model.Subscription.retrieve(subscriptionId);
             subscription.cancel();
         }catch(Exception ex){
             ex.printStackTrace();

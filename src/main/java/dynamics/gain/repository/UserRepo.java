@@ -290,7 +290,7 @@ public class UserRepo {
 	}
 
     public boolean update(User user) {
-		String sql = "update users set username = ?, password = ?, stripe_user_id = ?, where id = ?";
+		String sql = "update users set username = ?, password = ?, stripe_user_id = ? where id = ?";
 		jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getStripeUserId(), user.getId() });
 		return true;
     }
