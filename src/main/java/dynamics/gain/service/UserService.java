@@ -1,8 +1,7 @@
 package dynamics.gain.service;
 
 import com.google.gson.Gson;
-import com.stripe.model.Charge;
-import com.stripe.model.Subscription;
+import com.stripe.model.Price;
 import dynamics.gain.common.Dynamics;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,25 +28,28 @@ public class UserService {
     Gson gson = new Gson();
 
     @Autowired
-    private UserRepo userRepo;
+    AuthService authService;
 
     @Autowired
-    private RoleRepo roleRepo;
+    PhoneService phoneService;
 
     @Autowired
-    private AuthService authService;
+    EmailService emailService;
 
     @Autowired
-    private PhoneService phoneService;
-
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private ReCaptchaService reCaptchaService;
+    ReCaptchaService reCaptchaService;
 
     @Autowired
     LocationService locationService;
+
+    @Autowired
+    UserRepo userRepo;
+
+    @Autowired
+    RoleRepo roleRepo;
+
+    @Autowired
+    DonationRepo donationRepo;
 
     @Autowired
     private Environment env;
@@ -80,36 +82,52 @@ public class UserService {
         }
 
         User user = userRepo.get(id);
+        List<Donation> donations = donationRepo.getList(user.getId());
+        List<Charge> charges = new ArrayList<>();
+        List<Subscription> subscriptions = new ArrayList<>();
 
-        Subscription subscription = null;
-        BigDecimal subscriptionAmount = null;
-        if(user.getStripeSubscriptionId() != null &&
-                !user.getStripeSubscriptionId().equals("")) {
-            try {
-                subscription = Subscription.retrieve(user.getStripeSubscriptionId());
-                subscriptionAmount = subscription.getItems().getData().get(0).getPrice().getUnitAmountDecimal().divide(new BigDecimal(100));
-            } catch (Exception ex) {
+        for(Donation donation: donations) {
+
+
+            if(donation.getChargeId() != null &&
+                    !donation.getChargeId().equals("")) {
+                try{
+                    com.stripe.model.Charge stripeCharge = com.stripe.model.Charge.retrieve(donation.getChargeId());
+                    BigDecimal amount = new BigDecimal(stripeCharge.getAmount()).divide(new BigDecimal(100));
+
+                    Charge charge = new Charge();
+                    charge.setAmount(amount);
+                    charge.setId(donation.getId());
+                    charge.setStripeId(stripeCharge.getId());
+                    charges.add(charge);
+
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            if(donation.getSubscriptionId() != null &&
+                    !donation.getSubscriptionId().equals("")) {
+                try {
+                    com.stripe.model.Subscription stripeSubscription = com.stripe.model.Subscription.retrieve(donation.getSubscriptionId());
+                    Price price = stripeSubscription.getItems().getData().get(0).getPrice();
+                    BigDecimal amountPre = price.getUnitAmountDecimal();
+                    BigDecimal amount = amountPre.divide(new BigDecimal(100));
+
+                    Subscription subscription = new Subscription();
+                    subscription.setAmount(amount);
+                    subscription.setId(donation.getId());
+                    subscription.setStripeId(stripeSubscription.getId());
+                    subscriptions.add(subscription);
+
+                } catch (Exception ex) {
+                }
             }
         }
 
-        Charge charge = null;
-        BigDecimal chargeAmount = null;
-        log.info(user.getStripeChargeId());
-        if(user.getStripeChargeId() != null &&
-                !user.getStripeChargeId().equals("")) {
-            try{
-                charge = Charge.retrieve(user.getStripeChargeId());
-                chargeAmount = new BigDecimal(charge.getAmount()).divide(new BigDecimal(100));
-            }catch(Exception ex){
-                ex.printStackTrace();
-            }
-        }
-
-        modelMap.put("charge", charge);
-        modelMap.put("chargeAmount", chargeAmount);
-        modelMap.put("subscription", subscription);
-        modelMap.put("subscriptionAmount", subscriptionAmount);
-        modelMap.addAttribute("user", user);
+        modelMap.put("charges", charges);
+        modelMap.put("subscriptions", subscriptions);
+        modelMap.put("user", user);
 
         return "user/edit";
     }

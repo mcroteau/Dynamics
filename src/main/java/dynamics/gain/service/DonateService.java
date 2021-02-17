@@ -91,27 +91,27 @@ public class DonateService {
 
         Donation donation = new Donation();
         if(donation.getAmount() == null){
-            donation.setStatus("$ amount not passed in. ");
+            donation.setStatus("$ amount not passed in, please give it another go!");
             return donation;
         }
         if(!App.isValidMailbox(donationInput.getEmail())){
-            donation.setStatus("Email is invalid, please try again!");
+            donation.setStatus("Email is invalid, please give it another go!");
             return donation;
         }
         if(donationInput.getCreditCard().equals("")){
-            donation.setStatus("Credit card is empty, please try again");
+            donation.setStatus("Credit card is empty, please give it another go!");
             return donation;
         }
         if(donationInput.getExpMonth() == null){
-            donation.setStatus("Expiration month is empty, please try again");
+            donation.setStatus("Expiration month is empty, please give it another go!");
             return donation;
         }
         if(donationInput.getExpYear() == null){
-            donation.setStatus("Expiration year is empty, please try again");
+            donation.setStatus("Expiration year is empty, please give it another go!");
             return donation;
         }
         if(donationInput.getCvc().equals("")){
-            donation.setStatus("Cvc is empty! please try again.");
+            donation.setStatus("Cvc is empty, please give it another go!");
             return donation;
         }
 
