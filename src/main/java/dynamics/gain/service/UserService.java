@@ -96,7 +96,7 @@ public class UserService {
         for(Donation donation: donations) {
 
             Stripe.apiKey = lightService.getApiKey(donation.getLocationId());
-            
+
             Location storedLocation = null;
             if(donation.getLocationId() != null) {
                 storedLocation = locationRepo.get(donation.getLocationId());

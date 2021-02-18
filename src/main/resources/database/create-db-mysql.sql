@@ -21,7 +21,8 @@ create table users (
 	price_id bigint,
 	stripe_user_id text,
 	stripe_charge_id text,
-	stripe_subscription_id text
+	stripe_subscription_id text,
+	location_id bigint
 );
 
 create table roles (
@@ -53,9 +54,17 @@ create table locations (
 	count bigint default 1,
 	location_uri varchar (255),
 	town_id bigint NOT NULL REFERENCES towns(id),
-	dev_key text,
-	live_key text,
 	constraint unique_location_uri unique(location_uri)
+);
+
+create table donations(
+	id bigint PRIMARY KEY AUTO_INCREMENT,
+	amount bigint,
+	processed boolean,
+	charge_id text,
+	subscription_id text,
+	user_id bigint NOT NULL REFERENCES users(id),
+	location_id bigint REFERENCES locations(id)
 );
 
 create table daily_counts (

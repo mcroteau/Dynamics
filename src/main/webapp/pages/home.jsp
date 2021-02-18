@@ -47,7 +47,7 @@
 
     <h3 style="margin-top:20px;">How does it work?</h3>
     <p>Kiosks/booths would be set up at your local community shopping centers
-    where they would display the number of people in need in your community, and
+    where they display the number of people in need in your community, and
     in addition allowing you to donate right there on the spot.
         100% of your donation goes toward the organization you select
         or to Dynamics <strong>+Gain</strong>, your choice. The organization
