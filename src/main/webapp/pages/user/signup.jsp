@@ -13,34 +13,23 @@
 
     <h2>Dynamics <br/><strong class="gain">+Gain</strong></h2>
 
-    <p style="text-align: left; margin-top:30px;">Are you already a contributor?
+    <p style="text-align: left; margin-top:30px;">Are you already a member?
         <a href="${pageContext.request.contextPath}/signin" class="href-dotted">Signin!</a>
     </p>
 
 
-    <form action="/o/register" modelAttribute="user" method="post" enctype="multipart/form-data" autocomplete="false" class="pure-form pure-form-stacked" id="registration-form">
-        <fieldset>
+    <form action="/z/register" modelAttribute="user" method="post" enctype="multipart/form-data" autocomplete="false" class="pure-form pure-form-stacked" id="registration-form">
+        <fieldset style="text-align: left">
 
             <h2 style="margin-bottom:20px;">Signup</h2>
 
-            <input type="hidden" name="uri" value="${uri}"/>
-
-            <input id="name" type="text" placeholder="Name" name="name" style="width:100%">
-
+            <label>Email</label>
             <input id="username" type="email" placeholder="Email Address" name="username" style="width:100%;">
 
+            <label>Password</label>
             <input id="password" type="password" placeholder="Password &#9679;&#9679;&#9679;" name="password" style="width:100%;">
 
-<!--
-            <p style="text-align: center;">
-                <span id="summation" class="yella" style="font-size:27px;"></span>
-                <input type="text" placeholder="" id="value" style="width:50px;"/>
-            </p>
-
-            <p class="notify" id="verdict" style="display:none"></p>
--->
-
-            <div class="g-recaptcha" data-sitekey="6Lfr1OMZAAAAADF6n5E_Z58iu-qyqAb0AnrElSGk" style="margin-top:30px;"></div>
+            <div class="g-recaptcha" data-sitekey="6Leyol0aAAAAAOfr3raS1YXd9qcGczhcxTTQPVQb" style="margin-top:30px;"></div>
 
         </fieldset>
     </form>

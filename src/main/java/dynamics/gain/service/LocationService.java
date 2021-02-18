@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class LocationService {
@@ -45,6 +47,8 @@ public class LocationService {
 
     public String index(String uri, ModelMap modelMap) {
         Location location = locationRepo.get(uri);
+        String count = NumberFormat.getInstance(Locale.US).format(location.getCount());
+        modelMap.put("count", count);
         modelMap.put("location", location);
         return "location/index";
     }

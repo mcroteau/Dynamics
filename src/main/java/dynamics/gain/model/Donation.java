@@ -1,6 +1,8 @@
 package dynamics.gain.model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Donation {
 
@@ -9,7 +11,6 @@ public class Donation {
 
     String chargeId;
     String subscriptionId;
-    String priceId;
 
     Long userId;
     Long locationId;
@@ -18,7 +19,6 @@ public class Donation {
     String status;
 
     String username;
-    String locationName;
 
     User user;
     Location location;
@@ -93,14 +93,6 @@ public class Donation {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
     }
 
     public User getUser() {

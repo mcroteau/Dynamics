@@ -14,7 +14,8 @@
             <h3>Subscriptions</h3>
 
             <c:forEach var="subscription" items="${subscriptions}">
-                <p><strong>$${subscription.amount}</strong> monthly to
+                <p><strong>${subscription.amountZero}
+                        </strong> monthly to
                         <c:if test="${subscription.location != null}">
                             ${subscription.location.name}
                         </c:if>
@@ -29,7 +30,7 @@
     <c:if test="${charges.size() > 0}">
         <h3 style="margin-top:30px;">One-Time Donations</h3>
         <c:forEach var="charge" items="${charges}">
-            <p><strong>$${charge.amount}</strong> donated to
+            <p><strong>${charge.amountZero}</strong> donated to
                 <c:if test="${charge.location != null}">
                     ${charge.location.name}
                 </c:if>

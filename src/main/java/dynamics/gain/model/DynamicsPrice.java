@@ -1,6 +1,8 @@
 package dynamics.gain.model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class DynamicsPrice {
 

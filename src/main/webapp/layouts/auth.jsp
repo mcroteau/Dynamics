@@ -59,5 +59,14 @@
         <p><a href="mailto:mail@dynamicsgain.org" class="href-dotted-black">mail@dynamicsgain.org</a></p>
         <span class="regular">&copy; 2021 <br/>Dynamics<br/> <strong class="gain">+Gain</strong></span>
     </div>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EF5QWVVWFK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EF5QWVVWFK');
+    </script>
 </body>
 </html>

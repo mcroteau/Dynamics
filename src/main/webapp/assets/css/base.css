@@ -132,7 +132,7 @@ td{
 }
 
 p, span{
-    font-size: 19px;
+    font-size: 23px;
     font-family: roboto-slab !important;
     line-height: 1.3em;
 }
@@ -464,7 +464,9 @@ label{
 }
 
 .href-dotted,
-.href-dotted-black{
+.href-dotted-black,
+.href-dotted-white{
+    text-decoration: none !important;
     font-family: roboto-slab !important;
 }
 
@@ -475,8 +477,12 @@ label{
 
 .href-dotted-black{
     color: #17161b !important;
-    text-decoration: none !important;
     border-bottom:dotted 2px #17161b !important;
+}
+
+.href-dotted-white{
+    color: #fff !important;
+    border-bottom:dotted 2px #fff !important;
 }
 
 a{
@@ -565,7 +571,7 @@ input[type="password"]:hover,
 input[type="password"]:focus,
 input[type="number"],
 input[type="number"]:hover,
-input[type="number"]:focus
+input[type="number"]:focus,
 input[type="email"],
 input[type="email"]:hover,
 input[type="email"]:focus{
@@ -575,11 +581,13 @@ input[type="email"]:focus{
     line-height: 1.0em;
     font-size:27px !important;
 }
-input[type="number"]::placeholder,
-input[type="text"]::placeholder{
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="number"]::placeholder{
     font-size:19px;
     color: #8c96a9;
-    font-family: roboto !important;
+    font-family: roboto-light !important;
 }
 
 
@@ -588,7 +596,7 @@ textarea{
     font-family:roboto-slab-bold !important;
     font-size:27px;
     width:100%;
-    height:120px;
+    height:170px;
     line-height:1.0em !important;
     padding:12px 12px !important;
     background:#f0f4f5;

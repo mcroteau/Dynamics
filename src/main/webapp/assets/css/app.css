@@ -18,8 +18,8 @@ span{
 }
 
 #welcome-text{
-    line-height: 1.1em !important;
-    font-size:101px;
+    line-height: 0.9em !important;
+    font-size:150px;
     margin:0px;
     font-family: roboto-bold !important;
 }
@@ -111,6 +111,12 @@ table tr:hover{
     padding:4px 3px;
     display:inline-block;
 }
+
+.highlight.blue{
+    background: #3fb8ff;
+    background: #f540a6;
+}
+
 .counts{
     font-size:34px !important;
     display:inline-block !important;

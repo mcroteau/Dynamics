@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class BasicService {
@@ -40,37 +42,59 @@ public class BasicService {
     }
 
     public String home(ModelMap modelMap){
-        int count = 0;
+        int sum = 0;
         List<Location> locations = locationRepo.getList();
         for(Location location: locations){
-            count = count + location.getCount();
+            sum = sum + location.getCount();
         }
 
+        String count = NumberFormat.getNumberInstance(Locale.US).format(sum);
         List<Town> towns = townRepo.getList();
 
-        modelMap.put("towns", towns);
         modelMap.put("count", count);
+        modelMap.put("towns", towns);
+        modelMap.put("locations", locations);
+
         return "home";
     }
 
     public String towns(ModelMap modelMap){
         List<Town> towns = townRepo.getList();
+        long sum = 0;
+        for(Town town: towns){
+            long count = 0;
+            List<Location> locations = locationRepo.getList(town.getId());
+            for(Location location: locations){
+                count += location.getCount();
+                sum += location.getCount();
+            }
+            town.setCount(count);
+        }
+
+        String count = NumberFormat.getInstance(Locale.US).format(sum);
+
+        modelMap.put("count", count);
         modelMap.put("towns", towns);
         return "basic/towns";
     }
 
-    public String locations(ModelMap modelMap){
+    public String shelters(ModelMap modelMap){
         List<Town> locations = new ArrayList();
         List<Town> towns = townRepo.getList();
 
+        long count = 0;
         for(Town town: towns){
             List<Location> townLocations = locationRepo.getList(town.getId());
+            for(Location location: townLocations){
+                count += location.getCount();
+            }
             town.setLocations(townLocations);
             locations.add(town);
         }
 
+        modelMap.put("count", count);
         modelMap.put("locations", locations);
-        return "basic/locations";
+        return "basic/shelters";
     }
 
 

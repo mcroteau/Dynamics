@@ -7,7 +7,7 @@ create table products(
 create table prices(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	stripe_id text,
-    amount bigint default 0,
+    amount decimal default 0.0,
     nickname character varying (255),
 	product_id bigint NOT NULL REFERENCES products(id)
 );
@@ -18,10 +18,7 @@ create table users (
 	password character varying(155) NOT NULL,
 	uuid character varying(155),
 	date_created bigint default 0,
-	price_id bigint,
 	stripe_user_id text,
-	stripe_charge_id text,
-	stripe_subscription_id text,
 	location_id bigint
 );
 
@@ -59,7 +56,7 @@ create table locations (
 
 create table donations(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
-	amount bigint,
+	amount decimal,
 	processed boolean,
 	charge_id text,
 	subscription_id text,

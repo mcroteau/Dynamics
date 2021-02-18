@@ -1,6 +1,8 @@
 package dynamics.gain.model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Subscription {
 
@@ -27,6 +29,10 @@ public class Subscription {
 
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    public String getAmountZero(){
+        return NumberFormat.getCurrencyInstance(Locale.US).format(amount);
     }
 
     public void setAmount(BigDecimal amount) {

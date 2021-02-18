@@ -14,11 +14,11 @@
         }
     </style>
 
-    <p>Please help!</p>
+    <p class="yellow" style="display: inline-block">Please help! <strong class="highlight">${count} in need!</strong></p>
 
     <h1>Organizations</h1>
 
-    <p>Please select an organization or give directly to Dynamics +Gain</p>
+    <p>Please select an organization:</p>
 
     <c:forEach var="town" items="${locations}">
         <h3>${town.name}</h3>

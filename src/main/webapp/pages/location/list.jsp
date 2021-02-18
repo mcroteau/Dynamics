@@ -11,16 +11,14 @@
         <tr>
             <th></th>
             <th>Town ID</th>
-            <th>Uri</th>
             <th>Count</th>
             <th></th>
         </tr>
         <c:forEach var="location" items="${locations}">
             <tr>
                 <td><a href="/z/admin/locations/edit/${location.id}" class="href-dotted-black">${location.name}</a></td>
-                <td>${location.townId}</td>
-                <td>${location.locationUri}</td>
-                <td><a href="/z/admin/count/${location.id}" class="href-dotted-black">${location.count}</a></td>
+                <td class="center">${location.townId}</td>
+                <td class="center"><a href="/z/admin/count/${location.id}" class="href-dotted-black">${location.count}</a></td>
                 <td class="right">
                     <form action="/z/admin/locations/delete/${location.id}" method="post">
                         <input type="submit" class="button small beauty" value="Delete" onclick="return confirm('Are you sure you want to delete Location?');"/>

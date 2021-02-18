@@ -47,6 +47,7 @@ public class AppRunner {
 		createRoles();
 		createAdministrator();
 		createGuest();
+		createBaseLocations();
 	}
 
 	public void createBaseLocations(){
@@ -78,7 +79,7 @@ public class AppRunner {
 					location.setDescription("Helping at-risk and homeless families in Clark County achieve sustainable housing and independence through a compassionate, community-based response.");
 					location.setNeeds("Shoes, Socks, Jackets, Laptops, Prepaid Phones");
 					location.setTownId(savedTown.getId());
-					location.setCount(App.getRandomNumber(231));
+					location.setCount(App.getRandomNumber(3059));
 					locationRepo.save(location);
 				}
 				index++;

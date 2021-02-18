@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Dynamics +Gain : The Goal is to remove barriers.</title>
+    <title>The Goal to Inform.</title>
 </head>
 <body>
 <style>
@@ -21,18 +21,18 @@
         <p class="notify">${message}</p>
     </c:if>
 
-    <p style="text-align: center">Please help!</p>
+    <p class="" style="display: inline-block;font-size:17px;">Please help!</p>
 
-    <h1 id="welcome-text" class="help">
-        ${count} <span>Homeless <span class="header-information"> in
-            &nbsp;<a href="/z/locations" class="counts href-dotted-black">${towns.size()}</a>&nbsp;
+    <h1 id="welcome-text" class="">
+        <strong class="" style="line-height: 1.0em;">${count}</strong> <span>Homeless <span class="header-information"> in
+            &nbsp;<a href="/z/towns" class="counts href-dotted-black">${towns.size()}</a>&nbsp;
             <c:if test="${towns.size() == 1}">City!</c:if>
-            <c:if test="${towns.size() > 1}">Cities!</c:if>
-            </span></span>
+            <c:if test="${towns.size() > 1 || towns.size() == 0}">Cities!</c:if>
+    </span> at <a href="/z/shelters" class="highlight blue" style="color:#fff;font-size:57px;">${locations.size()}</a> shelters</span></span>
     </h1>
 
-    <div style="margin:0px auto 30px;">
-        <a href="/z/locations" class="button super yellow">Give &hearts;</a>
+    <div style="margin:20px auto 30px;">
+        <a href="/z/shelters" class="button super yellow">Give &hearts;</a>
     </div>
 
     <p class="open-text" style="margin-bottom:10px;">
@@ -50,19 +50,15 @@
     where they display the number of people in need in your community, and
     in addition allowing you to donate right there on the spot.
         100% of your donation goes toward the organization you select
-        or to Dynamics <strong>+Gain</strong>, your choice. The organization
+        or to Dynamics <strong>+Gain</strong>, your choice. Each organization
         has signed up to be on our list and has gone through the
-        registration process to link their account.
+         process to link their accounts.
         </p>
 
-
-    <h3>What does Dynamics <strong>+Gain do?</h3>
-    <p>We will work closely
-        local homeless shelters to learn of their needs,
-        but majority of your donations will go
-        towards funding for local Community Housing, Walmart Gift Cards &amp;
-        Prepaid Cellphones.
-    </p>
+    <p class="yellow" style="margin:20px 0px;">If you are unable to donate,
+        we will leave contact information for each organization as some and
+        starting out non of the organizations have gone through the process
+        yet.</p>
 
     <h3 id="towns">Towns/Cities</h3>
     <ul>

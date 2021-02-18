@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TownService {
@@ -37,12 +39,13 @@ public class TownService {
         Town town = townRepo.get(uri);
         List<Location> locations = locationRepo.getList(town.getId());
 
-        int count = 0;
+        long sum = 0;
         for(Location location: locations){
-            count = count + location.getCount();
+            sum = sum + location.getCount();
         }
-        town.setCount(count);
+        String count = NumberFormat.getInstance(Locale.US).format(sum);
 
+        modelMap.put("count", count);
         modelMap.put("town", town);
         modelMap.put("locations", locations);
 

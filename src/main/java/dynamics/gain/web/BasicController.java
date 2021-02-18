@@ -27,11 +27,17 @@ public class BasicController {
 	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String home(ModelMap modelMap){ return basicService.home(modelMap); }
 
-	@RequestMapping(value="/locations", method=RequestMethod.GET)
-	public String locations(ModelMap modelMap){ return basicService.locations(modelMap); }
+	@RequestMapping(value="/towns", method=RequestMethod.GET)
+	public String towns(ModelMap modelMap){ return basicService.towns(modelMap); }
+
+	@RequestMapping(value="/shelters", method=RequestMethod.GET)
+	public String shelters(ModelMap modelMap){ return basicService.shelters(modelMap); }
+
+	@RequestMapping(value="/cost", method=RequestMethod.GET)
+	public String cost(){ return "basic/cost"; }
 
 	@RequestMapping(value="/about", method=RequestMethod.GET)
-	public String about(ModelMap modelMap){ return "basic/about"; }
+	public String about(){ return "basic/about"; }
 
 	@RequestMapping(value="/signin", method=RequestMethod.GET)
 	public String signin(){

@@ -36,6 +36,10 @@
                     &nbsp;<a href="/z/about" class="href-dotted">About</a>
                 <%}%>
 
+                <%if(!request.getServletPath().equals("/cost")){%>
+                &nbsp;<a href="/z/cost" class="href-dotted">The Cost</a>
+                <%}%>
+
                 <parakeet:isAuthenticated>
                     &nbsp;<strong class="highlight" style="font-family: roboto-slab-semibold !important">Signed in <a href="/z/" class="href-dotted">My Profile</a></strong>&nbsp;
                 </parakeet:isAuthenticated>
@@ -69,6 +73,15 @@
 
     </div>
 </div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EF5QWVVWFK"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EF5QWVVWFK');
+</script>
 
 </body>
 </html>

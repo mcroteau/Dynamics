@@ -102,7 +102,7 @@
         <h1><c:if test="${inDonationMode}">Give to</c:if>
                 ${location.name}</h1>
         <h2><strong class="highlight">${location.count}</strong>&nbsp; in need.</h2>
-        <p style="white-space: pre-line; ">${location.description}</p>
+        <p style="white-space: pre-line; " class="left"><c:out value="${location.description}" escapeXml="false" /></p>
 
         <c:if test="${inDonateMode}">
             <p>You can make a one-time or a reoccurring donation that goes
@@ -119,6 +119,9 @@
 
     <c:if test="${!inDonateMode}">
         <p class="yellow" style="display:inline-block">Contact to make a donation</p>
+        <p>or</p>
+        <p>Let them know you believe in this idea and encourage them to use
+        us, we are here to help.</p>
     </c:if>
 
 
@@ -167,7 +170,9 @@
 
             <br class="clear"/>
 
-            <label>Email <span class="highlight">Signed in</span></label>
+            <label>Email
+                <parakeet:isAuthenticated><span class="highlight">Signed in</span></parakeet:isAuthenticated>
+            </label>
             <input type="text" id="email" value="<parakeet:username/>" placeholder="mail@dynamicsgain.org"/>
 
 
@@ -254,7 +259,7 @@
                         $custom.attr('placeholder', 'Other Amount')
                     }
                     if($custom.val() != ''){
-                        $amount.html('Donate $' + $custom.val() + ' &hearts;')
+                        $amount.html('Donate $' + pad($custom.val()) + ' &hearts;')
                         $amountInput.val($custom.val())
                     }
                 })
@@ -262,8 +267,8 @@
                 $custom.change(function(){
                     var value = $custom.val()
                     if(!isNaN(value)){
-                        $amount.html('Donate $' + value + ' &hearts;')
-                        $amountInput.val(amount)
+                        $amount.html('Donate $' + pad(value) + ' &hearts;')
+                        $amountInput.val(value)
                     }else{
                         alert('Please enter a valid amount');
                     }
@@ -335,7 +340,7 @@
                                     if('location' in data){
                                         $location.html(data.location.name)
                                     }
-                                    $donationAmount.html('$' + data.amount)
+                                    $donationAmount.html('$' + data.amount.toFixed(2))
                                     $success.fadeIn(100)
                                 }else{
                                     $('#error').html(data.status)
@@ -391,6 +396,26 @@
                     return true
                 }
 
+                var pad = function(value){
+                    var dollar = value
+                    var splits = value.split(".")
+                    if(splits.length > 0){
+                        if(splits[1].length <= 1){
+                            dollar = addZero(value)
+                        }
+                        if(splits[1].length == 2){
+                            return dollar
+                        }
+                    }else{
+                        return dollar;
+                    }
+                    return dollar
+                }
+
+                var addZero = function(value){
+                    value = value + "0";
+                    return pad(value)
+                }
 
                 $fiver.click()
             })
