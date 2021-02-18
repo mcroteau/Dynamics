@@ -1,5 +1,6 @@
 package dynamics.gain.service;
 
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 import dynamics.gain.common.App;
 import dynamics.gain.model.Location;
 import dynamics.gain.model.markup.Url;
@@ -33,10 +34,7 @@ public class SitemapService {
             String loc = BASE + "locations/" + location.getLocationUri();
             Url url = new Url();
             url.setLoc(loc);
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-            Date date = format.parse(Long.toString(App.getDate()));
-            url.setLastmod(date.toString());
+            url.setLastmod(App.getBing());
 
             url.setPriority("1.0");
             urls.add(url);
@@ -46,6 +44,12 @@ public class SitemapService {
 
         JAXBContext cntx = JAXBContext.newInstance(UrlSet.class);
         Marshaller marshaller = cntx.createMarshaller();
+        NamespacePrefixMapper mapper = new NamespacePrefixMapper() {
+            public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
+                return "";
+            }
+        };
+        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", mapper);
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
         marshaller.marshal(urlSet, new File(getPath()));

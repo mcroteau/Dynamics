@@ -3,10 +3,7 @@ package dynamics.gain.model.markup;
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
-@XmlRootElement(
-        name = "urlset",
-        namespace="http://www.sitemaps.org/schemas/sitemap/0.9"
-)
+@XmlRootElement(name="urlset")
 public class UrlSet {
 
     List<Url> url;

@@ -79,6 +79,13 @@ public class App {
 		return validator.isValid(str);
 	}
 
+	public static String getBing(){
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+		String date = df.format(cal.getTime());
+		return date;
+	}
+
 	public static long getDate() {
 		Calendar cal = Calendar.getInstance();
 		long date = getSimpleDateFormatted(cal);
@@ -89,7 +96,6 @@ public class App {
 		Calendar cal = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat(Constants.ZERO_TIME_FORMAT);
 		String date = df.format(cal.getTime());
-		log.info("get today > " + date);
 		return Long.parseLong(date);
 	}
 

@@ -50,7 +50,7 @@
     <input type="text" name="liveKey" value="${location.liveKey}"/>
 
 
-    <input type="submit" class="button retro" value="Save" style="display:inline-block;margin:30px auto;"/>
+    <input type="submit" class="button retro" value="Update" style="display:inline-block;margin:30px auto;"/>
 </form>
 </body>
 </html>

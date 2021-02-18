@@ -20,7 +20,7 @@
     <input type="text" name="townUri" value="${town.townUri}" />
 
 
-    <input type="submit" class="button retro" value="Save" style="display:inline-block;margin:30px auto;"/>
+    <input type="submit" class="button retro" value="Update" style="display:inline-block;margin:30px auto;"/>
 
 </form>
 
