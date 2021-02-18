@@ -399,15 +399,19 @@
                 var pad = function(value){
                     var dollar = value
                     var splits = value.split(".")
-                    if(splits.length > 0){
-                        if(splits[1].length <= 1){
-                            dollar = addZero(value)
-                        }
-                        if(splits[1].length == 2){
-                            return dollar
+                    if(splits != 'undefined'){
+                        if(splits.length > 1){
+                            if(splits[1].length <= 1){
+                                dollar = addZero(value)
+                            }
+                            if(splits[1].length == 2){
+                                return dollar
+                            }
+                        }else{
+                            return dollar + ".00";
                         }
                     }else{
-                        return dollar;
+                        return dollar + ".00";
                     }
                     return dollar
                 }
