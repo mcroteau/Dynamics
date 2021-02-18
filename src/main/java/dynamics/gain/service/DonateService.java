@@ -540,6 +540,6 @@ public class DonateService {
         }
         modelMap.put("sum", sum);
         modelMap.put("donations", donations);
-        return "donate/momentum";
+        return "momentum/index";
     }
 }

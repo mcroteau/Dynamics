@@ -103,6 +103,7 @@ table td a{
 }
 table tr:hover{
     background:#eff4f4;
+    color:#f540a6;
 }
 .highlight{
     color:#fff;

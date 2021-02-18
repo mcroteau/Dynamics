@@ -47,7 +47,6 @@ public class AppRunner {
 		createRoles();
 		createAdministrator();
 		createGuest();
-		createBaseLocations();
 	}
 
 	public void createBaseLocations(){

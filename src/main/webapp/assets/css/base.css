@@ -628,6 +628,13 @@ select{
     clear:both;
 }
 
+.go-left{
+    float:left;
+}
+
+.go-right{
+    float:right
+}
 
 
 body.obey{}

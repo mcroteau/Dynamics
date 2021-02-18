@@ -57,6 +57,12 @@ public class DonationRepo {
         return donations;
     }
 
+    public List<Donation> getListLocation(long locationId) {
+        String sql = "select * from donations where location_id = ?";
+        List<Donation> donations = jdbcTemplate.query(sql, new Object[]{ locationId }, new BeanPropertyRowMapper<>(Donation.class));
+        return donations;
+    }
+
     public boolean update(Donation donation) {
         String sql = "update donations set amount = ?, processed = ?, charge_id = ?, subscription_id = ? where id = ?";
         jdbcTemplate.update(sql, new Object[]{

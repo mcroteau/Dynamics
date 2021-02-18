@@ -1,5 +1,5 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<%@ taglib prefix="Parakeet" uri="/META-INF/tags/parakeet.tld"%>
+<%@ taglib prefix="parakeet" uri="/META-INF/tags/parakeet.tld"%>
 
 <html>
 <head>
@@ -36,11 +36,13 @@
                     &nbsp;<a href="/z/about" class="href-dotted">About</a>
                 <%}%>
 
-                <%if(!request.getServletPath().equals("/towns")){%>
-                &nbsp;
-                <a href="/z/signin" class="href-dotted">Signin</a>&nbsp;
-                <a href="https://github.com/mcroteau/Dynamics" class="href-dotted" target="_blank">Source Code</a>
-                <%}%>
+                <parakeet:isAuthenticated>
+                    &nbsp;<strong class="highlight" style="font-family: roboto-slab-semibold !important">Signed in <a href="/z/" class="href-dotted">My Profile</a></strong>&nbsp;
+                </parakeet:isAuthenticated>
+                <parakeet:isAnonymous>
+                    &nbsp;<a href="/z/signin" class="href-dotted">Signin</a>&nbsp;
+                </parakeet:isAnonymous>
+
             </div>
 
             <div id="footer-wrapper">

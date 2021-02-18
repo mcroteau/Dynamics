@@ -46,9 +46,15 @@
         </div>
     </div>
 
-    <div id="footer-wrapper">
+    <div class="go-left">
+        <a href="/z/home" class="href-dotted">Home</a>&nbsp;&nbsp;
+    </div>
+    <div class="go-right">
         <a href="/z/signout" class="href-dotted">Signout</a>
     </div>
+
+    <br class="clear"/>
+
     <div id="contact" style="text-align: center">
         <p><a href="mailto:mail@dynamicsgain.org" class="href-dotted-black">mail@dynamicsgain.org</a></p>
         <span class="regular">&copy; 2021 <br/>Dynamics<br/> <strong class="gain">+Gain</strong></span>
