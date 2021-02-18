@@ -340,7 +340,7 @@
                                     if('location' in data){
                                         $location.html(data.location.name)
                                     }
-                                    $donationAmount.html('$' + data.amount.toFixed(2))
+                                    $donationAmount.html('$' + pad(data.amount.toString()))
                                     $success.fadeIn(100)
                                 }else{
                                     $('#error').html(data.status)
