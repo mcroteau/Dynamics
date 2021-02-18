@@ -9,6 +9,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.xml.bind.JAXBException;
+
 @Controller
 public class LocationController {
 
@@ -47,7 +49,7 @@ public class LocationController {
 
     @PostMapping(value="/admin/locations/update")
     protected String update(@ModelAttribute("location") Location location,
-                            RedirectAttributes redirect){
+                            RedirectAttributes redirect) throws Exception {
         return locationService.update(location, redirect);
     }
 
