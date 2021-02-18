@@ -26,7 +26,7 @@
         <c:forEach var="location" items="${locations}">
             <tr>
                 <td class="center">
-                    <a href="/z/donate/${location.id}" class="href-dotted">${location.name} ${location.count} in need</a>
+                    <a href="/z/donate/${location.id}" class="href-dotted">${location.name}</a>
                 </td>
             </tr>
         </c:forEach>

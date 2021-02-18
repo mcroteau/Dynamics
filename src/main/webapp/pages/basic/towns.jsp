@@ -11,7 +11,8 @@
     <h1 id="towns">Towns/Cities</h1>
     <ul>
         <c:forEach var="town" items="${towns}">
-            <li style="padding:4px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted" style="font-size:27px;">${town.name}</a></li>
+            <li style="padding:4px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted" style="font-size:27px;">${town.name}
+                <span style="display:block"><strong class="" style="line-height:1.4em;">${town.count}</strong> homeless!</span></a></li>
         </c:forEach>
     </ul>
 

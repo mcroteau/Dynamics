@@ -31,10 +31,6 @@
     </span> at <a href="/z/shelters" class="highlight blue" style="color:#fff;font-size:57px;">${locations.size()}</a> shelters</span></span>
     </h1>
 
-    <div style="margin:20px auto 30px;">
-        <a href="/z/shelters" class="button super yellow">Give &hearts;</a>
-    </div>
-
     <p class="open-text" style="margin-bottom:10px;">
         Dynamics <strong class="gain">+Gain</strong>
         is an organization designed to remove barriers
@@ -44,6 +40,9 @@
         homelessness in their community.
     </p>
 
+    <div style="margin:20px auto 30px;">
+        <a href="/z/shelters" class="button super yellow">Give &hearts;</a>
+    </div>
 
     <h3 style="margin-top:20px;">How does it work?</h3>
     <p>Kiosks/booths would be set up at your local community shopping centers
@@ -63,7 +62,8 @@
     <h3 id="towns">Towns/Cities</h3>
     <ul>
         <c:forEach var="town" items="${towns}">
-            <li style="padding:4px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted" style="font-size:27px;">${town.name}</a></li>
+            <li style="padding:4px 0px;"><a href="/z/towns/${town.townUri}" class="href-dotted" style="font-size:27px;">${town.name}
+                <span style="display:block"><strong class="" style="line-height:1.4em;">${town.count}</strong> homeless!</span></a></li>
         </c:forEach>
     </ul>
 

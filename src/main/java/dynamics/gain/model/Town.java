@@ -7,7 +7,7 @@ public class Town {
     long id;
     String name;
     String townUri;
-    Long count;
+    Integer count;
 
     List<Location> locations;
 
@@ -35,11 +35,11 @@ public class Town {
         this.townUri = townUri;
     }
 
-    public Long getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 

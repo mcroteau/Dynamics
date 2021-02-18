@@ -10,9 +10,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,14 +26,18 @@ public class SitemapService {
     public static final String BASE = "https://www.dynamicsgain.org/z/";
     public static final String SITEMAP = "sitemaps/locations.xml";
 
-    public boolean out(List<Location> locations) throws JAXBException {
+    public boolean out(List<Location> locations) throws Exception {
         UrlSet urlSet = new UrlSet();
         List<Url> urls = new ArrayList<>();
         for(Location location: locations){
             String loc = BASE + "locations/" + location.getLocationUri();
             Url url = new Url();
             url.setLoc(loc);
-            url.setLastmod(new Date().toString());
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+            Date date = format.parse(Long.toString(App.getDate()));
+            url.setLastmod(date.toString());
+
             url.setPriority("1.0");
             urls.add(url);
         }

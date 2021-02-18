@@ -11,7 +11,7 @@
         <c:forEach var="town" items="${towns}">
             <tr>
                 <td>${town.id}</td>
-                <td>${town.name}</td>
+                <td><a href="/z/admin/towns/edit/${town.id}" class="href-dotted-black">${town.name}</a></td>
                 <td>${town.townUri}</td>
                 <td class="right">
                     <form action="/z/admin/towns/delete/${town.id}" method="post">

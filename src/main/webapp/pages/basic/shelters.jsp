@@ -26,7 +26,7 @@
             <c:forEach var="location" items="${town.locations}">
                 <tr>
                     <td class="center" style="padding-left:10px;width:50%">
-                        <a href="/z/donate/${location.id}" class="href-dotted">${location.name} ${location.count} in need</a>
+                        <a href="/z/donate/${location.id}" class="href-dotted">${location.name}</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -38,7 +38,7 @@
     <p>Give to Dynamics <strong>+Gain</strong></p>
 
     <div style="margin-bottom:70px;">
-        <a href="/z/donate" class="button yellow small">Give Now &hearts;</a>
+        <a href="/z/donate" class="button light small">Give Now &hearts;</a>
     </div>
 
 </body>

@@ -1,8 +1,8 @@
 package dynamics.gain.model.markup;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import com.sun.xml.txw2.annotation.XmlNamespace;
+
+import javax.xml.bind.annotation.*;
 
 @XmlRootElement
 @XmlType(propOrder = { "loc", "lastmod", "priority" })

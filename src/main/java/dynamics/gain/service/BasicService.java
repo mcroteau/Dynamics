@@ -42,14 +42,13 @@ public class BasicService {
     }
 
     public String home(ModelMap modelMap){
-        int sum = 0;
         List<Location> locations = locationRepo.getList();
-        for(Location location: locations){
-            sum = sum + location.getCount();
-        }
-
-        String count = NumberFormat.getNumberInstance(Locale.US).format(sum);
         List<Town> towns = townRepo.getList();
+        long sum = 0;
+        for(Town town: towns){
+            sum += town.getCount();
+        }
+        String count = NumberFormat.getNumberInstance(Locale.US).format(sum);
 
         modelMap.put("count", count);
         modelMap.put("towns", towns);
@@ -62,13 +61,7 @@ public class BasicService {
         List<Town> towns = townRepo.getList();
         long sum = 0;
         for(Town town: towns){
-            long count = 0;
-            List<Location> locations = locationRepo.getList(town.getId());
-            for(Location location: locations){
-                count += location.getCount();
-                sum += location.getCount();
-            }
-            town.setCount(count);
+            sum += town.getCount();
         }
 
         String count = NumberFormat.getInstance(Locale.US).format(sum);
@@ -85,11 +78,9 @@ public class BasicService {
         long count = 0;
         for(Town town: towns){
             List<Location> townLocations = locationRepo.getList(town.getId());
-            for(Location location: townLocations){
-                count += location.getCount();
-            }
             town.setLocations(townLocations);
             locations.add(town);
+            count += town.getCount();
         }
 
         modelMap.put("count", count);

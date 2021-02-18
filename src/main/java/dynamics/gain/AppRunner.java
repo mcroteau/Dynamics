@@ -54,7 +54,7 @@ public class AppRunner {
 
 		if(townRepo.getCount() == 0){
 			String[][] townData = {
-					{ "Fallon, NV", "fallon"},
+					{ "Anchorage, AK", "anchorage"},
 					{ "Reno, NV", "reno"},
 					{ "Las Vegas, NV", "lasvegas"},
 			};
@@ -65,6 +65,7 @@ public class AppRunner {
 				Town town = new Town();
 				town.setName(data[0]);
 				town.setTownUri(data[1]);
+				town.setCount(App.getNumber(3059));
 				Town savedTown = townRepo.save(town);
 
 				String[][] locations = {
@@ -79,7 +80,7 @@ public class AppRunner {
 					location.setDescription("Helping at-risk and homeless families in Clark County achieve sustainable housing and independence through a compassionate, community-based response.");
 					location.setNeeds("Shoes, Socks, Jackets, Laptops, Prepaid Phones");
 					location.setTownId(savedTown.getId());
-					location.setCount(App.getRandomNumber(3059));
+					location.setCount(App.getNumber(1071));
 					locationRepo.save(location);
 				}
 				index++;

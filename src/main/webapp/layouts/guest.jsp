@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>Dynamics + Gain: <decorator:title default="The Goal is to Remove Barriers"/></title>
+    <title>Dynamics + Gain: <decorator:title default="The Goal to Remove Barriers"/></title>
 
     <meta name="msvalidate.01" content="0793FD5B44ED7425260904AEE94180B2" />
     <meta name="viewport" content="width=device-width, initial-scale=1">

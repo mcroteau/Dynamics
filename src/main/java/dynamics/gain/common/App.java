@@ -21,7 +21,7 @@ public class App {
 
 	private static final Logger log = Logger.getLogger(App.class);
 
-	public static int getRandomNumber(int max){
+	public static int getNumber(int max){
 		Random r = new Random();
 		return r.nextInt(max);
 	}

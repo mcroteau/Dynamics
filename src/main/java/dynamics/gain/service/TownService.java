@@ -59,21 +59,6 @@ public class TownService {
         return "town/create";
     }
 
-    public String getTowns(ModelMap modelMap) {
-        if(!authService.isAuthenticated()){
-            return "redirect:/";
-        }
-
-        if(!authService.isAdministrator()){
-            return "redirect:/";
-        }
-
-        List<Town> towns = townRepo.getList();
-        modelMap.addAttribute("towns", towns);
-
-        return "town/list";
-    }
-
     public String save(Town town, RedirectAttributes redirect) {
         if(!authService.isAuthenticated()){
             return "redirect:/";
@@ -86,20 +71,6 @@ public class TownService {
 
         townRepo.save(town);
         return "redirect:/admin/towns";
-    }
-
-    public String edit(Long id, ModelMap modelMap) {
-        if(!authService.isAuthenticated()){
-            return "redirect:/";
-        }
-        if(!authService.isAdministrator()){
-            return "redirect:/";
-        }
-
-        Town town = townRepo.get(id);
-        modelMap.addAttribute("town", town);
-
-        return "town/edit";
     }
 
     public String getEdit(Long id, ModelMap modelMap) {
@@ -129,8 +100,25 @@ public class TownService {
             return "redirect:/admin/towns/edit/" + town.getId();
         }
 
+        townRepo.update(town);
+
         redirect.addFlashAttribute("message", "Successfully updated town");
         return "redirect:/admin/towns/edit/" + town.getId();
+    }
+
+    public String getTowns(ModelMap modelMap) {
+        if(!authService.isAuthenticated()){
+            return "redirect:/";
+        }
+
+        if(!authService.isAdministrator()){
+            return "redirect:/";
+        }
+
+        List<Town> towns = townRepo.getList();
+        modelMap.put("towns", towns);
+
+        return "town/list";
     }
 
     public String delete(Long id, RedirectAttributes redirect) {

@@ -40,7 +40,8 @@ create table user_roles(
 create table towns(
 	id bigint PRIMARY KEY AUTO_INCREMENT,
 	name varchar(255) NOT NULL,
-    town_uri varchar(255)
+    town_uri varchar(255),
+    count bigint default 0
 );
 
 create table locations (

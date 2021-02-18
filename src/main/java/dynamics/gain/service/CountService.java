@@ -7,6 +7,7 @@ import dynamics.gain.model.Location;
 import dynamics.gain.model.User;
 import dynamics.gain.repository.DailyRepo;
 import dynamics.gain.repository.LocationRepo;
+import dynamics.gain.repository.TownRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,13 @@ public class CountService {
     private static final Logger log = Logger.getLogger(CountService.class);
 
     @Autowired
-    private AuthService authService;
+    AuthService authService;
 
     @Autowired
-    private DailyRepo dailyRepo;
+    DailyRepo dailyRepo;
 
     @Autowired
-    private LocationRepo locationRepo;
+    LocationRepo locationRepo;
 
 
     public String entry(Long id, ModelMap modelMap) {
@@ -48,7 +49,6 @@ public class CountService {
         }
         DailyCount storedCount = dailyCount;
         if(dailyCount == null){
-            log.info("newup");
             dailyCount = new DailyCount();
             dailyCount.setCount(0);
             dailyCount.setLocationId(id);
@@ -56,7 +56,7 @@ public class CountService {
             dailyCount.setDateEntered(App.getToday());
             storedCount = dailyRepo.save(dailyCount);
         }
-
+        
         Location location = locationRepo.get(id);
         modelMap.addAttribute("location", location);
         modelMap.addAttribute("dailyCount", storedCount);

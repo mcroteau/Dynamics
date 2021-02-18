@@ -1,11 +1,12 @@
 package dynamics.gain.model.markup;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
-@XmlRootElement(name = "urlset")
+@XmlRootElement(
+        name = "urlset",
+        namespace="http://www.sitemaps.org/schemas/sitemap/0.9"
+)
 public class UrlSet {
 
     List<Url> url;

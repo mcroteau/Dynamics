@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Dynamics +Gain : Goal to Remove Barriers.</title>
+    <title>Dynamics + Gain: <decorator:title default="The Goal to Remove Barriers"/></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

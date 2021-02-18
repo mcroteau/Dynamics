@@ -101,7 +101,7 @@
     <c:if test="${location != null}">
         <h1><c:if test="${inDonationMode}">Give to</c:if>
                 ${location.name}</h1>
-        <h2><strong class="highlight">${location.count}</strong>&nbsp; in need.</h2>
+        <h2><strong class="highlight">in need.</strong></h2>
         <p style="white-space: pre-line; " class="left"><c:out value="${location.description}" escapeXml="false" /></p>
 
         <c:if test="${inDonateMode}">
@@ -112,9 +112,12 @@
     </c:if>
 
     <c:if test="${location == null}">
-        <h1>Give to Dynamics +Gain</h1>
-        <p>You can make a one-time or a reoccurring donation that goes
-            directly to Dynamics <strong>+Gain</strong>.</p>
+        <h1>Give to Dynamics <strong class="fun">+Gain</strong></h1>
+        <p class="left">All donations will go towards abolishing/destroying homelessness
+        any which way we can. Kiosks, local Community Housing organizations
+            and anything else that may move us forward.</p>
+        <p class="left">You can make a one-time or a reoccurring donation that goes
+            to Dynamics <strong>+Gain</strong>.</p>
     </c:if>
 
     <c:if test="${!inDonateMode}">
@@ -122,6 +125,11 @@
         <p>or</p>
         <p>Let them know you believe in this idea and encourage them to use
         us, we are here to help.</p>
+
+        <div style="margin:20px auto 30px;">
+            <p>Help Dynmamics +Gain</p>
+            <a href="/z/donate" class="button super yellow">Give &hearts;</a>
+        </div>
     </c:if>
 
 
@@ -139,8 +147,8 @@
             </div>
 
             <a href="javascript:" class="option button sky active" id="fiver" data-amount="5">$5</a>&nbsp;
-            <a href="javascript:" class="option button sky" data-amount="10">$10</a>&nbsp;
-            <a href="javascript:" class="option button sky" data-amount="20">$20</a>&nbsp;
+            <a href="javascript:" class="option button sky" data-amount="15">$15</a>&nbsp;
+            <a href="javascript:" class="option button sky" data-amount="30">$30</a>&nbsp;
     <%--        <a href="javascript:" class="option button sky" data-amount="40">$40</a>&nbsp;--%>
     <%--        <br/><br/>--%>
             <input type="text" class="option button" id="custom" placeholder="Other Amount" style="width:150px;" data-amount="0"/>
