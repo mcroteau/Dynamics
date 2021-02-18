@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Removing barriers that prevent those wanting to help others</title>
+    <title>Dynamics +Gain : Goal to Remove Barriers.</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,9 +46,12 @@
         </div>
     </div>
 
-<div id="footer-wrapper">
-    <a href="/z/signout" class="href-dotted">Signout</a>
-</div>
-
+    <div id="footer-wrapper">
+        <a href="/z/signout" class="href-dotted">Signout</a>
+    </div>
+    <div id="contact" style="text-align: center">
+        <p><a href="mailto:mail@dynamicsgain.org" class="href-dotted-black">mail@dynamicsgain.org</a></p>
+        <span class="regular">&copy; 2021 <br/>Dynamics<br/> <strong class="gain">+Gain</strong></span>
+    </div>
 </body>
 </html>

@@ -1,8 +1,12 @@
 package dynamics.gain.service;
 
+import dynamics.gain.common.App;
 import dynamics.gain.model.Location;
 import dynamics.gain.model.markup.Url;
 import dynamics.gain.model.markup.UrlSet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
@@ -14,10 +18,13 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class MarshallService {
+public class SitemapService {
+
+    @Autowired
+    private ApplicationContext appCntx;
 
     public static final String BASE = "https://www.dynamicsgain.org/z/";
-    public static final String SITEMAP = "src/main/webapp/sitemaps/locations.xml";
+    public static final String SITEMAP = "sitemaps/locations.xml";
 
     public boolean out(List<Location> locations) throws JAXBException {
         UrlSet urlSet = new UrlSet();
@@ -36,9 +43,19 @@ public class MarshallService {
         JAXBContext cntx = JAXBContext.newInstance(UrlSet.class);
         Marshaller marshaller = cntx.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        marshaller.marshal(urlSet, new File(SITEMAP));
+
+        marshaller.marshal(urlSet, new File(getPath()));
 
         return true;
+    }
+
+    private String getPath(){
+        try {
+            Resource propResource = appCntx.getResource(".");
+            String appPath = propResource.getURI().getPath();
+            return appPath + SITEMAP;
+        }catch(Exception ex){ex.printStackTrace();}
+        return "";
     }
 
 }

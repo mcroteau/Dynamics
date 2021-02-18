@@ -35,7 +35,7 @@
 
     <p>or</p>
 
-    <p>Give directly to Dynamics <strong>+Gain</strong></p>
+    <p>Give to Dynamics <strong>+Gain</strong></p>
 
     <div style="margin-bottom:70px;">
         <a href="/z/donate" class="button yellow small">Give Now &hearts;</a>

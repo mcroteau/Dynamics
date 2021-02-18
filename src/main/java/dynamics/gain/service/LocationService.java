@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.xml.bind.JAXBException;
 import java.util.List;
 
 @Service
@@ -42,7 +41,7 @@ public class LocationService {
     LightService lightService;
 
     @Autowired
-    MarshallService marshallService;
+    SitemapService sitemapService;
 
     public String index(String uri, ModelMap modelMap) {
         Location location = locationRepo.get(uri);
@@ -141,7 +140,7 @@ public class LocationService {
         }
 
         List<Location> locations = locationRepo.getList();
-        marshallService.out(locations);
+        sitemapService.out(locations);
 
         locationRepo.update(location);
 

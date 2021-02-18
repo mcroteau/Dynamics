@@ -21,14 +21,10 @@ public class App {
 
 	private static final Logger log = Logger.getLogger(App.class);
 
-	@Autowired
-	private static ApplicationContext applicationContext;
-
 	public static int getRandomNumber(int max){
 		Random r = new Random();
 		return r.nextInt(max);
 	}
-
 
 	public static boolean containsSpecialCharacters(String str) {
 		Pattern p = Pattern.compile("[^A-Za-z0-9]", Pattern.CASE_INSENSITIVE);
@@ -82,18 +78,6 @@ public class App {
 		EmailValidator validator = EmailValidator.getInstance();
 		return validator.isValid(str);
 	}
-		
-
-	public static String getApplicationPath(){
-		try {
-			Resource propResource = applicationContext.getResource(".");
-			return propResource.getURI().getPath().toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-
 
 	public static long getDate() {
 		Calendar cal = Calendar.getInstance();
