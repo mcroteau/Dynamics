@@ -81,7 +81,7 @@ public class App {
 
 	public static String getBing(){
 		Calendar cal = Calendar.getInstance();
-		DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String date = df.format(cal.getTime());
 		return date;
 	}

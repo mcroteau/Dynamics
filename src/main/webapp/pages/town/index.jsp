@@ -12,7 +12,7 @@
     <p style="font-size:17px;">Please help!</p>
     <br/>
     <p id="welcome-text">
-        <strong class="yellow" style="line-height: 1.3em;">${count}</strong><br/> <span>Homeless <span class="header-information">counted in
+        <strong class="yellow" style="line-height: 1.3em;">${town.countZero}</strong><br/> <span>Homeless <span class="header-information"> in
             <strong class="highlight">${town.name}</strong></span></span>
     </p>
 

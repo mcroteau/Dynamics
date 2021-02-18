@@ -1,6 +1,8 @@
 package dynamics.gain.model;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class Town {
 
@@ -41,6 +43,10 @@ public class Town {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public String getCountZero(){
+        return NumberFormat.getInstance(Locale.US).format(count);
     }
 
     public List<Location> getLocations() {
