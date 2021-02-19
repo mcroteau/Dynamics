@@ -158,21 +158,21 @@
         <div id="make-donation-container" class="live" style="display:none;">
 
             <label>credit card information</label>
-            <input type="number" id="credit-card" placeholder="4242424242424242" maxlength="16"/>
+            <input type="number" id="credit-card" name="credit-card" placeholder="4242424242424242" maxlength="16"/>
 
             <div class="cc-details">
                 <label>month</label>
-                <input type="number" id="exp-month" placeholder="09" maxlength="2"/>
+                <input type="number" id="exp-month"name="exp-month" placeholder="09" maxlength="2"/>
             </div>
 
             <div class="cc-details">
                 <label>year</label>
-                <input type="number" id="exp-year" placeholder="2027" maxlength="4"/>
+                <input type="number" id="exp-year" name="exp-year" placeholder="2027" maxlength="4"/>
             </div>
 
             <div class="cc-details">
                 <label>cvc</label>
-                <input type="number" id="cvc" placeholder="123" maxlength="3"/>
+                <input type="number" id="cvc" name="cvc" placeholder="123" maxlength="3"/>
             </div>
 
             <br class="clear"/>
