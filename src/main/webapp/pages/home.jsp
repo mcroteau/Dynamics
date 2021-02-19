@@ -75,18 +75,34 @@
                 end = $count.html(),
                 clean = $count.html().replace(",", "")
 
-            var goal = 0
-            var render = 0
+            var $shelters = $('#shelters'),
+                sheltersEnd = $shelters.html()
+
+            var goal = 0,
+                render = 0
+
+            var sheltersGoal = 0,
+                sheltersRender = 0;
+
             var interval = setInterval(function(){
                 goal = goal + 750
                 render = goal
                 $count.html(render.toLocaleString())
+
+                sheltersGoal++
+                sheltersRender = sheltersGoal
+                $shelters.html(sheltersRender.toLocaleString())
+
+                if(sheltersGoal >= sheltersEnd){
+                    $shelters.html(sheltersEnd);
+                }
+
                 if(goal >= clean){
                     $count.html(end)
                     clearInterval(interval)
+                    interval = 0
                 }
             }, 50);
-
         })
     </script>
 
