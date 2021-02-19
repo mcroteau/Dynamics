@@ -101,7 +101,6 @@
     <c:if test="${location != null}">
         <h1><c:if test="${inDonationMode}">Give to</c:if>
                 ${location.name}</h1>
-        <h2><strong class="highlight">in need.</strong></h2>
         <p style="white-space: pre-line; " class="left"><c:out value="${location.description}" escapeXml="false" /></p>
 
         <c:if test="${inDonateMode}">
@@ -128,7 +127,7 @@
 
         <div style="margin:20px auto 30px;">
             <p>Help Dynmamics +Gain</p>
-            <a href="/z/donate" class="button super yellow">Give &hearts;</a>
+            <a href="/z/donate" class="button yellow">Give &hearts;</a>
         </div>
     </c:if>
 
@@ -267,6 +266,7 @@
                         $custom.attr('placeholder', 'Other Amount')
                     }
                     if($custom.val() != ''){
+                        $custom.val(pad($custom.val()))
                         $amount.html('Donate $' + pad($custom.val()) + ' &hearts;')
                         $amountInput.val($custom.val())
                     }
@@ -275,6 +275,7 @@
                 $custom.change(function(){
                     var value = $custom.val()
                     if(!isNaN(value)){
+                        $custom.val(pad($custom.val()))
                         $amount.html('Donate $' + pad(value) + ' &hearts;')
                         $amountInput.val(value)
                     }else{

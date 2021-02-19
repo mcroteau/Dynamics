@@ -28,7 +28,7 @@
             &nbsp;<a href="/z/towns" class="counts href-dotted-black">${towns.size()}</a>&nbsp;
             <c:if test="${towns.size() == 1}">City!</c:if>
             <c:if test="${towns.size() > 1 || towns.size() == 0}">Cities!</c:if>
-    </span> at <a href="/z/shelters" class="highlight blue" style="color:#fff;font-size:57px;">${locations.size()}</a> shelters</span></span>
+    </span> <a href="/z/shelters" class="highlight blue" style="color:#fff;font-size:57px;">${locations.size()}</a> shelters <br/>registered</span></span>
     </h1>
 
     <p class="open-text" style="margin-bottom:10px;">
