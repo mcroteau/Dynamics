@@ -24,11 +24,11 @@
     <p class="" style="display: inline-block;font-size:17px;">Please help!</p>
 
     <h1 id="welcome-text" class="">
-        <strong class="" style="line-height: 1.0em;">${count}</strong> <span>Homeless <span class="header-information"> in
-            &nbsp;<a href="/z/towns" class="counts href-dotted-black">${towns.size()}</a>&nbsp;
+        <strong class="" style="line-height: 1.0em;" id="count">${count}</strong> <span>Homeless <span class="header-information"> in
+            &nbsp;<a href="/z/towns" class="counts href-dotted-black" id="cities">${towns.size()}</a>&nbsp;
             <c:if test="${towns.size() == 1}">City!</c:if>
             <c:if test="${towns.size() > 1 || towns.size() == 0}">Cities!</c:if>
-    </span> <a href="/z/shelters" class="highlight blue" style="color:#fff;font-size:57px;">${locations.size()}</a> shelters <br/>registered</span></span>
+    </span> <a href="/z/shelters" class="highlight blue" style="color:#fff;font-size:57px;" id="shelters">${locations.size()}</a> shelters <br/>registered</span></span>
     </h1>
 
     <p class="open-text" style="margin-bottom:10px;">
@@ -68,5 +68,26 @@
     </ul>
 
 </div>
+
+    <script>
+        $(document).ready(function(){
+            var $count = $('#count'),
+                end = $count.html(),
+                clean = $count.html().replace(",", "")
+
+            var goal = 0
+            var render = 0
+            var interval = setInterval(function(){
+                goal = goal + 750
+                render = goal
+                $count.html(render.toLocaleString())
+                if(goal >= clean){
+                    $count.html(end)
+                    clearInterval(interval)
+                }
+            }, 50);
+
+        })
+    </script>
 
 </body>
