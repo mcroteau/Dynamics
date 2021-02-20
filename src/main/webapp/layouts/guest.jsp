@@ -56,7 +56,7 @@
             </div>
 
             <div id="footer-wrapper">
-                <p><a href="mailto:mail@dynamicsgain.org" class="href-dotted-black">mail@dynamicsgain.org</a></p>
+                <p class="center"><a href="mailto:mail@dynamicsgain.org" class="href-dotted-black">mail@dynamicsgain.org</a></p>
                 <span class="regular">&copy; 2021 <br/>Dynamics<br/> <strong class="gain">+Gain</strong></span>
             </div>
 
