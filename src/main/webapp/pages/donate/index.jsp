@@ -102,6 +102,7 @@
     <c:if test="${location != null}">
         <h1><c:if test="${inDonationMode}">Give to</c:if>
                 ${location.name}</h1>
+        <p class="information" style="font-size: 19px">Location Id: <strong class="yellow">${location.id}</strong></p>
         <p style="white-space: pre-line; " class="left"><c:out value="${location.description}" escapeXml="false" /></p>
 
         <c:if test="${inDonateMode}">
