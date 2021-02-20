@@ -61,6 +61,7 @@ create table donations(
 	processed boolean,
 	charge_id text,
 	subscription_id text,
+	cancelled boolean default false,
 	user_id bigint NOT NULL REFERENCES users(id),
 	location_id bigint REFERENCES locations(id)
 );
@@ -74,4 +75,3 @@ create table daily_counts (
 	constraint unique_location_count unique(location_id, date_entered)
 );
 
-alter table donations add column cancelled boolean default false;

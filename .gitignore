@@ -10,4 +10,5 @@ memory
 List.md
 Notes.md
 *application.properties
+*application.properties.dev
 org.properties
