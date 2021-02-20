@@ -216,16 +216,20 @@
     </ul>
 
     <h2 style="margin-top:30px;">What do I need to test on your dev server?</h2>
-    <p>You need to make sure we have their Stripe key in our system. Thats it.</p>
-
-    <h4>How do we do that?</h4>
-    <p>Just send the <strong>Development</strong> Stripe secret key to us.
-        We will enter it into the dev environment for you to begin with.
-        If not, there should be one Organization on the dev system to use
+    <p>There should be one Organization on the dev system to use
         with the id of 1. Yep... lol, 1. We didn't see the need to make the
-        ids complicated.
+        ids complicated. If you want to see the transactions, you will need to
+        go a little further.
     </p>
 
+    <h4>How much further?</h4>
+    <p>You will need to setup a Stripe account. They are inexpensive and worth it,
+        I make no money from them. Period. Stripe is a pay as you go service so
+        nothing is charged unless a donation is made to you,
+        then its cents on the dollar.</p>
+
+    <p class="center">Here is the exact amount:</p>
+    <h4 class="yellow" style="display:inline-block">2.9% + 30&cent; per charge</h4>
 
 
     <h2 style="margin-top:50px;">Finally, is it secure?</h2>

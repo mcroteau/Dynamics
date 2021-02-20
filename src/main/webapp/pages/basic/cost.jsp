@@ -21,7 +21,7 @@
     wants to see this to the end.</p>
 
     <p style="margin-top:30px;">
-        <a href="/z/donate" class="button super yellow">Help us!</a>
+        <a href="/z/donate" class="button beauty">Donate +</a>
     </p>
 
 </body>

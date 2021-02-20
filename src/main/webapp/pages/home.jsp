@@ -59,7 +59,8 @@
         <strong class="yellow">That is correct!</strong> Just select the Organization
     you wish to donate to and if they have signed up, you will be see a donate
     form on their page. Otherwise, feel free let them know about this
-    free service. We are just so excited to have the opportunity to do this.</p>
+        service. We are just so excited to have the opportunity to do this.</p>
+
 
     <h3 id="towns">Towns/Cities</h3>
     <ul>

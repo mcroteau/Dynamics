@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mcroteau
-  Date: 2/14/21
-  Time: 2:53 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>About Dynamics +Gain</title>
@@ -29,10 +21,24 @@
 
     <h3 style="margin-top:20px;">How does it work?</h3>
     <p class="left">100% of your donation goes toward the organization you select
-    or to Dynamics <strong>+Gain</strong>, your choice.
-        The organization has signed up to be on our list and
-    has gone through the registration process to link their account.
-    None of your donation goes to us unless you choose.</p>
+    or to Dynamics <strong>+Gain</strong>.
+        The organization has signed up and
+    has gone through the registration process.</p>
+
+
+    <h3 style="margin-top:20px;">Give me details!</h3>
+    <p class="left">Dynamics +Gain uses Stripe to process donations.
+        You will need to setup a Stripe account in order to
+        move forward. They are inexpensive and worth it,
+        I make no money from them. Period.
+        Stripe is a pay as you go service so
+        nothing is charged unless a donation is made to you,
+        then its cents on the dollar.
+    </p>
+
+    <p class="center">Here is the exact amount:</p>
+    <h4 class="yellow" style="display:inline-block">2.9% + 30&cent; per charge</h4>
+
 
     <h3 style="margin-top:20px;">What's up with the name?</h3>
     <p class="left">Well, I recalled what it felt like to be without.
