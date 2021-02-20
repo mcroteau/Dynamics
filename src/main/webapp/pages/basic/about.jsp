@@ -39,6 +39,16 @@
     <p class="center">Here is the exact amount:</p>
     <h4 class="yellow" style="display:inline-block">2.9% + 30&cent; per charge</h4>
 
+    <br/>
+    <a href="https://www.stripe.com" class="href-dotted" target="_blank">https://www.stripe.com</a>
+
+    <a href="https://www.stripe.com" target="_blank">
+        <img src="/z/assets/media/stripe.png" style="margin:auto;width:300px;display:block"/></a>
+
+
+    <p class="left highlight">Again, we make nothing from a transaction! Just satisfaction that we
+        may be helping people who are helping people! We hope you enjoy!</p>
+
 
     <h3 style="margin-top:20px;">What's up with the name?</h3>
     <p class="left">Well, I recalled what it felt like to be without.
