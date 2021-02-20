@@ -57,7 +57,7 @@
     <h2 style="margin-top:50px;">Woa woa woa, wait a minute?</h2>
     <p>You mean to tell me you that the donations go to the Organization I choose?
         <strong class="yellow">That is correct!</strong> Just select the Organization
-    you wish to donate to and if they have signed up, you will be see a donate
+    you wish to donate to and if they have signed up, you will see a donate
     form on their page. Otherwise, feel free let them know about this
         service. We are just so excited to have the opportunity to do this.</p>
 
