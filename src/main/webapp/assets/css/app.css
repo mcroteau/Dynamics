@@ -12,14 +12,17 @@ span{
     line-height: 1.4em;
     margin:10px 0px;
 }
-
+pre{
+    display:block;
+    margin:0px auto 20px auto !important;
+}
 #guest-content{
     text-align: center;
 }
 
 #welcome-text{
     line-height: 0.9em !important;
-    font-size:141px;
+    font-size:131px;
     margin:0px;
     font-family: roboto-bold !important;
 }
@@ -99,6 +102,8 @@ table{
 table td,
 table td a{
     font-size:27px;
+    line-height:1.3em;
+    padding:4px 0px;
     font-family:roboto-slab !important;
 }
 table tr:hover{
@@ -138,7 +143,11 @@ table tr:hover{
     text-align: left;
 }
 .center{
-    text-align: center;
+    text-align: center !important;
+}
+
+.information{
+    font-family:roboto-slab-light !important;
 }
 
 
@@ -146,5 +155,8 @@ table tr:hover{
     #outer-wrapper{
         width:calc(100% - 40px);
         padding:20px;
+    }
+    #welcome-text{
+        font-size: 101px;
     }
 }

@@ -1,5 +1,6 @@
 package dynamics.gain.repository;
 
+import dynamics.gain.common.Dynamics;
 import dynamics.gain.model.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,24 @@ public class StripeRepo {
             return dynamicsPrice;
         }catch(Exception ex){ }
         return null;
+    }
+
+
+    public boolean updatePrice(DynamicsPrice dynamicsPrice) {
+        String sql = "update prices set stripe_id = ? where id = ?";
+        jdbcTemplate.update(sql, new Object[] {
+                dynamicsPrice.getStripeId(), dynamicsPrice.getId()
+        });
+        return true;
+    }
+
+
+    public boolean updateProduct(DynamicsProduct dynamicsProduct) {
+        String sql = "update products set stripe_id = ? where id = ?";
+        jdbcTemplate.update(sql, new Object[] {
+                dynamicsProduct.getStripeId(), dynamicsProduct.getId()
+        });
+        return true;
     }
 
     public DynamicsProduct getProductStripeId(String stripeId) {

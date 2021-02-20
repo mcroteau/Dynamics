@@ -40,18 +40,13 @@
         homelessness in their community.
     </p>
 
-    <div style="margin:20px auto 30px;">
-        <a href="/z/shelters" class="button super yellow">Give &hearts;</a>
-    </div>
-
     <h3 style="margin-top:20px;">How does it work?</h3>
     <p>Kiosks/booths would be set up at your local community shopping centers
         displaying the number of people in need in your community,
         allowing you to donate right there on the spot.
         100% of your donation goes toward the organization you select
         or to Dynamics <strong>+Gain</strong>, your choice. Each organization
-        has signed up to be on our list and has gone through the
-         process to link their accounts.
+        has gone through the process to sign up.
         </p>
 
     <p class="yellow" style="margin:20px 0px;">If you are unable to donate,
@@ -67,6 +62,11 @@
         </c:forEach>
     </ul>
 
+    <div style="margin:30px auto">
+        <p class="center">or</p>
+        <p class="center">give to Dynamics <strong>+Gain</strong></p>
+        <a href="/z/donate" class="button beauty">Donate +</a>
+    </div>
 </div>
 
     <script>
@@ -85,7 +85,7 @@
                 sheltersRender = 0;
 
             var interval = setInterval(function(){
-                goal = goal + 750
+                goal = goal + 1250
                 render = goal
                 $count.html(render.toLocaleString())
 

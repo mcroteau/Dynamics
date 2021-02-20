@@ -11,6 +11,7 @@ public class DonationInput {
     String cvc;
     boolean recurring;
     Long locationId;
+    Long location;
 
     public BigDecimal getAmount() {
         return amount;
@@ -74,5 +75,13 @@ public class DonationInput {
 
     public void setLocationId(Long locationId) {
         this.locationId = locationId;
+    }
+
+    public Long getLocation() {
+        return location;
+    }
+
+    public void setLocation(Long location) {
+        this.location = location;
     }
 }

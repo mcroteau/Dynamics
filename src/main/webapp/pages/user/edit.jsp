@@ -22,6 +22,17 @@
                         <c:if test="${subscription.location == null}">
                             Dynamics <strong>+Gain</strong>
                         </c:if>
+                        <c:if test="${!subscription.cancelled}">
+                            <a href="javascript:" class="button beauty small cancel" class="button beauty small"
+                                data-subscription="${subscription.stripeId}"
+                               <c:if test="${subscription.location != null}">
+                                    data-location="${subscription.location.id}"
+                               </c:if>
+                                >Cancel</a>
+                        </c:if>
+                        <c:if test="${subscription.cancelled}">
+                            <strong class="yellow">Cancelled</strong>
+                        </c:if>
                 </p>
             </c:forEach>
         </div>
@@ -55,4 +66,49 @@
 
     <a href="/z/user/edit_password/${user.id}" class="href-dotted" style="display:inline-block;margin-top:60px;">Update Password</a>
 	
-		
+
+
+<script>
+    $(document).ready(function(){
+        var $cancel = $('.cancel');
+
+        $cancel.click(function(){
+            var subscription = $(this).attr('data-subscription')
+            var location = $(this).attr('data-location')
+            console.log(location)
+            if(location != null){
+                console.log('location exists')
+                removeByLocation(location, subscription)
+            }
+            if(location == null){
+                remove(subscription)
+            }
+        })
+
+        var remove = function(subscription){
+            return $.ajax({
+                method: "Delete",
+                url : "/z/donate/cancel/" + subscription,
+                success: success,
+                error : error
+            })
+        }
+
+        var removeByLocation = function(location, subscription){
+           return $.ajax({
+                method: "Delete",
+                url : "/z/donate/cancel/" + location + "/" + subscription,
+                success: success,
+                error : error
+            })
+        }
+
+        var success = function(){
+            window.location.reload();
+        }
+
+        var error = function(ex){
+            alert(ex.toString());
+        }
+    });
+</script>

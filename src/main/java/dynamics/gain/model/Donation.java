@@ -1,8 +1,6 @@
 package dynamics.gain.model;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class Donation {
 
@@ -22,6 +20,8 @@ public class Donation {
 
     User user;
     Location location;
+
+    boolean cancelled;
 
     public Long getId() {
         return id;
@@ -111,4 +111,11 @@ public class Donation {
         this.location = location;
     }
 
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 }

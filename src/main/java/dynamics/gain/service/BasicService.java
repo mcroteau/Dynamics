@@ -46,7 +46,8 @@ public class BasicService {
         List<Town> towns = townRepo.getList();
         long sum = 0;
         for(Town town: towns){
-            sum += town.getCount();
+            if(!town.getCountZero().equals(""))
+                sum += town.getCount();
         }
         String count = NumberFormat.getNumberInstance(Locale.US).format(sum);
 
@@ -61,7 +62,8 @@ public class BasicService {
         List<Town> towns = townRepo.getList();
         long sum = 0;
         for(Town town: towns){
-            sum += town.getCount();
+            if(!town.getCountZero().equals(""))
+                sum += town.getCount();
         }
 
         String count = NumberFormat.getInstance(Locale.US).format(sum);

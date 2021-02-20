@@ -73,3 +73,5 @@ create table daily_counts (
 	date_entered bigint NOT NULL,
 	constraint unique_location_count unique(location_id, date_entered)
 );
+
+alter table donations add column cancelled boolean default false;

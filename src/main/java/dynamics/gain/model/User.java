@@ -11,7 +11,6 @@ public class User {
 	long dateCreated;
 
 	String stripeUserId;
-	boolean hasCharge;
 
 	public long getId() {
 		return id;
@@ -67,14 +66,6 @@ public class User {
 
 	public void setStripeUserId(String stripeUserId) {
 		this.stripeUserId = stripeUserId;
-	}
-
-	public boolean hasCharge() {
-		return hasCharge;
-	}
-
-	public void setHasCharge(boolean hasCharge) {
-		this.hasCharge = hasCharge;
 	}
 
 }

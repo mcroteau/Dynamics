@@ -36,6 +36,9 @@ public class BasicController {
 	@RequestMapping(value="/cost", method=RequestMethod.GET)
 	public String cost(){ return "basic/cost"; }
 
+	@RequestMapping(value="/developers", method=RequestMethod.GET)
+	public String developers(){ return "basic/developers"; }
+
 	@RequestMapping(value="/about", method=RequestMethod.GET)
 	public String about(){ return "basic/about"; }
 

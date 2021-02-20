@@ -38,8 +38,13 @@
                 <%}%>
 
                 <%if(!request.getServletPath().equals("/cost")){%>
-                &nbsp;<a href="/z/cost" class="href-dotted">The Cost</a>
+                &nbsp;<a href="/z/cost" class="href-dotted">Cost</a>
                 <%}%>
+
+                <%if(!request.getServletPath().equals("/developers")){%>
+                &nbsp;<a href="/z/developers" class="href-dotted">Developers</a>
+                <%}%>
+
 
                 <parakeet:isAuthenticated>
                     &nbsp;<strong class="highlight" style="font-family: roboto-slab-semibold !important">Signed in <a href="/z/" class="href-dotted">My Profile</a></strong>&nbsp;

@@ -137,6 +137,9 @@ public class UserService {
                     if(storedLocation != null) {
                         subscription.setLocation(storedLocation);
                     }
+                    if(donation.isCancelled()){
+                        subscription.setCancelled(true);
+                    }
                     subscriptions.add(subscription);
 
                 } catch (Exception ex) {

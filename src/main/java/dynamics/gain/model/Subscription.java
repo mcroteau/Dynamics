@@ -10,6 +10,7 @@ public class Subscription {
     String stripeId;
     BigDecimal amount;
     Location location;
+    boolean cancelled;
 
     public Long getId() {
         return id;
@@ -47,5 +48,17 @@ public class Subscription {
         this.location = location;
     }
 
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 }
+
+
+
+
+
+

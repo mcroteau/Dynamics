@@ -62,15 +62,16 @@
             border:dashed 3px #2234A3;
         }
         .button.active{
-            color:#000;
+            color:#fff;
             background: #00a1ff;
             border:solid 3px #8fd6ff;
             border:solid 3px #eeef07;
             background: #2234A3;
             border:dashed 3px #fdfe01;
             border:dashed 3px #2234A3;
-            background: #f540a6;
             background: #fdfe01;
+            background: #f540a6;
+            border:solid 3px #ff7bc5;
             font-family: roboto-bold !important;
         }
         .light.active:hover{
@@ -127,7 +128,7 @@
 
         <div style="margin:20px auto 30px;">
             <p>Help Dynmamics +Gain</p>
-            <a href="/z/donate" class="button yellow">Give &hearts;</a>
+            <a href="/z/donate" class="button beauty">Give +</a>
         </div>
     </c:if>
 
@@ -184,7 +185,7 @@
 
 
             <div style="text-align: center;">
-                <a href="javascript:" id="donate-button" class="button super yellow amount" style="box-shadow:none !important;text-transform:none;border:dashed 3px #2234A3">Donate +</a>
+                <a href="javascript:" id="donate-button" class="button super beauty amount" style="box-shadow:none !important;text-transform:none;border:solid 3px #ff7bc5">Donate</a>
                 <p id="contribution-type" class="information">One Time Donation</p>
             </div>
 
@@ -267,7 +268,7 @@
                     }
                     if($custom.val() != ''){
                         $custom.val(pad($custom.val()))
-                        $amount.html('Donate $' + pad($custom.val()) + ' &hearts;')
+                        $amount.html('Donate $' + pad($custom.val()))
                         $amountInput.val($custom.val())
                     }
                 })
@@ -276,7 +277,7 @@
                     var value = $custom.val()
                     if(!isNaN(value)){
                         $custom.val(pad($custom.val()))
-                        $amount.html('Donate $' + pad(value) + ' &hearts;')
+                        $amount.html('Donate $' + pad(value))
                         $amountInput.val(value)
                     }else{
                         alert('Please enter a valid amount');
@@ -307,7 +308,7 @@
                         if(amount != '' &&
                                 amount != 0 &&
                                     !isNaN(amount)) {
-                            $amount.html('Donate $' + amount + ' &hearts;')
+                            $amount.html('Donate $' + amount)
                             $amountInput.val(amount)
                         }
                     }
@@ -335,6 +336,7 @@
                             data: data,
                             contentType: "application/json",
                             success: function(resp){
+                                console.log(resp)
                                 var data = JSON.parse(resp)
                                 $processing.hide()
                                 if(data.processed){
@@ -373,7 +375,7 @@
                         "cvc" : $cvc.val().replace(/ /g,''),
                         "email" : $email.val().replace(/ /g,''),
                         "recurring" : recurring,
-                        "locationId" : $locationId.val().replace(/ /g,'')
+                        "location" : $locationId.val().replace(/ /g,'')
                     };
                 }
 

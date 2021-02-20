@@ -16,9 +16,11 @@
             <strong class="highlight">${town.name}</strong></span></span>
     </p>
 
-    <p class="open-text regular">Dynamics +Gain is a non profit designed with
+    <p class="open-text left">Dynamics +Gain is a non profit designed with
         the sole purpose of removing barriers that prevent people from
         giving time, money and resources to those in need!</p>
+
+    <p class="left">Select an organization to get more information or to donate to them.</p>
 
 
     <h3>Organizations &amp; Shelters</h3>
@@ -37,7 +39,7 @@
     <p>Give to Dynamics <strong>+Gain</strong></p>
 
     <div style="margin-bottom:70px;">
-        <a href="/z/donate" class="button yellow small">Give &hearts;</a>
+        <a href="/z/donate" class="button beauty small">Give +</a>
     </div>
 
 </body>

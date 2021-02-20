@@ -165,6 +165,12 @@ h3{
 	line-height:1.17;
     margin:10px auto 10px auto;
 }
+h4{
+    font-size:26px;
+    font-family:roboto-slab-bold !important;
+    margin:10px auto 10px auto;
+    line-height:1.17;
+}
 
 h1,h2,h3{
     color:#000;
@@ -243,9 +249,9 @@ input[type="submit"].button{
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
     font-family:Roboto !important;
 	outline:none !important;
 	-webkit-appearance: none;
@@ -634,6 +640,10 @@ select{
 
 .clear{
     clear:both;
+}
+
+.inline{
+    display: inline-block;
 }
 
 .go-left{

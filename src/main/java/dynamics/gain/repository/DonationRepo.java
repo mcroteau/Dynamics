@@ -35,6 +35,13 @@ public class DonationRepo {
         return donation;
     }
 
+    public Donation get(String subscriptionId){
+        String sql = "select * from donations where subscription_id = ?";
+        Donation donation = jdbcTemplate.queryForObject(sql, new Object[] { subscriptionId },
+                new BeanPropertyRowMapper<>(Donation.class));
+        return donation;
+    }
+
     public Donation save(Donation donation){
         String sql = "insert into donations (amount, charge_id, subscription_id, user_id, location_id, processed) values (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
@@ -64,9 +71,9 @@ public class DonationRepo {
     }
 
     public boolean update(Donation donation) {
-        String sql = "update donations set amount = ?, processed = ?, charge_id = ?, subscription_id = ? where id = ?";
+        String sql = "update donations set amount = ?, processed = ?, charge_id = ?, subscription_id = ?, cancelled = ? where id = ?";
         jdbcTemplate.update(sql, new Object[]{
-            donation.getAmount(), donation.getProcessed(), donation.getChargeId(), donation.getSubscriptionId(), donation.getId()
+            donation.getAmount(), donation.getProcessed(), donation.getChargeId(), donation.getSubscriptionId(), donation.isCancelled(), donation.getId()
         });
         return true;
     }
