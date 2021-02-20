@@ -128,7 +128,7 @@
         us, we are here to help.</p>
 
         <div style="margin:20px auto 30px;">
-            <p>Help Dynmamics +Gain</p>
+            <p>Help Dynamics +Gain</p>
             <a href="/z/donate" class="button beauty">Give +</a>
         </div>
     </c:if>
@@ -196,8 +196,8 @@
         <div id="modal">
             <div id="processing" class="message" style="display:block">
                 <h3>Processing... please wait</h3>
-                <img src="/z/assets/media/processing.gif"/>
-                <p>Your donation is being processed. Thank you for your patience.</p>
+                <img src="/z/assets/media/processing.gif" style="margin:20px auto;"/>
+                <p>Your donation is being processed. <br/>Thank you for your patience.</p>
             </div>
 
             <div id="success" class="message" style="display:none">

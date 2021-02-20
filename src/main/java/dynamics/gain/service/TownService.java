@@ -31,6 +31,9 @@ public class TownService {
     @Autowired
     AuthService authService;
 
+    @Autowired
+    SitemapService sitemapService;
+
     public String getPermission(String id){
         return Constants.TOWN_MAINTENANCE + id;
     }
@@ -101,6 +104,13 @@ public class TownService {
         }
 
         townRepo.update(town);
+
+        List<Town> towns = townRepo.getList();
+        try {
+            sitemapService.writeTowns(towns);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
 
         redirect.addFlashAttribute("message", "Successfully updated town");
         return "redirect:/admin/towns/edit/" + town.getId();

@@ -49,8 +49,27 @@
     <label>Stripe Live Key</label>
     <input type="text" name="liveKey" value="${location.liveKey}"/>
 
-
     <input type="submit" class="button retro" value="Update" style="display:inline-block;margin:30px auto;"/>
+
+<%--    <% if(Parakeet.hasRole(Constants.ROLE_ADMIN)){ %>--%>
+<%--        <ul>--%>
+<%--            <c:forEach items="${userLocations}" var="userLocation">--%>
+<%--                <li>${userLocation.username}--%>
+<%--                    <c:if test="${userLocation.approved}">--%>
+<%--                        <form action="/z/location/revoke/${userLocation.locationId}" method="post">--%>
+<%--                            --%>
+<%--                        </form>--%>
+<%--                    </c:if>--%>
+<%--                    <c:if test="${!userLocation.approved}">--%>
+<%--                        <form action="/z/location/approve/${userLocation.locationId}" method="post">--%>
+
+<%--                        </form>--%>
+<%--                    </c:if>--%>
+<%--                </li>--%>
+<%--            </c:forEach>--%>
+<%--        </ul>--%>
+<%--    <%}%>--%>
+
 </form>
 </body>
 </html>

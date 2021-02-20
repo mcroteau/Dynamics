@@ -144,7 +144,12 @@ public class LocationService {
         }
 
         List<Location> locations = locationRepo.getList();
-        sitemapService.out(locations);
+        try {
+            sitemapService.writeLocations(locations);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
 
         locationRepo.update(location);
 

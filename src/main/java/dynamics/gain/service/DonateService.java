@@ -233,6 +233,8 @@ public class DonateService {
 
                 user.setStripeUserId(customer.getId());
                 userRepo.update(user);
+
+                chargeSuccess = true;
             }
 
             if (chargeSuccess || subscriptionSuccess) {

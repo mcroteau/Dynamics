@@ -3,6 +3,7 @@ package dynamics.gain.service;
 import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 import dynamics.gain.common.App;
 import dynamics.gain.model.Location;
+import dynamics.gain.model.Town;
 import dynamics.gain.model.markup.Url;
 import dynamics.gain.model.markup.UrlSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,10 @@ public class SitemapService {
     private ApplicationContext appCntx;
 
     public static final String BASE = "https://www.dynamicsgain.org/z/";
-    public static final String SITEMAP = "sitemaps/locations.xml";
+    public static final String TOWNS_SITEMAP = "sitemaps/towns.xml";
+    public static final String LOCATIONS_SITEMAP = "sitemaps/locations.xml";
 
-    public boolean out(List<Location> locations) throws Exception {
+    public boolean writeLocations(List<Location> locations) throws Exception {
         UrlSet urlSet = new UrlSet();
         List<Url> urls = new ArrayList<>();
         for(Location location: locations){
@@ -44,24 +46,42 @@ public class SitemapService {
 
         JAXBContext cntx = JAXBContext.newInstance(UrlSet.class);
         Marshaller marshaller = cntx.createMarshaller();
-        NamespacePrefixMapper mapper = new NamespacePrefixMapper() {
-            public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
-                return "";
-            }
-        };
-        marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", mapper);
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-        marshaller.marshal(urlSet, new File(getPath()));
+        marshaller.marshal(urlSet, new File(getPath(LOCATIONS_SITEMAP)));
 
         return true;
     }
 
-    private String getPath(){
+    public boolean writeTowns(List<Town> towns) throws Exception {
+        UrlSet urlSet = new UrlSet();
+        List<Url> urls = new ArrayList<>();
+        for(Town town: towns){
+            String loc = BASE + "towns/" + town.getTownUri();
+            Url url = new Url();
+            url.setLoc(loc);
+            url.setLastmod(App.getBing());
+
+            url.setPriority("1.0");
+            urls.add(url);
+        }
+
+        urlSet.setUrl(urls);
+
+        JAXBContext cntx = JAXBContext.newInstance(UrlSet.class);
+        Marshaller marshaller = cntx.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        marshaller.marshal(urlSet, new File(getPath(TOWNS_SITEMAP)));
+
+        return true;
+    }
+
+    private String getPath(String sitemap){
         try {
             Resource propResource = appCntx.getResource(".");
             String appPath = propResource.getURI().getPath();
-            return appPath + SITEMAP;
+            return appPath + sitemap;
         }catch(Exception ex){ex.printStackTrace();}
         return "";
     }
