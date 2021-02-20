@@ -26,7 +26,7 @@
     has gone through the registration process.</p>
 
 
-    <h3 style="margin-top:20px;">Give me details!</h3>
+    <h3 style="margin-top:20px;">Give me details, how did you make this work?!</h3>
     <p class="left">Dynamics +Gain uses Stripe to process donations.
         You will need to setup a Stripe account in order to
         move forward. They are inexpensive and worth it,
@@ -38,6 +38,9 @@
 
     <p class="center">Here is the exact amount:</p>
     <h4 class="yellow" style="display:inline-block">2.9% + 30&cent; per charge</h4>
+
+    <p>so</p>
+    <p>$10 donation would cost 59&cent;</p>
 
     <br/>
     <a href="https://www.stripe.com" class="href-dotted" target="_blank">https://www.stripe.com</a>
