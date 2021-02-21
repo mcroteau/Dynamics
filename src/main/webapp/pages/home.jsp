@@ -69,12 +69,7 @@
                 <span style="display:block"><strong class="" style="line-height:1.4em;">${town.count}</strong> homeless!</span></a></li>
         </c:forEach>
     </ul>
-
-    <div style="margin:30px auto">
-        <p class="center">or</p>
-        <p class="center">give to Dynamics <strong>+Gain</strong></p>
-        <a href="/z/donate" class="button beauty">Donate +</a>
-    </div>
+    
 </div>
 
     <script>

@@ -37,10 +37,10 @@
     </p>
 
     <p class="center">Here is the exact amount:</p>
-    <h4 class="yellow" style="display:inline-block">2.9% + 30&cent; per charge</h4>
+    <h4 style="display:inline-block">2.9% + 30&cent; per charge</h4>
 
-    <p>so</p>
-    <p>$10 donation would cost 59&cent;</p>
+    <p class="center">so</p>
+    <p class="center">$10 donation would cost 59&cent;</p>
 
     <br/>
     <a href="https://www.stripe.com" class="href-dotted" target="_blank">https://www.stripe.com</a>

@@ -229,7 +229,21 @@
         then its cents on the dollar.</p>
 
     <p class="center">Here is the exact amount:</p>
-    <h4 class="yellow" style="display:inline-block">2.9% + 30&cent; per charge</h4>
+    <h4 style="display:inline-block">2.9% + 30&cent; per charge</h4>
+
+    <p class="center">so</p>
+    <p class="center">$10 donation would cost 59&cent;</p>
+
+    <br/>
+    <a href="https://www.stripe.com" class="href-dotted" target="_blank">https://www.stripe.com</a>
+
+    <a href="https://www.stripe.com" target="_blank">
+        <img src="/z/assets/media/stripe.png" style="margin:auto;width:300px;display:block"/></a>
+
+
+    <p class="left highlight">Again, we make nothing from a transaction! Just satisfaction that we
+        may be helping people who are helping people! We hope you enjoy!</p>
+
 
 
     <h2 style="margin-top:50px;">Finally, is it secure?</h2>
