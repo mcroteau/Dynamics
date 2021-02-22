@@ -69,7 +69,7 @@
                 <span style="display:block"><strong class="" style="line-height:1.4em;">${town.count}</strong> homeless!</span></a></li>
         </c:forEach>
     </ul>
-    
+
 </div>
 
     <script>

@@ -11,4 +11,5 @@ List.md
 Notes.md
 *application.properties
 *application.properties.dev
+*application.properties.prod
 org.properties
