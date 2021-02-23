@@ -75,3 +75,6 @@ create table daily_counts (
 	constraint unique_location_count unique(location_id, date_entered)
 );
 
+alter table donations add column donation_date bigint default 0;
+update donations set donation_date = 0 where id > 0;
+

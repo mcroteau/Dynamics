@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dynamics.gain.common.Constants;
-import dynamics.gain.common.App;
 import dynamics.gain.model.*;
 import dynamics.gain.repository.*;
 import xyz.strongperched.Parakeet;
@@ -112,6 +111,7 @@ public class UserService {
                     charge.setAmount(amount);
                     charge.setId(donation.getId());
                     charge.setStripeId(stripeCharge.getId());
+                    charge.setDonationDate(donation.getPrettyDate());
                     if(storedLocation != null){
                         charge.setLocation(storedLocation);
                     }
@@ -134,6 +134,7 @@ public class UserService {
                     subscription.setAmount(amount);
                     subscription.setId(donation.getId());
                     subscription.setStripeId(stripeSubscription.getId());
+                    subscription.setDonationDate(donation.getPrettyDate());
                     if(storedLocation != null) {
                         subscription.setLocation(storedLocation);
                     }
@@ -228,7 +229,7 @@ public class UserService {
             return "redirect:/signup";
         }
 
-        if(!App.isValidMailbox(user.getUsername())){
+        if(!Dynamics.isValidMailbox(user.getUsername())){
             redirect.addFlashAttribute("message", "Username must be a valid email.");
             return "redirect:/signup";
         }
@@ -301,7 +302,7 @@ public class UserService {
                 return ("redirect:/user/reset");
             }
 
-            String resetUuid = App.getRandomString(13);
+            String resetUuid = Dynamics.getRandomString(13);
             user.setUuid(resetUuid);
             userRepo.updateUuid(user);
 

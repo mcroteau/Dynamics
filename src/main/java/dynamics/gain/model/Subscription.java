@@ -11,6 +11,7 @@ public class Subscription {
     BigDecimal amount;
     Location location;
     boolean cancelled;
+    String donationDate;
 
     public Long getId() {
         return id;
@@ -54,6 +55,14 @@ public class Subscription {
 
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
+    }
+
+    public String getDonationDate() {
+        return donationDate;
+    }
+
+    public void setDonationDate(String donationDate) {
+        this.donationDate = donationDate;
     }
 }
 

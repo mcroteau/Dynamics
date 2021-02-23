@@ -102,7 +102,11 @@
     <c:if test="${location != null}">
         <h1><c:if test="${inDonationMode}">Give to</c:if>
                 ${location.name}</h1>
-        <p class="information" style="font-size: 19px">Location Id: <strong class="yellow">${location.id}</strong></p>
+
+        <c:if test="${inDonateMode}">
+            <p class="information" style="font-size: 19px">Location Id: <strong class="yellow">${location.id}</strong></p>
+        </c:if>
+
         <p style="white-space: pre-line; " class="left"><c:out value="${location.description}" escapeXml="false" /></p>
 
         <c:if test="${inDonateMode}">
@@ -333,11 +337,10 @@
 
                         $.ajax({
                             method: 'post',
-                            url: '/z/donate/make',
+                            url: '/z/donation/make',
                             data: data,
                             contentType: "application/json",
                             success: function(resp){
-                                console.log(resp)
                                 var data = JSON.parse(resp)
                                 $processing.hide()
                                 if(data.processed){

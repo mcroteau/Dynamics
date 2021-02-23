@@ -62,6 +62,7 @@ create table donations(
 	charge_id text,
 	subscription_id text,
 	cancelled boolean default false,
+	donation_date bigint,
 	user_id bigint NOT NULL REFERENCES users(id),
 	location_id bigint REFERENCES locations(id)
 );

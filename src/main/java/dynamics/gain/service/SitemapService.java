@@ -1,7 +1,6 @@
 package dynamics.gain.service;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
-import dynamics.gain.common.App;
+import dynamics.gain.common.Dynamics;
 import dynamics.gain.model.Location;
 import dynamics.gain.model.Town;
 import dynamics.gain.model.markup.Url;
@@ -14,9 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,7 +33,7 @@ public class SitemapService {
             String loc = BASE + "locations/" + location.getLocationUri();
             Url url = new Url();
             url.setLoc(loc);
-            url.setLastmod(App.getBing());
+            url.setLastmod(Dynamics.getBing());
 
             url.setPriority("1.0");
             urls.add(url);
@@ -60,7 +57,7 @@ public class SitemapService {
             String loc = BASE + "towns/" + town.getTownUri();
             Url url = new Url();
             url.setLoc(loc);
-            url.setLastmod(App.getBing());
+            url.setLastmod(Dynamics.getBing());
 
             url.setPriority("1.0");
             urls.add(url);

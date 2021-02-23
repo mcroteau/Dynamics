@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.*;
-import dynamics.gain.common.App;
+import dynamics.gain.common.Dynamics;
 import dynamics.gain.common.Constants;
 import dynamics.gain.model.*;
 import dynamics.gain.repository.DonationRepo;
@@ -83,7 +83,7 @@ public class DonateService {
             donation.setStatus("$ amount not passed in, please give it another go!");
             return donation;
         }
-        if(!App.isValidMailbox(donationInput.getEmail())){
+        if(!Dynamics.isValidMailbox(donationInput.getEmail())){
             donation.setStatus("Email is invalid, please give it another go!");
             return donation;
         }
@@ -113,13 +113,13 @@ public class DonateService {
 
             Stripe.apiKey = lightService.getApiKey(donationInput.getLocationId());
             User user = userRepo.getByUsername(donationInput.getEmail());
-            String password = App.getRandomString(7);
+            String password = Dynamics.getRandomString(7);
 
             if (user == null) {
                 user = new User();
                 user.setUsername(donationInput.getEmail());
                 user.setPassword(Parakeet.dirty(password));
-                user.setDateCreated(App.getDate());
+                user.setDateCreated(Dynamics.getDate());
                 user = userRepo.save(user);
                 user.setCleanPassword(password);
             }
@@ -127,6 +127,7 @@ public class DonateService {
             donation.setProcessed(false);
             donation.setAmount(donationInput.getAmount());
             donation.setUserId(user.getId());
+            donation.setDonationDate(Dynamics.getDate());
             if (donationInput.getLocationId() != null) {
                 donation.setLocationId(donationInput.getLocationId());
             }

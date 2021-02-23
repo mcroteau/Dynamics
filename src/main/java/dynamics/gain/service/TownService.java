@@ -34,10 +34,6 @@ public class TownService {
     @Autowired
     SitemapService sitemapService;
 
-    public String getPermission(String id){
-        return Constants.TOWN_MAINTENANCE + id;
-    }
-
     public String index(String uri, ModelMap modelMap) {
         Town town = townRepo.get(uri);
         List<Location> locations = locationRepo.getList(town.getId());

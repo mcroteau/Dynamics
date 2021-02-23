@@ -1,13 +1,12 @@
 package dynamics.gain.service;
 
 import dynamics.gain.common.Constants;
-import dynamics.gain.common.App;
+import dynamics.gain.common.Dynamics;
 import dynamics.gain.model.DailyCount;
 import dynamics.gain.model.Location;
 import dynamics.gain.model.User;
 import dynamics.gain.repository.DailyRepo;
 import dynamics.gain.repository.LocationRepo;
-import dynamics.gain.repository.TownRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class CountService {
 
         User user = authService.getUser();
 
-        DailyCount dailyCount = dailyRepo.getCount(id, App.getToday());
+        DailyCount dailyCount = dailyRepo.getCount(id, Dynamics.getToday());
         log.info(dailyCount);
         if(dailyCount != null){
             log.info(dailyCount.getCount());
@@ -53,7 +52,7 @@ public class CountService {
             dailyCount.setCount(0);
             dailyCount.setLocationId(id);
             dailyCount.setUserId(user.getId());
-            dailyCount.setDateEntered(App.getToday());
+            dailyCount.setDateEntered(Dynamics.getToday());
             storedCount = dailyRepo.save(dailyCount);
         }
         

@@ -9,6 +9,7 @@ public class Charge {
     String stripeId;
     BigDecimal amount;
     Location location;
+    String donationDate;
 
     public Long getId() {
         return id;
@@ -46,4 +47,11 @@ public class Charge {
         this.location = location;
     }
 
+    public String getDonationDate() {
+        return donationDate;
+    }
+
+    public void setDonationDate(String donationDate) {
+        this.donationDate = donationDate;
+    }
 }

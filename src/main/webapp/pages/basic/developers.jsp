@@ -15,7 +15,7 @@
     <h2 style="margin-top:50px;">Making a Donation Request</h2>
 
     <p class="center">Perform a <strong>POST</strong> request to the following endpoint.</p>
-    <p class="yellow inline">https://www.dynamicsgain.org/z/donate/make</p>
+    <p class="yellow inline">https://www.dynamicsgain.org/z/donation/make</p>
     <p class="center information">sample data payload below</p>
     <pre style="font-family:roboto-slab !important;display:inline-block;text-align:left; padding:20px; background: #f1f5f5;">
     {
@@ -90,15 +90,15 @@
     <h2 style="margin-top:50px;">What if they want to cancel a monthly donation?</h2>
 
     <p class="center">Perform a <strong>DELETE</strong> request to the following endpoint.</p>
-    <p class="center yellow inline">https://www.dynamicsgain.org/z/donate/cancel/{{subscription_id}}</p>
+    <p class="center yellow inline">https://www.dynamicsgain.org/z/donation/cancel/{{subscription_id}}</p>
     <p class="center information">or if they made a donation to an Charitable Organization or Homeless shelter.</p>
-    <p class="center yellow inline">https://www.dynamicsgain.org/z/donate/cancel/{{location_id}}/{{subscription_id}}</p>
+    <p class="center yellow inline">https://www.dynamicsgain.org/z/donation/cancel/{{location_id}}/{{subscription_id}}</p>
 
     <h4>Path Parameters</h4>
 
     <ul style="text-align: left;margin-left:30px;">
-        <li><strong>location_id</strong> : The Id of the Charitable Organization or Homeless Shelter in our system.</li>
-        <li><strong>subscription_id</strong> : The Id of the monthly donation named <strong>subscriptionId</strong> in the initial donation response.</li>
+        <li><strong>location_id</strong> : The Id of the Charitable Organization or Homeless Shelter in our system. If they are in our system you should see a Location Id on the Organizations page</li>
+        <li><strong>subscription_id</strong> : The Id of the monthly donation named "subscriptionId" in the initial donation response.</li>
     </ul>
 
     <h2 style="margin-top:50px;">How easy is it?</h2>
@@ -107,89 +107,115 @@
     <h4>The Htlm form</h4>
     <textarea disabled="true" style="font-family: Courier !important; font-size: 13px; height:500px;">
 
-        <div id="dynamics-form">
+<div id="dynamics-form">
 
-            <input type="hidden" value="3" id="location"/>
+    <input type="hidden" value="" id="location"/>
 
-            <label>amount</label>
-            <input type="number" id="amount" placeholder="123"/>
+    <label>amount</label>
+    <input type="number" id="amount" placeholder="123"/>
 
-            <label>credit card</label>
-            <input type="number" id="credit-card" name="credit-card" placeholder="4242424242424242" maxlength="16"/>
+    <label>credit card</label>
+    <input type="number" value="4242424242424242" id="credit-card" name="credit-card" placeholder="4242424242424242" maxlength="16"/>
 
-            <div class="cc-details">
-                <label>month</label>
-                <input type="number" id="exp-month"name="exp-month" placeholder="09" maxlength="2"/>
-            </div>
+    <div class="cc-details">
+        <label>month</label>
+        <input type="number" id="exp-month"name="exp-month" placeholder="09" maxlength="2"/>
+    </div>
 
-            <div class="cc-details">
-                <label>year</label>
-                <input type="number" id="exp-year" name="exp-year" placeholder="2072" maxlength="4"/>
-            </div>
+    <div class="cc-details">
+        <label>year</label>
+        <input type="number" id="exp-year" name="exp-year" placeholder="2072" maxlength="4"/>
+    </div>
 
-            <div class="cc-details">
-                <label>cvc</label>
-                <input type="number" id="cvc" name="cvc" placeholder="123" maxlength="3"/>
-            </div>
+    <div class="cc-details">
+        <label>cvc</label>
+        <input type="number" id="cvc" name="cvc" placeholder="123" maxlength="3"/>
+    </div>
 
-            <label>Email</label>
-            <input type="text" id="email" value="" placeholder="mail@dynamicsgain.org"/>
+    <label>Email</label>
+    <input type="text" id="email" value="" placeholder="mail@dynamicsgain.org"/>
 
-        </div>
+    <input type="checkbox" id="recurring"/>
+
+    <input type="button" id="donate" value="Donate +"/>
+
+</div>
 
     </textarea>
 
 
     <h4>jQuery</h4>
-    <textarea disabled="true" style="font-family: Courier !important; font-size: 13px; height:691px;">
+    <textarea disabled="true" style="font-family: Courier !important; font-size: 13px; height:1004px;">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
 
 <script>
-    var url = 'https://www.dynamicsgain.org/z/donate/make';
+    var url = 'http://www.dynamicsgain.org/z/donation/make';
 
-    var $location = $('#location'),
-        $creditCard = $('#credit-card'),
+    var processing = false,
+        recurring = false;
+
+    var $creditCard = $('#credit-card'),
         $expMonth = $('#exp-month'),
         $expYear = $('#exp-year'),
         $cvc = $('#cvc'),
         $amount = $('#amount'),
-        $email = $('#email');
+        $email = $('#email'),
+        $recurring = $('#recurring'),
+        $location = $('#location'),
+        $donate = $('#donate');
 
-    var raw = {
-        "amount" : $amount.val().replace(/ /g,''),
-        "creditCard": $creditCard.val().replace(/ /g,''),
-        "expMonth" : $expMonth.val().replace(/ /g,''),
-        "expYear" : $expYear.val().replace(/ /g,''),
-        "cvc" : $cvc.val().replace(/ /g,''),
-        "email" : $email.val().replace(/ /g,''),
-        "recurring" : recurring,
-        "location" : $location.val().replace(/ /g,'')
-    };
-    /**
-        Just in case you are not a regular expression guy like me
-        .replace(/ /g,'') removes all white spaces, very important : )
-
-        Also, no dollar signs allowed for amount.
-    */
-
-    var data = JSON.stringify(raw)
-    $.ajax({
-        method: 'post',
-        url: url,
-        data: data,
-        contentType: "application/json",
-        success: function(resp){
-            var json = JSON.parse(resp)
-            if(json.processed){
-                //Do something nice
-            }
-            if(!json.processed){
-                alert(json.status)
-            }
-        },
-        error : function(){
-            alert('it did not process')
+    $donate.click(function(){
+        if(!processing) {
+            var raw = getData();
+            var data = JSON.stringify(raw)
+            $.ajax({
+                method: 'post',
+                url: url,
+                data: data,
+                contentType: "application/json",
+                success: function (resp) {
+                    var json = JSON.parse(resp)
+                    if (json.processed) {
+                        //Do something neat!
+                    }
+                    if (!json.processed) {
+                        alert(json.status)
+                    }
+                    processing = false;
+                },
+                error: function () {
+                    processing = false;
+                    alert('it did not process')
+                }
+            });
         }
-    });
+    })
+
+    var getData = function() {
+        if ($recurring.is(':checked')) {
+            recurring = true
+        }
+        if (!$recurring.is(':checked')){
+            recurring = false;
+        }
+        /**
+         Just in case you are not a regular expression guy like me
+         .replace(/ /g,'') removes all white spaces, very important!
+         No dollar signs allowed for amount.
+         */
+        return {
+            "amount" : $amount.val().replace(/ /g,''),
+            "creditCard": $creditCard.val().replace(/ /g,''),
+            "expMonth" : $expMonth.val().replace(/ /g,''),
+            "expYear" : $expYear.val().replace(/ /g,''),
+            "cvc" : $cvc.val().replace(/ /g,''),
+            "email" : $email.val().replace(/ /g,''),
+            "recurring" : recurring,
+            "location" : $location.val().replace(/ /g,'')
+        };
+    }
 </script>
     </textarea>
 
@@ -198,7 +224,7 @@
     <p>We setup a dev environment for you to test the API on.
         So to make a donation on this system instead:</p>
 
-    <p class="yellow inline">http://140.82.31.78:8080/z/donate/make</p>
+    <p class="yellow inline">http://sandbox.dynamicsgain.org/z/donation/make</p>
 
     <p>Everything is the same. You want to make a donation to an Organization and
     they have to be in our system. So if they are not, you will have go through the
@@ -241,8 +267,8 @@
         <img src="/z/assets/media/stripe.png" style="margin:auto;width:300px;display:block"/></a>
 
 
-    <p class="left highlight">Again, we make nothing from a transaction! Just satisfaction that we
-        may be helping people who are helping people! We hope you enjoy!</p>
+    <p class="left yellow">Again, we make nothing from a transaction! Just satisfaction that we
+        may be helping people who are helping people! We hope we helped!</p>
 
 
 

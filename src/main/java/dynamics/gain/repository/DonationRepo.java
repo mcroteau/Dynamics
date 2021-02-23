@@ -43,9 +43,9 @@ public class DonationRepo {
     }
 
     public Donation save(Donation donation){
-        String sql = "insert into donations (amount, charge_id, subscription_id, user_id, location_id, processed) values (?, ?, ?, ?, ?, ?)";
+        String sql = "insert into donations (amount, charge_id, subscription_id, user_id, location_id, donation_date, processed) values (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, new Object[] {
-                donation.getAmount(), donation.getChargeId(), donation.getSubscriptionId(), donation.getUserId(), donation.getLocationId(), donation.getProcessed()
+                donation.getAmount(), donation.getChargeId(), donation.getSubscriptionId(), donation.getUserId(), donation.getLocationId(), donation.getDonationDate(), donation.getProcessed()
         });
         Long id = getId();
         Donation savedDonation = get(id);

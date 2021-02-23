@@ -29,33 +29,33 @@ public class DonateController {
         return donateService.location(id, modelMap);
     }
 
-    @GetMapping(value="/donate/cleanup")
+    @GetMapping(value="/donation/cleanup")
     public String cleanup(){
         return donateService.cleanup();
     }
 
 //    @ExceptionHandler
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @CrossOrigin(origins="*")
-    @RequestMapping(value="/donate/make", method=RequestMethod.POST, consumes="application/json")
+    @CrossOrigin
+    @RequestMapping(value="/donation/make", method=RequestMethod.POST, consumes="application/json")
     public @ResponseBody String make(@RequestBody DonationInput donationInput, Exception ex){
         return gson.toJson(donateService.make(donationInput));
     }
 
-    @CrossOrigin(origins="*")
-    @RequestMapping(value="/donate/cancel/{subscriptionId}", method=RequestMethod.DELETE)
+    @CrossOrigin
+    @RequestMapping(value="/donation/cancel/{subscriptionId}", method=RequestMethod.DELETE)
     public @ResponseBody String cancel(@PathVariable String subscriptionId){
         return gson.toJson(donateService.cancel(subscriptionId));
     }
 
-    @CrossOrigin(origins="*")
-    @RequestMapping(value="/donate/cancel/{locationId}/{subscriptionId}", method=RequestMethod.DELETE)
+    @CrossOrigin
+    @RequestMapping(value="/donation/cancel/{locationId}/{subscriptionId}", method=RequestMethod.DELETE)
     public @ResponseBody String cancel(@PathVariable Long locationId,
                                         @PathVariable String subscriptionId){
         return gson.toJson(donateService.cancel(locationId, subscriptionId));
     }
 
-    @GetMapping(value="/donate/momentum")
+    @GetMapping(value="/donation/momentum")
     public String momentum(ModelMap modelMap){
         return donateService.momentum(modelMap);
     }

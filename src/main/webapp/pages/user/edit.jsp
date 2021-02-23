@@ -22,6 +22,7 @@
                         <c:if test="${subscription.location == null}">
                             Dynamics <strong>+Gain</strong>
                         </c:if>
+                         ${subscription.donationDate}
                         <c:if test="${!subscription.cancelled}">
                             <a href="javascript:" class="button beauty small cancel" class="button beauty small"
                                 data-subscription="${subscription.stripeId}"
@@ -48,6 +49,7 @@
                 <c:if test="${charge.location == null}">
                     Dynamics <strong>+Gain</strong>
                 </c:if>
+                ${charge.donationDate}
             </p>
         </c:forEach>
     </c:if>
@@ -88,7 +90,7 @@
         var remove = function(subscription){
             return $.ajax({
                 method: "Delete",
-                url : "/z/donate/cancel/" + subscription,
+                url : "/z/donation/cancel/" + subscription,
                 success: success,
                 error : error
             })
@@ -97,7 +99,7 @@
         var removeByLocation = function(location, subscription){
            return $.ajax({
                 method: "Delete",
-                url : "/z/donate/cancel/" + location + "/" + subscription,
+                url : "/z/donation/cancel/" + location + "/" + subscription,
                 success: success,
                 error : error
             })

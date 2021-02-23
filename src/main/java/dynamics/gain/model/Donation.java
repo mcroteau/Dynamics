@@ -1,5 +1,7 @@
 package dynamics.gain.model;
 
+import dynamics.gain.common.Dynamics;
+
 import java.math.BigDecimal;
 
 public class Donation {
@@ -15,6 +17,8 @@ public class Donation {
 
     Boolean processed;
     String status;
+
+    Long donationDate;
 
     String username;
 
@@ -87,6 +91,18 @@ public class Donation {
         this.status = status;
     }
 
+    public Long getDonationDate() {
+        return donationDate;
+    }
+
+    public void setDonationDate(Long donationDate) {
+        this.donationDate = donationDate;
+    }
+
+    public String getPrettyDate() {
+        return Dynamics.getPretty(donationDate);
+    }
+
     public String getUsername() {
         return username;
     }
@@ -118,4 +134,5 @@ public class Donation {
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
+
 }
