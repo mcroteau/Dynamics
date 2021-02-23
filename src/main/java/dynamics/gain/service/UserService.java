@@ -43,7 +43,7 @@ public class UserService {
     LocationService locationService;
 
     @Autowired
-    LightService lightService;
+    PersistenceService persistenceService;
 
     @Autowired
     UserRepo userRepo;
@@ -94,7 +94,7 @@ public class UserService {
 
         for(Donation donation: donations) {
 
-            Stripe.apiKey = lightService.getApiKey(donation.getLocationId());
+            Stripe.apiKey = persistenceService.getApiKey(donation.getLocationId());
 
             Location storedLocation = null;
             if(donation.getLocationId() != null) {
@@ -104,19 +104,15 @@ public class UserService {
             if(donation.getChargeId() != null &&
                     !donation.getChargeId().equals("")) {
                 try{
-                    com.stripe.model.Charge stripeCharge = com.stripe.model.Charge.retrieve(donation.getChargeId());
-                    BigDecimal amount = new BigDecimal(stripeCharge.getAmount()).divide(new BigDecimal(100));
-
                     Charge charge = new Charge();
-                    charge.setAmount(amount);
+                    charge.setAmount(donation.getAmount());
                     charge.setId(donation.getId());
-                    charge.setStripeId(stripeCharge.getId());
+                    charge.setStripeId(donation.getChargeId());
                     charge.setDonationDate(donation.getPrettyDate());
                     if(storedLocation != null){
                         charge.setLocation(storedLocation);
                     }
                     charges.add(charge);
-
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
@@ -125,15 +121,11 @@ public class UserService {
             if(donation.getSubscriptionId() != null &&
                     !donation.getSubscriptionId().equals("")) {
                 try {
-                    com.stripe.model.Subscription stripeSubscription = com.stripe.model.Subscription.retrieve(donation.getSubscriptionId());
-                    Price price = stripeSubscription.getItems().getData().get(0).getPrice();
-                    BigDecimal amountPre = price.getUnitAmountDecimal();
-                    BigDecimal amount = amountPre.divide(new BigDecimal(100));
-
+                    
                     Subscription subscription = new Subscription();
-                    subscription.setAmount(amount);
+                    subscription.setAmount(donation.getAmount());
                     subscription.setId(donation.getId());
-                    subscription.setStripeId(stripeSubscription.getId());
+                    subscription.setStripeId(donation.getSubscriptionId());
                     subscription.setDonationDate(donation.getPrettyDate());
                     if(storedLocation != null) {
                         subscription.setLocation(storedLocation);

@@ -49,10 +49,10 @@ public class DonateService {
     AuthService authService;
 
     @Autowired
-    EmailService emailService;
+    PhoneService phoneService;
 
     @Autowired
-    LightService lightService;
+    PersistenceService persistenceService;
 
     public String getUserPermission(String id){
         return Constants.ACCOUNT_MAINTENANCE + id;
@@ -65,13 +65,13 @@ public class DonateService {
 
     public String location(Long id, ModelMap modelMap) {
         Location location = locationRepo.get(id);
-        String devKey = lightService.get("dev." + id);
-        String liveKey = lightService.get("live." + id);
+        String devKey = persistenceService.get("dev." + id);
+        String liveKey = persistenceService.get("live." + id);
 
         if(!devKey.equals("")
-                |!liveKey.equals(""))
+                |!liveKey.equals("")) {
             modelMap.put("inDonateMode", true);
-
+        }
         modelMap.put("location", location);
         return "donate/index";
     }
@@ -109,9 +109,11 @@ public class DonateService {
             donationInput.setLocationId(donationInput.getLocation());
         }
 
+        phoneService.support("Gaining Momentum ~ " + donationInput.getEmail());
+
         try {
 
-            Stripe.apiKey = lightService.getApiKey(donationInput.getLocationId());
+            Stripe.apiKey = persistenceService.getApiKey(donationInput.getLocationId());
             User user = userRepo.getByUsername(donationInput.getEmail());
             String password = Dynamics.getRandomString(7);
 
@@ -379,7 +381,7 @@ public class DonateService {
     public String cancel(String subscriptionId){
         try{
 
-            Stripe.apiKey = lightService.getApiKey();
+            Stripe.apiKey = persistenceService.getApiKey();
             com.stripe.model.Subscription subscription = com.stripe.model.Subscription.retrieve(subscriptionId);
             subscription.cancel();
 
@@ -397,7 +399,7 @@ public class DonateService {
     public String cancel(Long locationId, String subscriptionId){
         try{
 
-            Stripe.apiKey = lightService.getApiKey(locationId);
+            Stripe.apiKey = persistenceService.getApiKey(locationId);
             com.stripe.model.Subscription subscription = com.stripe.model.Subscription.retrieve(subscriptionId);
             subscription.cancel();
 
@@ -453,7 +455,7 @@ public class DonateService {
 
         try {
 
-            Stripe.apiKey = lightService.getApiKey();
+            Stripe.apiKey = persistenceService.getApiKey();
 
             Map<String, Object> productParams = new HashMap<>();
             productParams.put("name", dynamicsPrice.getNickname());
@@ -529,7 +531,7 @@ public class DonateService {
         }
         try {
 
-            Stripe.apiKey = lightService.getApiKey();
+            Stripe.apiKey = persistenceService.getApiKey();
 
             Map<String, Object> params = new HashMap<>();
             params.put("limit", 100);

@@ -40,7 +40,7 @@ public class LocationService {
     EmailService emailService;
 
     @Autowired
-    LightService lightService;
+    PersistenceService persistenceService;
 
     @Autowired
     SitemapService sitemapService;
@@ -111,8 +111,8 @@ public class LocationService {
         List<Town> towns = townRepo.getList();
         Location location = locationRepo.get(id);
 
-        String devKey = lightService.get("dev." + location.getId());
-        String liveKey = lightService.get("live." + location.getId());
+        String devKey = persistenceService.get("dev." + location.getId());
+        String liveKey = persistenceService.get("live." + location.getId());
 
         location.setDevKey(devKey);
         location.setLiveKey(liveKey);
@@ -139,8 +139,8 @@ public class LocationService {
 
         if(location.getDevKey() != null &&
                 location.getLiveKey() != null){
-            lightService.write("dev." + location.getId(), location.getDevKey());
-            lightService.write("live." + location.getId(), location.getLiveKey());
+            persistenceService.write("dev." + location.getId(), location.getDevKey());
+            persistenceService.write("live." + location.getId(), location.getLiveKey());
         }
 
         List<Location> locations = locationRepo.getList();

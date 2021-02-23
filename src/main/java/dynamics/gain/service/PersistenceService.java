@@ -3,6 +3,7 @@ package dynamics.gain.service;
 import dynamics.gain.common.Dynamics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Service
-public class LightService {
+@PropertySource("classpath:application.properties")
+public class PersistenceService {
 
     private static final String ORGANIZATIONS = "org.properties";
 
@@ -30,7 +32,7 @@ public class LightService {
         try {
             Properties props = read();
             return props.get(key).toString();
-        }catch (Exception ex){}
+        }catch (Exception ex){ ex.printStackTrace(); }
         return "";
     }
 
